@@ -11,6 +11,9 @@ export default About
 
 export async function getStaticProps(context) {
   return {
-    props: {},
+    props: {
+      
+    },
+    
   }
 }
