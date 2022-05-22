@@ -22,6 +22,7 @@
     "react-dom": "18.1.0",
     "react-geocode": "^0.2.3",
     "react-google-autocomplete": "^2.6.1",
+    "react-google-button": "^0.7.2",
     "react-google-maps": "^9.4.5",
     "react-icons": "^4.3.1"
   },
