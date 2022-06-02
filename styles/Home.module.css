@@ -27,7 +27,18 @@
   margin-right: auto;
 }
 
-
+.login{
+  background-color: rgb(132, 229, 229);
+  padding: 4px 12px;
+  border: none;
+  color: black;
+  font-size: large;
+  border-radius: 5%;
+}
+.login:hover{
+  background-color: rgb(33, 193, 193);
+  color: white;
+}
 
 .footer {
   display: flex;
