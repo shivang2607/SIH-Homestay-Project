@@ -6,7 +6,7 @@ import Image from "next/image";
 import india from "../public/india.png"
 import stay from "../public/stay.png"
 import Container from 'react-bootstrap/Container'
-function Example() {
+function Login() {
   const [show, setShow] = useState(false);
  
   const handleClose = () => setShow(false);
@@ -73,4 +73,4 @@ function Example() {
     </>
   );
 }
-export default Example
+export default Login
