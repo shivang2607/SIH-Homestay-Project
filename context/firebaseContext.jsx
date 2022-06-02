@@ -354,14 +354,18 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function getHomeHistory(emailOwner) {
-    const history = await getDoc(doc(db, "historyHomestay", emailOwner));
-    return history.data();
+  async function getHomeHistory() {
+    onAuthStateChanged(auth, async (user) => {
+      const history = await getDoc(doc(db, "historyHomestay", user.email));
+      return history.data();
+    })
   }
 
-  async function getUserHistory(emailUser) {
-    const history = await getDoc(doc(db, "historyUser", emailUser));
-    return history.data();
+  async function getUserHistory() {
+    onAuthStateChanged(auth, async (user) => {
+      const history = await getDoc(doc(db, "historyUser", user.email));
+      return history.data();
+    })
   }
 
   async function sendEmail(emailUser, emailOwner) {
