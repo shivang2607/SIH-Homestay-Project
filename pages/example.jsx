@@ -8,7 +8,7 @@ import stay from "../public/stay.png"
 import Container from 'react-bootstrap/Container'
 function Example() {
   const [show, setShow] = useState(false);
- 
+  
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
