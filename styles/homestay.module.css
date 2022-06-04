@@ -1,0 +1,300 @@
+/* .homestay_main_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 10px;
+    padding-top: 40px;
+}
+
+.img_block{
+    padding-left: 12px;
+    padding-top: 10px;
+    object-fit: cover;    
+}
+
+
+.images {
+    width: 700px;
+    height: 430px;
+    
+    display: flex;
+    align-items: center;
+}
+
+.homestay_info_div {
+    width: 560px;
+
+
+}
+
+.homestay_name {
+    padding-top: 5px;
+    font-weight: bold;
+    padding-left: 12px;
+    margin-bottom: 0;
+}
+
+.homestay_location {
+    padding-left: 12px;
+    font-weight: 400;
+    margin-top: 2px;
+    color: rgb(70, 68, 68);
+}
+
+.homestay_details {
+    margin-left: 10px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: solid;
+    justify-content: center;
+    align-content: center;
+}
+
+h5 {
+    margin-left: 10px;
+    display: inline-block;
+
+}
+
+
+.rules {
+
+    margin-top: 20px;
+}
+
+.check_in_time {
+    font-size: 16px;
+}
+
+.rating_div {
+    margin-top: 40px;
+    
+}
+
+.user_rating {
+    display: inline-block;
+}
+
+.rating_tab {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.rating_icons {
+    margin-top: 30px;
+    align-items: center;
+    border-radius: 4px;
+    display: flex;
+    background-color: #249995;
+    height: 45px;
+    justify-content: center;
+    margin: 0 10px 0 0;
+    width: 88px;
+    font-size: 28px;
+    line-height: 28px;
+    color: white;
+}
+
+.rating_content {
+    
+    align-items: center;
+}
+
+.review_answere {
+    
+     color: #2e7775; 
+     font-size: 20px;
+    font-weight: 700;
+    margin-top: 10px;
+
+}
+
+p{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+} */
+.house_details{
+    justify-content: left;
+    padding: 0 12%;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 0.6px;
+    /* background-color: aqua; */
+    /* border: solid;
+    border-width: 3px; */
+}
+.house_title{
+    margin-top: 3rem;
+    /* border: solid; */
+}
+
+.house_title h1{
+    font-weight: 700;
+    font-size: 2.7rem;
+}
+.gallery{
+   
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas: 'first first . .' 'first first . .';
+    margin:  20px 0 ;
+}
+
+.gallery div img{
+    width: 100%;
+    display: block;
+    border-radius: .8rem;
+}
+
+.gallery_carousel{
+    grid-area: first;
+}
+.price_div{
+    
+    padding-right: 1%;
+    
+}
+.small_detials span{
+    font-size: 1.4rem;
+}
+.homestay_details {
+    margin-left: 10px;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0.4rem;
+    
+    box-shadow: 0 1px 16px rgba(0, 0, 0, 0.3);
+    padding: 1% 1%;
+}
+.homestay_details h6{
+    font-size: larger;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.homestay_details span{
+    margin-left: 5px;
+    font-size:larger;
+    font-weight: 700;
+}
+.rules {
+    margin-top: 3.6rem;
+}
+
+.check_in_time {
+    font-size:large;
+}
+.rating_div{
+    padding: 1% 1%;
+    margin-top: 4rem;
+}
+.user_rating{
+    margin-right:0.5rem ;
+    display: inline-block;
+}
+.rating_div span{
+    font-size: large;
+}
+.rating_tab {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    /* border: solid; */
+    /* padding: 0.5% 0.5%; */
+    align-items: center;
+    
+}
+
+.rating_icons {
+    align-items: center;
+    border-radius: 0.4rem;
+    display: flex;
+    background-color: #249995;
+    height: 2.6rem;
+    justify-content: center;
+    width: 88px;
+    font-size: 1.5rem;
+    color: white;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+.review_answere {
+     color: #2e7775; 
+     font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 14px;
+}
+
+.line{
+    border: black;
+    height: 1px;
+    border-width: 2px;
+    background: rgb(28, 28, 28);
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.reviews_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+ .box{
+    width: 30rem;
+    background-color: white;
+    padding: 1%;
+    margin: 15px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.profile_img{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+.profile_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    
+} 
+.profile{
+    display: flex;
+    align-items: center;
+}
+.name_user{
+    display: flex;
+    flex-direction: column;
+}
+.name_user strong{
+    color: #3d3d3d;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+    margin-left: 13px;
+}
+.reviews p{
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+.box_top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.comments_client p{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: small;
+}
