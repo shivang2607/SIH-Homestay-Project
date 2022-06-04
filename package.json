@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.0.2",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@react-google-maps/api": "^2.11.9",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
     "bootstrap": "^5.1.3",
+    "chakra-ui-steps": "v1.6.1",
     "firebase": "^9.8.1",
     "framer-motion": "^6",
     "next": "12.1.6",
@@ -27,6 +31,13 @@
     "react-google-maps": "^9.4.5",
     "react-icons": "^4.3.1",
     "react-search-autocomplete": "^6.1.3"
+    "react-hook-form": "^7.5.3",
+    "react-icons": "^4.3.1",
+    "react-places-autocomplete": "^7.3.0",
+    "react-router-dom": "^6.3.0",
+    "react-search-autocomplete": "^6.1.3",
+    "react-time-picker": "^4.5.0",
+    "typescript": "latest"
   },
   "devDependencies": {
     "eslint": "8.15.0",
