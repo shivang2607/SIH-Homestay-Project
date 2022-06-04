@@ -21,7 +21,7 @@ const NavBar = () => {
     
    
     
-      <b><Link href="/loginTourist" style={{fontSize:'large'}}>LOGIN</Link></b>
+      <b><Link href="/login" style={{fontSize:'large'}}>LOGIN</Link></b>
   </Navbar.Collapse>
   </Container>
 </Navbar>

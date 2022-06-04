@@ -124,10 +124,30 @@
   line-height: 1.5;
 }
 
+
+ .maindiv{
+  
+  padding: 2vh 2vw;
+  background-color:rgb(245, 255, 255);
+  border-radius: 5px;
+  box-shadow: 2px 3px 2px  rgba(190, 182, 182, 0.986); 
+} 
+
+.datecss{
+  padding: 0.5em;
+  border: none !important;
+  border-radius: 5px;
+  box-shadow: 2px 3px 2px  rgba(190, 182, 182, 0.986);
+}
+
+
+
+
 .logo {
   height: 1em;
   margin-left: 0.5rem;
 }
+
 
 @media (max-width: 1000px) {
   .grid {
@@ -137,5 +157,19 @@
   .nav{
     flex-direction: column;
     
+  }
+  .guests{
+    margin-top:1em;
+    width:100%;
+  }
+  .datecss{
+    margin-top:1em;
+  }
+  .innerdiv{
+    width:188px;
+  }
+  .maindiv{
+    margin-left: 0.9rem;
+    margin-right: 0.9rem;
   }
 }
