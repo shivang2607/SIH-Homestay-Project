@@ -6,38 +6,6 @@ import { Container, Nav } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
 
 const NavBar = () => {
-  const { useAuth, signIn, getCookies, checkCookies} = useFirebase();
-  const { pending, isSignedIn, user, auth } = useAuth();
-  if(checkCookies()) {
-    const { details } = getCookies()
-    console.log("email", details.email);
-  }
-  let btn = null;
-  if (pending) {
-    btn = <div>Waiting...</div>;
-  }
-  // console.log(auth);
-  if (isSignedIn) {
-    btn = (
-      <div>
-        <div>
-          {/* <img src={user.photoURL} alt="img" /> */}
-          <h3>{user.displayName}</h3>
-        </div>
-      </div>
-    );
-  }
-  if (!isSignedIn) {
-    btn = (
-      <button
-        onClick={() => {
-          signIn();
-        }}
-      >
-        Sign In
-      </button>
-    );
-  }
   return (
     <>
       <Navbar
