@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { auth, db, storage } from "../firebase/initFirebase";
-import Cookies from "js-cookie";
 import { v4 } from "uuid";
 import nodemailer from "nodemailer";
 import { transporter, message } from "../email/emailconfig";
+import Cookies from "js-cookie";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import {
   addDoc,
@@ -30,8 +30,11 @@ import {
   getAuth,
   signInWithPopup,
   signOut,
+  setPersistence,
+  browserSessionPersistence,
+  inMemoryPersistence,
 } from "firebase/auth";
-import { async } from "@firebase/util";
+import Router from "next/router";
 
 const FirebaseContext = React.createContext();
 export function useFirebase() {
@@ -358,14 +361,32 @@ export function FirebaseProvider({ children }) {
     onAuthStateChanged(auth, async (user) => {
       const history = await getDoc(doc(db, "historyHomestay", user.email));
       return history.data();
-    })
+    });
   }
 
   async function getUserHistory() {
     onAuthStateChanged(auth, async (user) => {
       const history = await getDoc(doc(db, "historyUser", user.email));
       return history.data();
-    })
+    });
+  }
+
+  function useAuth() {
+    const [authState, setAuthState] = useState({
+      isSignedIn: false,
+      user: null,
+      pending: true,
+    });
+  
+    useEffect(() => {
+      const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setAuthState({ isSignedIn: true, user, pending: false });
+        }
+      });
+      return () =>  unregisterAuthObserver();
+    }, []);
+    return { auth, ...authState };
   }
 
   async function sendEmail(emailUser, emailOwner) {
@@ -379,37 +400,6 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-  async function getUserFromCookie() {
-    const cookie = Cookies.get("auth");
-    if (!cookie) {
-      return;
-    }
-    return JSON.parse(cookie);
-  }
-
-  async function setUserCookie(user) {
-    Cookies.set("auth", JSON.stringify(user), { expires: 10 });
-  }
-
-  const removeUserCookie = () => Cookies.remove("auth");
-
-  function useAuth() {
-    const [authState, setAuthState] = useState({
-      isSignedIn: false,
-      user: null,
-      pending: true,
-    });
-
-    useEffect(() => {
-      const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setAuthState({ isSignedIn: true, user, pending: false });
-        }
-      });
-      return () => unregisterAuthObserver();
-    }, []);
-    return { ...authState };
-  }
 
   async function useReadTourist() {
     const [tourist, setTourist] = useState({
@@ -482,33 +472,30 @@ export function FirebaseProvider({ children }) {
     }, []);
   }
 
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({
-    prompt: "select_account",
-    auth_type: "reauthenticate",
-  });
-
-  async function signIn() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
-        // console.log(token, user);
-      })
-      .catch((err) => {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        const email = err.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(err);
+  async function signIn(){
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.setCustomParameters({
+        prompt: "select_account",
+        auth_type: "reauthenticate",
       });
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const userData = mapUserData(user);
-        setUserCookie(userData);
-      }
-    });
+      setPersistence(auth, inMemoryPersistence)
+      const result = await signInWithPopup(auth, provider)
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential.accessToken
+      console.log("result: ", result)
+      Cookies.set("user", JSON.stringify({
+        token: token,
+        email: result.user.email,
+        name: result.user.displayName,
+        photo: result.user.photoURL,
+      }), { expires: 7 })
+      // window.location = ""
+    } catch (error) {
+      console.log(error.code, error.message)
+    }
   }
+
   async function sendMail() {
     transporter.sendMail(message, function (err, info) {
       if (err) {
@@ -519,14 +506,20 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-  async function signOut() {
-    signOut(auth)
-      .then(() => {
-        removeUserCookie();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  function checkCookies(){
+    const user = Cookies.get("user")
+    if(user){
+      return true
+    }
+    return false
+  }
+  function getCookies(){
+    const user = Cookies.get("user")
+    if(user){
+      const details = JSON.parse(user)
+      return { details }
+    }
+    return false
   }
 
   const value = {
@@ -539,15 +532,13 @@ export function FirebaseProvider({ children }) {
     getHomeHistory,
     getUserHistory,
     sendEmail,
-    getUserFromCookie,
-    setUserCookie,
-    removeUserCookie,
     useAuth,
     useReadTourist,
     useReadHomeStay,
     signIn,
-    signOut,
     sendMail,
+    checkCookies,
+    getCookies
   };
 
   return (
