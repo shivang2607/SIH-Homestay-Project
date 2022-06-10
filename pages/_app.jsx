@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css'
 import NavBar from '../components/navbar';
@@ -21,15 +22,29 @@ const theme = extendTheme({
 });
 
 function MyApp({ Component, pageProps }) {
-  return (
-    <FirebaseProvider>
-      <ChakraProvider theme={theme}>
-        <NavBar />
-        <Component {...pageProps} />
-        <Footer />
-      </ChakraProvider>
-    </FirebaseProvider>
-  );
+  const [showing, setShowing] = useState(false);
+
+      useEffect(() => {
+        setShowing(true);
+      }, []);
+    
+      if (!showing) {
+        return null;
+      }
+    
+  if(typeof window === 'undefined'){
+    return <></>
+  } else {
+    return (
+      <FirebaseProvider>
+        <ChakraProvider theme={theme}>
+          <NavBar />
+          <Component {...pageProps} />
+          <Footer />
+        </ChakraProvider>
+      </FirebaseProvider>
+    );
+  }
 }
 
 export default MyApp;

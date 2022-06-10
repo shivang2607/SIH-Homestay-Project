@@ -2,12 +2,20 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import Navbar from "react-bootstrap/Navbar";
 import Link from "next/link";
-import { Container, Nav } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
 
+
 const NavBar = () => {
+  const { signIn, checkCookies, getCookies } = useFirebase();
+  let btn = null;
+  if (!checkCookies()) {
+    btn = <button onClick={signIn}>Log In</button>;
+  } else {
+    const cookie = getCookies();
+    btn = <Link href={`/users/${cookie.details.token.slice(5,15)}`}>{cookie.details.name}</Link>;
+  }
   return (
-    <>
       <Navbar
         fixed="top"
         collapseOnSelect
@@ -25,11 +33,10 @@ const NavBar = () => {
               </Link>
               <Link href="/about">About</Link>
             </nav>
-            <button>Login</button>
+            {btn}
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
   );
 };
 

@@ -358,17 +358,15 @@ export function FirebaseProvider({ children }) {
   }
 
   async function getHomeHistory() {
-    onAuthStateChanged(auth, async (user) => {
-      const history = await getDoc(doc(db, "historyHomestay", user.email));
-      return history.data();
-    });
+    const user = getCookies()
+    const history = await getDoc(doc(db, "historyHomestay", user.details.email));
+    return history.data();
   }
 
   async function getUserHistory() {
-    onAuthStateChanged(auth, async (user) => {
-      const history = await getDoc(doc(db, "historyUser", user.email));
-      return history.data();
-    });
+    const user = getCookies()
+    const history = await getDoc(doc(db, "historyUser", user.details.email));
+    return history.data();
   }
 
   function useAuth() {
@@ -400,77 +398,6 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-
-  async function useReadTourist() {
-    const [tourist, setTourist] = useState({
-      name: "",
-      phoneNum: "",
-      email: "",
-    });
-    useEffect(() => {
-      const reader = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          try {
-            firebase
-              .firestore()
-              .collection("Tourist")
-              .doc(user.email)
-              .get()
-              .then((doc) => {
-                setTourist({
-                  name: doc.data().name,
-                  phoneNum: doc.data().phoneNum,
-                  email: user.email,
-                });
-              });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      });
-      return () => reader();
-    }, []);
-    return { ...tourist };
-  }
-
-  async function useReadHomeStay() {
-    const [homeStay, setHomeStay] = useState({
-      name: "",
-      phoneNum: "",
-      address: "",
-      price: "",
-      description: "",
-      image: "",
-      email: "",
-    });
-    useEffect(() => {
-      const reader = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          try {
-            firebase
-              .firestore()
-              .collection("HomeStay")
-              .doc(user.email)
-              .get()
-              .then((doc) => {
-                setHomeStay({
-                  name: doc.data().name,
-                  phoneNum: doc.data().phoneNum,
-                  address: doc.data().address,
-                  price: doc.data().price,
-                  description: doc.data().description,
-                  image: doc.data().image,
-                  email: user.email,
-                });
-              });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      });
-      return () => reader();
-    }, []);
-  }
 
   async function signIn(){
     try {
@@ -533,8 +460,6 @@ export function FirebaseProvider({ children }) {
     getUserHistory,
     sendEmail,
     useAuth,
-    useReadTourist,
-    useReadHomeStay,
     signIn,
     sendMail,
     checkCookies,
