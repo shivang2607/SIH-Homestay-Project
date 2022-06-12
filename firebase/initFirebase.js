@@ -10,13 +10,6 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDERID,
   appId: process.env.NEXT_PUBLIC_APP_ID,
-  // apiKey: "AIzaSyDkM0P5jqfCXhMiDC9I_LesqXZ2ErvdYPo",
-  // authDomain: "sih-tourism.firebaseapp.com",
-  // projectId: "sih-tourism",
-  // storageBucket: "sih-tourism.appspot.com",
-  // messagingSenderId: "58186954035",
-  // appId: "1:58186954035:web:87ae19af7ff190ca29fa46",
-  // measurementId: "G-8F9GF6NDMB",
 };
 
 const app = initializeApp(firebaseConfig);

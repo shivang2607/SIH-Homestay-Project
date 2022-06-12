@@ -111,30 +111,42 @@ export function FirebaseProvider({ children }) {
     Capacity,
     pricePerNight,
     popularDestinationsNearby,
-    images
+    images,
+    airportDistance,
+    busStationDistance,
+    railwayStationDistance
   ) {
+
+
+
+    let imageUrls = [];
     //images upload hori h yahase
     if (!images) return console.log("bhaai images to daaal");
     for (let i = 0; i < images.length; i++) {
       const imageRef = ref(
         storage,
-        `images/shivang@awesome.com/${images[i].name + v4()}`
+        `images/${email}/${images[i].name + v4()}`
       );
       await uploadBytes(imageRef, images[i]).then(() => {
         console.log("uploaded");
       });
+
+      const url = await getDownloadURL(imageRef)
+      imageUrls[i] = url;
     }
 
     await addDoc(collection(db, "Homes"), {
       // homestayName: "maatoshri",
       // desc: "",
       homestayName,
+      URLS: imageUrls,
       desc,
       comments: [],
+      active : true,
       ratings: [],
       host: {
         // name: "shivang",
-        // email: "shivang@awesome.com",
+        // email: "hostname@gmail.com",
         // phone: "9079377724",
         // male: 2,
         // female: 1,
@@ -186,8 +198,24 @@ export function FirebaseProvider({ children }) {
       pricePerNight,
       popularDestinationsNearby,
       registerTime: Timestamp.now(),
+      airportDistance,
+      busStationDistance,
+      railwayStationDistance,
     });
   }
+
+
+  async function setActiveStatus(id, state, ){
+    const activeRef = doc(db, "Homes", id);
+
+    await updateDoc(activeRef, {
+     active: state,
+    });
+  }
+  
+
+
+
 
   async function addComment(id = "wdFQ8rBHcAYaPzelHNb3", head, user, body) {
     const commentRef = doc(db, "Homes", id);
@@ -228,7 +256,7 @@ export function FirebaseProvider({ children }) {
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     // homeStayId = "wdFQ8rBHcAYaPzelHNb3";
     // userName = "Shivang";
-    // userPhone = "9079377724";
+    // userPhone = "9259905738";
     // HomestayName = "maatoshri"
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
@@ -452,6 +480,7 @@ export function FirebaseProvider({ children }) {
   const value = {
     UpdateStateHomestay,
     addHomestay,
+    setActiveStatus,
     addComment,
     addRating,
     bookHomestay,
