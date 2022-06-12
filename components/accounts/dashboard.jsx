@@ -1,11 +1,12 @@
 import React from "react";
-import styles from "../styles/account.module.css";
-import Tourist from "../components/accounts/tourist";
-import Owner from "../components/accounts/HomeOwner"
+import styles from "../../styles/account.module.css";
+
+import Tourist from "./tourist";
+import Owner from "./HomeOwner"
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { FaUserCircle, FaHouseUser } from "react-icons/fa";
 
-const Account = () => {
+const Dashboard = () => {
   return (
     <div className={styles.container}>
       <Tabs
@@ -35,7 +36,7 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default Dashboard;
 
 
 

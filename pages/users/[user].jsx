@@ -1,36 +1,27 @@
 import { useRouter } from "next/router";
 import { useFirebase } from "../../context/firebaseContext";
 import { Stack, Container, Button } from "react-bootstrap";
+import Dashboard from "../../components/accounts/dashboard";
 
 const User = () => {
   const router = useRouter();
   const { user } = router.query;
   let body = null;
-  const { checkCookies, getCookies } = useFirebase();
-  if (!checkCookies()) {
+  const { checkUserCookies, getUserCookies } = useFirebase();
+  if (!checkUserCookies()) {
     router.push("/");
   } else {
-    const cookie = getCookies();
+    const cookie = getUserCookies();
     const info = cookie.details;
     const tok = info.token.slice(5, 25);
     if (user === tok) {
       body = (
-        <Container>
-          <img src={info.photo} alt="img" />
-        <Stack spacing={4}>
-          <div>
-          {info.email} 
-          </div>
-          <div>
-          {info.name}
-          </div>
-          <button>Edit Info</button>
-        </Stack>        
-        </Container>
-        
+        <Dashboard />
       );
     } else {
-      window.location.href = "/";
+      if(!checkUserCookies()){
+        router.push("/");
+      }
     }
   }
   return (

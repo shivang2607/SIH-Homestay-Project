@@ -5,13 +5,9 @@ import Search from "../components/search";
 import { useFirebase } from "../context/firebaseContext"
 
 export default function Home() {
-<<<<<<< HEAD
   const { useAuth } = useFirebase();
   const { user } = useAuth();
   // console.log(user);  
-=======
-  
->>>>>>> 11fd2a827ec715ef21123ce2e0606e6ee64f575c
   return (
     <>
       <Search />

@@ -116,22 +116,16 @@ export function FirebaseProvider({ children }) {
     busStationDistance,
     railwayStationDistance
   ) {
-
-
-
     let imageUrls = [];
     //images upload hori h yahase
     if (!images) return console.log("bhaai images to daaal");
     for (let i = 0; i < images.length; i++) {
-      const imageRef = ref(
-        storage,
-        `images/${email}/${images[i].name + v4()}`
-      );
+      const imageRef = ref(storage, `images/${email}/${images[i].name + v4()}`);
       await uploadBytes(imageRef, images[i]).then(() => {
         console.log("uploaded");
       });
 
-      const url = await getDownloadURL(imageRef)
+      const url = await getDownloadURL(imageRef);
       imageUrls[i] = url;
     }
 
@@ -142,7 +136,7 @@ export function FirebaseProvider({ children }) {
       URLS: imageUrls,
       desc,
       comments: [],
-      active : true,
+      active: true,
       ratings: [],
       host: {
         // name: "shivang",
@@ -204,18 +198,13 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-
-  async function setActiveStatus(id, state, ){
+  async function setActiveStatus(id, state) {
     const activeRef = doc(db, "Homes", id);
 
     await updateDoc(activeRef, {
-     active: state,
+      active: state,
     });
   }
-  
-
-
-
 
   async function addComment(id = "wdFQ8rBHcAYaPzelHNb3", head, user, body) {
     const commentRef = doc(db, "Homes", id);
@@ -386,13 +375,15 @@ export function FirebaseProvider({ children }) {
   }
 
   async function getHomeHistory() {
-    const user = getCookies()
-    const history = await getDoc(doc(db, "historyHomestay", user.details.email));
+    const user = getCookies();
+    const history = await getDoc(
+      doc(db, "historyHomestay", user.details.email)
+    );
     return history.data();
   }
 
   async function getUserHistory() {
-    const user = getCookies()
+    const user = getCookies();
     const history = await getDoc(doc(db, "historyUser", user.details.email));
     return history.data();
   }
@@ -403,14 +394,14 @@ export function FirebaseProvider({ children }) {
       user: null,
       pending: true,
     });
-  
+
     useEffect(() => {
       const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
         if (user) {
           setAuthState({ isSignedIn: true, user, pending: false });
         }
       });
-      return () =>  unregisterAuthObserver();
+      return () => unregisterAuthObserver();
     }, []);
     return { auth, ...authState };
   }
@@ -426,28 +417,31 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-
-  async function signIn(){
+  async function signIn() {
     try {
-      const provider = new GoogleAuthProvider()
+      const provider = new GoogleAuthProvider();
       provider.setCustomParameters({
         prompt: "select_account",
         auth_type: "reauthenticate",
       });
-      setPersistence(auth, inMemoryPersistence)
-      const result = await signInWithPopup(auth, provider)
-      const credential = GoogleAuthProvider.credentialFromResult(result)
-      const token = credential.accessToken
-      console.log("result: ", result)
-      Cookies.set("user", JSON.stringify({
-        token: token,
-        email: result.user.email,
-        name: result.user.displayName,
-        photo: result.user.photoURL,
-      }), { expires: 7 })
-      window.location = window.location.pathname
+      setPersistence(auth, inMemoryPersistence);
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      console.log("result: ", result);
+      Cookies.set(
+        "user",
+        JSON.stringify({
+          token: token,
+          email: result.user.email,
+          name: result.user.displayName,
+          photo: result.user.photoURL,
+        }),
+        { expires: 7 }
+      );
+      window.location = window.location.pathname;
     } catch (error) {
-      console.log(error.code, error.message)
+      console.log(error.code, error.message);
     }
   }
 
@@ -461,20 +455,20 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-  function checkCookies(){
-    const user = Cookies.get("user")
-    if(user){
-      return true
+  function checkUserCookies() {
+    const user = Cookies.get("user");
+    if (user) {
+      return true;
     }
-    return false
+    return false;
   }
-  function getCookies(){
-    const user = Cookies.get("user")
-    if(user){
-      const details = JSON.parse(user)
-      return { details }
+  function getUserCookies() {
+    const user = Cookies.get("user");
+    if (user) {
+      const details = JSON.parse(user);
+      return { details };
     }
-    return false
+    return false;
   }
 
   const value = {
@@ -491,8 +485,9 @@ export function FirebaseProvider({ children }) {
     useAuth,
     signIn,
     sendMail,
-    checkCookies,
-    getCookies
+    checkUserCookies,
+    getUserCookies,
+
   };
 
   return (

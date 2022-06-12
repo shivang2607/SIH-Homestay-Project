@@ -1805,8 +1805,6 @@
   resolved "https://registry.yarnpkg.com/@wojtekmaj/date-utils/-/date-utils-1.0.3.tgz#2dcfd92881425c5923e429c2aec86fb3609032a1"
   integrity sha512-1VPkkTBk07gMR1fjpBtse4G+oJqpmE+0gUFB0dg3VIL7qJmUVaBoD/vlzMm/jNeOPfvlmerl1lpnsZyBUFIRuw==
 
-<<<<<<< HEAD
-=======
 "@wojtekmaj/react-timerange-picker@^3.5.0":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@wojtekmaj/react-timerange-picker/-/react-timerange-picker-3.5.0.tgz#bdaf58f00c2bc42681fce6b70bd8049a4c6cf9b3"
@@ -1819,7 +1817,6 @@
     react-fit "^1.4.0"
     react-time-picker "^4.5.0"
 
->>>>>>> 11fd2a827ec715ef21123ce2e0606e6ee64f575c
 abbrev@1, abbrev@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

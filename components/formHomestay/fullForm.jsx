@@ -28,7 +28,7 @@ const FullForm = () => {
       case 2:
         return <Step3 setcity={setcity} setstate={setstate} />;
     }
-  }
+}
 
   const onSubmit = (data) => {
     // console.log(city,state,data)
