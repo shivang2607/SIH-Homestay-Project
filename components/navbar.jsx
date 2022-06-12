@@ -13,7 +13,7 @@ const NavBar = () => {
     btn = <button onClick={signIn}>Log In</button>;
   } else {
     const cookie = getCookies();
-    btn = <Link href={`/users/${cookie.details.token.slice(5,15)}`}>{cookie.details.name}</Link>;
+    btn = <Link href={`/users/${cookie.details.token.slice(5,25)}`}>{cookie.details.name}</Link>;
   }
   return (
       <Navbar

@@ -39,10 +39,10 @@ function HomeStay({ src, title, location, description, price }) {
 
 
                 </div>
-                <div className={styles.gallery_img2}><img src={src}></img></div>
-                <div className={styles.gallery_img3}><img src={src}></img></div>
-                <div className={styles.gallery_img4}><img src={src}></img></div>
-                <div className={styles.gallery_img5}><img src={src}></img></div>
+                <div className={styles.gallery_img2}><img src={src} alt=""></img></div>
+                <div className={styles.gallery_img3}><img src={src} alt=""></img></div>
+                <div className={styles.gallery_img4}><img src={src} alt=""></img></div>
+                <div className={styles.gallery_img5}><img src={src} alt=""></img></div>
 
             </div>
             <div className={styles.small_detials}>

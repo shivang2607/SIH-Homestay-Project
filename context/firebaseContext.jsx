@@ -417,7 +417,7 @@ export function FirebaseProvider({ children }) {
         name: result.user.displayName,
         photo: result.user.photoURL,
       }), { expires: 7 })
-      // window.location = ""
+      window.location = window.location.pathname
     } catch (error) {
       console.log(error.code, error.message)
     }
