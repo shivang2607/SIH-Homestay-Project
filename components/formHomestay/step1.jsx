@@ -1,6 +1,7 @@
 import { useFormContext} from "react-hook-form"
 import style from "../../styles/homestayform.module.css"
 import classNames from 'classnames'
+import styles from '../../styles/homestayform.module.css'
 
 
  function Step1(params) {
@@ -10,7 +11,7 @@ import classNames from 'classnames'
     return(
         
       <div style={{borderRadius:"10px"}} className="card mb-5 mt-3 shadow" > 
-      <div className="card-header" >Personal Information</div>
+      <div className={`${styles.cardhead} card-header`}  > <h1 >Personal Information</h1></div>
       <div className ="card-body">
       <div className={style.step1}>
       <div className="row mb-2">
@@ -21,7 +22,7 @@ import classNames from 'classnames'
           id="hostName"
           name ="hostName"
           type='text'
-          className={classNames("form-control", {"is-invalid": errors.hostName})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.hostName})}
           placeholder="Host Name"
           {...register("hostName", {
             required: "This is required",
@@ -39,13 +40,13 @@ import classNames from 'classnames'
          <div className="input-group">
           
           <div className="input-group-prepend">
-      <span className="input-group-text" id="basic-addon1">+91</span>
+      <span className={` ${styles.textfield} input-group-text`} id="basic-addon1">+91</span>
         </div>
           <input        
           id="phone"
           name ="phone"
           type='number'
-          className={classNames("form-control", {"is-invalid": errors.phone})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.phone})}
           placeholder="Phone No."
           aria-describedby="basic-addon1"
           {...register("phone", {
@@ -70,7 +71,7 @@ import classNames from 'classnames'
           id="email"
           name ="email"
           type='text'
-          className={classNames("form-control", {"is-invalid": errors.email})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.email})}
           placeholder="email"
           {...register("email", {
             required: "This is required",
@@ -92,7 +93,7 @@ import classNames from 'classnames'
           id="adhar"
           name ="adhar"
           type='number'
-          className={classNames("form-control", {"is-invalid": errors.adhar})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.adhar})}
           placeholder="Adhar No."
           {...register("adhar", {
             required: "This is required",
@@ -110,15 +111,15 @@ import classNames from 'classnames'
     </div>
    
   
-  <fieldset className="row border p-3 mt-5 mb-4">
-   <legend className="px-2" >Family details</legend>
+  <fieldset className={`${styles.familydetails} row border p-4 mb-4 mt-5 mx-1 `}>
+   <legend className="pb-2" >Family details</legend>
    <div className="form-group col">
           <input
           id="males"
           name ="males"
           type='number'
           width="30wh"
-          className={classNames("form-control", {"is-invalid": errors.males})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.males})}
           placeholder="No. of Males(above 15)"
           {...register("males", {
             required: "This is required",
@@ -135,7 +136,7 @@ import classNames from 'classnames'
           name ="females"
           type='number'
           width="30wh"
-          className={classNames("form-control", {"is-invalid": errors.females})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.females})}
           placeholder="No. of Females(above 15)"
           {...register("females", {
             required: "This is required",
@@ -152,7 +153,7 @@ import classNames from 'classnames'
           name ="children"
           type='number'
           width="30wh"
-          className={classNames("form-control", {"is-invalid": errors.children})}
+          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.children})}
           placeholder="No. of Children(below 15)"
           {...register("children", {
             required: "This is required",
