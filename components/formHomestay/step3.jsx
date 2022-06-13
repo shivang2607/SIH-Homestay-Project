@@ -59,7 +59,7 @@ function Step3(props) {
   return (
     
     <div style={{ borderRadius: "10px" }} className="card mb-5 mt-3 shadow">
-      <div className={`${styles.cardhead} card-header `}>Other Information </div>
+      <div className={`${styles.cardhead} card-header p-3 `}>Other Information </div>
       <div className="card-body">
         <fieldset className={`${styles.features} row border p-4 my-4 mx-2 `}>
           <legend>Address</legend>
@@ -85,9 +85,12 @@ function Step3(props) {
                 resultStringKeyName="cityState"
                 name="cityState"
                 placeholder="Enter your City/Town"
+              
                 styling={{
                   zIndex: "3",
                   fontSize: "20px",
+                  borderRadius: "5px",
+                  boxShadow: "rgba(190, 182, 182, 0.986) 2px 3px 2px 0px",
                 }}
               />
             </div>
@@ -294,7 +297,7 @@ function Step3(props) {
                   Array.prototype.forEach.call(value, (el) => {
                     const fileType = el.type;
                     if (!fileTypes.includes(fileType)) {
-                      return `Please poload a valid image format. (${fileTypes})`;
+                      return `Please poload a valid image format. (${fileTypes2})`;
                     }
                   });
                 }

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../../firebase/initFirebase";
+import {useForm} from "react-hook-form"
+import classNames from 'classnames'
 import {
   collection,
   doc,
@@ -12,16 +14,11 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
 import styles from "../../styles/account.module.css";
-import {
-  Editable,
-  EditableInput,
-  EditableTextarea,
-  EditablePreview,
-} from "@chakra-ui/react";
 
 const HomeOwner = () => {
   const [OwnerHistory, setOwnerHistory] = React.useState([]);
   const [dataHome, setdataHome] = React.useState({});
+  const {register, handleSubmit,formState:{errors}}= useForm();
   React.useEffect(() => {
     const email = "shivang2607@gmail.com";
     const emailOwner = "aanyalodhi2001@gmail.com";
@@ -58,7 +55,11 @@ const HomeOwner = () => {
     const date = Date(mili);
     return date;
   }
+function Submit(data){
+  console.log(data);
 
+}
+ 
   
 
   return (
@@ -81,14 +82,23 @@ const HomeOwner = () => {
           <TabPanel>
             <div className="card">
               <div className="card-body">
-              {dataHome.address}
-                <Editable defaultValue= "hj" >
-               
-                  <EditablePreview />
-                  <EditableInput />
-                </Editable>
+                <form  onSubmit={(handleSubmit(Submit))}> 
+                <input defaultValue={dataHome.address} 
+                 className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.address})}
+                {...register("address", {
+                  required: "This is required"
+                }
+                )}
+                />
+                 {errors.address &&(
+            <div className="invalid-feedback">{errors.address.message}</div>
+          ) } 
+                 <button type = "submit" className="form--submit" >Update</button>
+                </form>
 
-                <button className="btn-primary" >Update</button>
+               
+
+             
               </div>
             </div>
           </TabPanel>

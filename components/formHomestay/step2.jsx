@@ -31,7 +31,7 @@ function Step2(props) {
 
   return (
     <div style={{ borderRadius: "10px" }} className="card mb-5 mt-3 shadow">
-      <div className={`${styles.cardhead} card-header `}><h1 className={styles.cardhead}>Homestay Info</h1></div>
+      <div className={`${styles.cardhead} card-header p-3 `}>Homestay Info</div>
       <div className="card-body" >
         <div className="row ">
           <div className="form-group col">
@@ -146,8 +146,8 @@ function Step2(props) {
         <fieldset className={`${styles.features} row border p-4 my-3 mx-1 `}>
           <legend>Features</legend>
 
-          <div className="row mb-2">
-            <FormControl display="flex" className="col mr-2">
+          <div className="row ">
+            <FormControl display="flex" className=" col col-xs-12 mb-2">
               <Switch
                 id="tolerrenceNonveg"
                 name="tolerrenceNonveg"
@@ -158,14 +158,14 @@ function Step2(props) {
               </FormLabel>
             </FormControl>
 
-            <FormControl display="flex" className="col ">
+            <FormControl display="flex" className=" col  col-xs-12 mb-2 ">
               <Switch id="nonVeg" name="nonVeg" {...register("nonVeg")} />
               <FormLabel htmlFor="nonVeg" mb="0">
-                Non-veg
+                Non-vegetarian      
               </FormLabel>
             </FormControl>
 
-            <FormControl display="flex" className="col ">
+            <FormControl display="flex" className="col  col-xs-12 mb-2 ">
               <Switch id="pet" name="pet" {...register("pet")} />
               <FormLabel htmlFor="pet" mb="0">
                 Pets Allowed
@@ -174,21 +174,21 @@ function Step2(props) {
           </div>
 
           <div className="row">
-            <FormControl display="flex" className="col ">
+            <FormControl display="flex" className=" col col-xs-12 mb-2 ">
               <Switch id="couple" name="couple" {...register("couple")} />
               <FormLabel htmlFor="couple" mb="0">
                 Couple friendly
               </FormLabel>
             </FormControl>
 
-            <FormControl display="flex" className="col ">
+            <FormControl display="flex" className=" col col-xs-12 mb-2">
               <Switch id="alcohol" name="alcohol" {...register("alcohol")} />
               <FormLabel htmlFor="alcohol" mb="0">
                 Alcohol Tolerrence
               </FormLabel>
             </FormControl>
 
-            <FormControl display="flex" className="col">
+            <FormControl display="flex" className="col col-xs-12 mb-2 ">
               <Switch id="ac" name="ac" {...register("ac")} />
               <FormLabel htmlFor="ac" mb="0">
                 Air Conditioner
@@ -235,10 +235,10 @@ function Step2(props) {
 
         <button
           type="button"
-          className="btn mx-2 "
+          className="btn mr-2 "
           onClick={() => append(null)}
         >
-         <MdAddBox color="blue" size={50}/>
+         <MdAddBox color="blue" size={70}/>
         </button>
       </div>
     </div>

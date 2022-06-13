@@ -25,6 +25,15 @@
     
     
 }
+.textfield{
+    /* box-Shadow: rgba(149, 224, 224, 0.986) px 2px 2px
+     */
+     /* border : 2px solid black; */
+     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+     font-size: large;
+     padding: 10px;
+  margin-bottom: 1rem;
+  }
 
 .list{
     margin: 2rem 1rem;

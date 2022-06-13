@@ -29,7 +29,7 @@ const Tourist = () => {
           window.alert("No Bookings Yet");
         }
       });
-      console.log("from firebase");
+      console.log("from firebase",userHistory);
     }
   }, []);
 

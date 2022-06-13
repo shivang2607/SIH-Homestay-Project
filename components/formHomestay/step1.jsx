@@ -11,7 +11,7 @@ import styles from '../../styles/homestayform.module.css'
     return(
         
       <div style={{borderRadius:"10px"}} className="card mb-5 mt-3 shadow" > 
-      <div className={`${styles.cardhead} card-header`}  > <h1 >Personal Information</h1></div>
+      <div className={`${styles.cardhead} card-header p-3`}  > Personal Information</div>
       <div className ="card-body">
       <div className={style.step1}>
       <div className="row mb-2">

@@ -14,10 +14,7 @@ import styles from "../styles/homestayform.module.css";
 
 import {
   useForm,
-  Controller,
   FormProvider,
-  useFormContext,
-  useFieldArray,
 } from "react-hook-form";
 // import { load } from "npm";
 
