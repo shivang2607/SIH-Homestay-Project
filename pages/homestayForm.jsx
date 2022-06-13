@@ -2,22 +2,23 @@ import FullForm from "../components/formHomestay/fullForm";
 import { useFirebase } from "../context/firebaseContext";
 import React, { useEffect } from "react";
 import Unauthorized from "../components/unauthorized";
+import { useRouter } from "next/router";
 
 const HomeStayForm = () => {
+  const router = useRouter()
   let body = null;
-  const { checkUserCookies, signIn } = useFirebase();
-  if(checkUserCookies()){
-    body = <FullForm />;
+  const { checkUserCookies, getHomeHistory } = useFirebase();
+  const history = getHomeHistory();
+  if (checkUserCookies()) {
+    if (history.length > 0) {
+      router.replace("/")
+    } else {
+      body = <FullForm />;
+    }
   } else {
-    body = (
-      <Unauthorized />
-    )
+    body = <Unauthorized />;
   }
-  return (
-    <div>
-      {body}
-    </div>
-  );
+  return <div>{body}</div>;
 };
 
 export default HomeStayForm;

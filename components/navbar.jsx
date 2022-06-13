@@ -6,8 +6,30 @@ import { Container } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
 
 const NavBar = () => {
-  const { signIn, checkUserCookies, getUserCookies } = useFirebase();
+  const { signIn, checkUserCookies, getUserCookies, getHomeHistory } =
+    useFirebase();
   let btn = null;
+  let opts = null;
+  const history = getHomeHistory();
+  console.log("history: ", history);
+  if (history.length > 0) {
+    opts = (
+      <>
+        <Link href="/">Home</Link>
+        <Link href="/about">About</Link>
+      </>
+    );
+  } else {
+    opts = (
+      <>
+        <Link href="/">Home</Link>
+        <Link href="/homestayForm" passHref>
+          register your home
+        </Link>
+        <Link href="/about">About</Link>
+      </>
+    );
+  }
   if (!checkUserCookies()) {
     btn = <button onClick={signIn}>Log In</button>;
   } else {
@@ -24,13 +46,7 @@ const NavBar = () => {
         <Navbar.Brand href="/">Hamara Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <nav className={styles.nav}>
-            <Link href="/">Home</Link>
-            <Link href="/homestayForm" passHref>
-              register your home
-            </Link>
-            <Link href="/about">About</Link>
-          </nav>
+          <nav className={styles.nav}>{opts}</nav>
           {btn}
         </Navbar.Collapse>
       </Container>

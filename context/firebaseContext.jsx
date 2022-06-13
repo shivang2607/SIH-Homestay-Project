@@ -32,7 +32,7 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 import Router from "next/router";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 const FirebaseContext = React.createContext();
 export function useFirebase() {
@@ -373,17 +373,23 @@ export function FirebaseProvider({ children }) {
   }
 
   async function getHomeHistory() {
-    const user = getCookies();
+    const user = getUserCookies();
     const history = await getDoc(
       doc(db, "historyHomestay", user.details.email)
     );
-    return history.data();
+    if (history) {
+      return history.data();
+    }
+    return false;
   }
 
   async function getUserHistory() {
-    const user = getCookies();
+    const user = getUserCookies();
     const history = await getDoc(doc(db, "historyUser", user.details.email));
-    return history.data();
+    if (history) {
+      return history.data();
+    }
+    return false;
   }
 
   function useAuth() {
@@ -432,20 +438,37 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function sendMail(homestay_name, to_email,to_name, message, subject, greetings){
+  async function sendMail(
+    homestay_name,
+    to_email,
+    to_name,
+    message,
+    subject,
+    greetings
+  ) {
     var template_params = {
-      homestay_name:homestay_name,
-      to_email:to_email,
-      message:message,
-      to_name:to_name,
-      subject:subject,
-      greetings:greetings
-    }
-    emailjs.send('service_mx4lksw', "template_60qfdkn", template_params, 'JSUCvQi3lkcl1ScoG').then(function(response) {
-      console.log('SUCCESS!', response.status, response.text);
-   }, function(error) {
-      console.log('FAILED...', error);
-   });
+      homestay_name: homestay_name,
+      to_email: to_email,
+      message: message,
+      to_name: to_name,
+      subject: subject,
+      greetings: greetings,
+    };
+    emailjs
+      .send(
+        "service_mx4lksw",
+        "template_60qfdkn",
+        template_params,
+        "JSUCvQi3lkcl1ScoG"
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      );
   }
 
   function checkUserCookies() {
@@ -473,13 +496,12 @@ export function FirebaseProvider({ children }) {
     bookHomestay,
     cancelBooking,
     getHomeHistory,
-    getUserHistory, 
+    getUserHistory,
     useAuth,
     signIn,
     sendMail,
     checkUserCookies,
     getUserCookies,
-
   };
 
   return (
