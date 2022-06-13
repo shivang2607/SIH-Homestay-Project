@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useFirebase } from "../../context/firebaseContext";
 import { Stack, Container, Button } from "react-bootstrap";
 import Dashboard from "../../components/accounts/dashboard";
+import Unauthorized from "../../components/unauthorized";
 
 const User = () => {
   const router = useRouter();
@@ -9,7 +10,9 @@ const User = () => {
   let body = null;
   const { checkUserCookies, getUserCookies } = useFirebase();
   if (!checkUserCookies()) {
-    router.push("/");
+    body = (
+      <Unauthorized />
+    )
   } else {
     const cookie = getUserCookies();
     const info = cookie.details;
@@ -19,9 +22,9 @@ const User = () => {
         <Dashboard />
       );
     } else {
-      if(!checkUserCookies()){
-        router.push("/");
-      }
+        body = (
+          <Unauthorized />
+        )
     }
   }
   return (

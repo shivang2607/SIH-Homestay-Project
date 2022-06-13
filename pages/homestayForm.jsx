@@ -1,6 +1,7 @@
 import FullForm from "../components/formHomestay/fullForm";
 import { useFirebase } from "../context/firebaseContext";
 import React, { useEffect } from "react";
+import Unauthorized from "../components/unauthorized";
 
 const HomeStayForm = () => {
   let body = null;
@@ -9,15 +10,13 @@ const HomeStayForm = () => {
     body = <FullForm />;
   } else {
     body = (
-      <div>
-        <h1>You need to log in to register your home</h1>
-        <button onClick={signIn}>Log In</button>
-      </div>
+      <Unauthorized />
     )
   }
   return (
-    // <FullForm />
-    <>{body}</>
+    <div>
+      {body}
+    </div>
   );
 };
 

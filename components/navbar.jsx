@@ -8,7 +8,6 @@ import { useFirebase } from "../context/firebaseContext";
 const NavBar = () => {
   const { signIn, checkUserCookies, getUserCookies } = useFirebase();
   let btn = null;
-  let link = null;
   if (!checkUserCookies()) {
     btn = <button onClick={signIn}>Log In</button>;
   } else {
@@ -27,7 +26,9 @@ const NavBar = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <nav className={styles.nav}>
             <Link href="/">Home</Link>
-            {link}
+            <Link href="/homestayForm" passHref>
+              register your home
+            </Link>
             <Link href="/about">About</Link>
           </nav>
           {btn}
