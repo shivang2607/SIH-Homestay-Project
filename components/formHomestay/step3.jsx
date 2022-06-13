@@ -21,6 +21,8 @@ function Step3(props) {
   );
 
   const [images, setImages] = useState(null);
+  const [isValidImage, setIsValidImage] = useState(true);
+  
 
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
@@ -293,14 +295,25 @@ function Step3(props) {
                 const fileTypes = ["image/jpg", "image/jpeg", "image/png"];
                 const fileTypes2 = ["jpg", "jpeg", "png"];
 
-                {
-                  Array.prototype.forEach.call(value, (el) => {
+              
+               
+               {
+                
+                let validimage =true
+                Array.prototype.forEach.call(value, (el) => {
                     const fileType = el.type;
                     if (!fileTypes.includes(fileType)) {
-                      return `Please poload a valid image format. (${fileTypes2})`;
+                     validimage=false
                     }
                   });
+                  if(!validimage){
+                    return `Please upload a image of format ${fileTypes2}`
+                  }
                 }
+                 
+                
+
+               
               },
             })}
           />
