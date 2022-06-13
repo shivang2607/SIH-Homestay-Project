@@ -9,14 +9,17 @@ import Image from "next/image";
 import searchimage from "../public/search-button.png";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import newPlaces from "../components/items";
+import { useRouter } from "next/router";
 
 const Search = () => {
+  const router = useRouter();
   const [startDate, setStartDate] = useState(new Date());
   const [stopDate, setStopDate] = useState(new Date());
   const [cityname, setCityName] = useState("");
   const [disname, setDisName] = useState("");
   const [statename, setStateName] = useState("");
-
+  const [people,setPeople] = useState(1);
+  
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
@@ -54,6 +57,11 @@ const Search = () => {
     );
   };
 
+  const handlechange =(e)=>{
+      /*  console.log(e.target.value); */
+      setPeople(e.target.value);
+      /* console.log(people) */
+  }
   return (
     <>
       <div>
@@ -84,6 +92,7 @@ const Search = () => {
             <Col xs={12} md={3}>
               <div>
                 <input
+                 onChange={handlechange}
                   placeholder="Guests"
                   className={`${styles.datecss} ${styles.guests}`}
                   type="number"
@@ -101,6 +110,7 @@ const Search = () => {
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
                 />
+                {/* {console.log(startDate.getTime())} */}
               </div>
             </Col>
             <Col xs={6} md={3}>
@@ -121,10 +131,23 @@ const Search = () => {
               <Button
                 variant="primary"
                 size="lg"
+                onClick={() => {
+                  router.push({
+                    pathname: "/Location/[location]",
+                    query: {
+                      checkindate: startDate.getTime()/1000,
+                      checkoutdate:stopDate.getTime()/1000,
+                      location:cityname,statename,disname,people
+
+
+                    },
+                  });
+                }}
                 style={{ marginTop: "2rem", padding: ".5rem 1rem" }}
               >
                 Search
               </Button>
+              
             </Col>
           </Row>
         </Container>

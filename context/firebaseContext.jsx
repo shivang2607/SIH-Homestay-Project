@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth, db, storage } from "../firebase/initFirebase";
 import { v4 } from "uuid";
-import nodemailer from "nodemailer";
-import { transporter, message } from "../email/emailconfig";
 import Cookies from "js-cookie";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import {
@@ -23,7 +21,6 @@ import {
   runTransaction,
   arrayRemove,
 } from "firebase/firestore";
-import { client } from "../email/emailconfig";
 import {
   onAuthStateChanged,
   GoogleAuthProvider,
@@ -35,6 +32,7 @@ import {
   inMemoryPersistence,
 } from "firebase/auth";
 import Router from "next/router";
+import emailjs from '@emailjs/browser';
 
 const FirebaseContext = React.createContext();
 export function useFirebase() {
@@ -406,17 +404,6 @@ export function FirebaseProvider({ children }) {
     return { auth, ...authState };
   }
 
-  async function sendEmail(emailUser, emailOwner) {
-    const message = {
-      to: `${tourist.name} <${emailUser}>`,
-      from: `${homestay.name} <${emailOwner}>`,
-      subject: `${homestay.name} has confirmed your booking`,
-    };
-    client.send(message, (err, info) => {
-      console.log(err || info);
-    });
-  }
-
   async function signIn() {
     try {
       const provider = new GoogleAuthProvider();
@@ -445,14 +432,20 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function sendMail() {
-    transporter.sendMail(message, function (err, info) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(info);
-      }
-    });
+  async function sendMail(homestay_name, to_email,to_name, message, subject, greetings){
+    var template_params = {
+      homestay_name:homestay_name,
+      to_email:to_email,
+      message:message,
+      to_name:to_name,
+      subject:subject,
+      greetings:greetings
+    }
+    emailjs.send('service_mx4lksw', "template_60qfdkn", template_params, 'JSUCvQi3lkcl1ScoG').then(function(response) {
+      console.log('SUCCESS!', response.status, response.text);
+   }, function(error) {
+      console.log('FAILED...', error);
+   });
   }
 
   function checkUserCookies() {
@@ -480,8 +473,7 @@ export function FirebaseProvider({ children }) {
     bookHomestay,
     cancelBooking,
     getHomeHistory,
-    getUserHistory,
-    sendEmail,
+    getUserHistory, 
     useAuth,
     signIn,
     sendMail,
