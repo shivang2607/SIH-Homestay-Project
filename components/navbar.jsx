@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/Home.module.css";
 import Navbar from "react-bootstrap/Navbar";
 import Link from "next/link";
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
 
 const NavBar = () => {
@@ -35,9 +35,18 @@ const NavBar = () => {
   } else {
     const cookie = getUserCookies();
     btn = (
-      <Link href={`/users/${cookie.details.token.slice(5, 25)}`}>
-        {cookie.details.name}
-      </Link>
+      <Dropdown>
+        <Dropdown.Toggle className={styles.dropdown}>
+          {cookie.details.name}
+        </Dropdown.Toggle>
+        <Dropdown.Menu variant="dark">
+          <Dropdown.Item>
+            <Link href={`/users/${cookie.details.token.slice(5, 25)}`}>
+              Dashboard
+            </Link>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
   return (

@@ -39,8 +39,10 @@
     "react-google-button": "^0.7.2",
     "react-google-maps": "^9.4.5",
     "react-hook-form": "^7.5.3",
+    "react-icons": "^4.4.0",
     "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^6.3.0",
+    "react-search-autocomplete": "^7.2.1",
     "react-time-picker": "^4.5.0",
     "typescript": "latest",
     "uuid": "^8.3.2"

@@ -1,5 +1,7 @@
 import styles  from '../styles/unauthorized.module.css';
+import { useFirebase } from '../context/firebaseContext';
 const Unauthorized = () => {
+  const { signIn } = useFirebase();
   return (
     <div className={styles.container}>
       <div className={styles.image}>
@@ -12,10 +14,8 @@ const Unauthorized = () => {
       <h2>location? Like...Hobbiton.</h2>
       </div>
       <div className={styles.btn}>
-        <button onClick={() => {
-          window.location.pathname = "/"
-        }}>
-          Return To Home
+        <button onClick={signIn}>
+          Sign In
         </button>
       </div>
     </div>

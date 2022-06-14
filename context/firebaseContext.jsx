@@ -374,20 +374,26 @@ export function FirebaseProvider({ children }) {
 
   async function getHomeHistory() {
     const user = getUserCookies();
-    const history = await getDoc(
-      doc(db, "historyHomestay", user.details.email)
-    );
-    if (history) {
-      return history.data();
+    if (user) {
+      const history = await getDoc(
+        doc(db, "historyHomestay", user.details.email)
+      );
+      if (history) {
+        return history.data();
+      }
+      return false;
     }
     return false;
   }
 
   async function getUserHistory() {
     const user = getUserCookies();
-    const history = await getDoc(doc(db, "historyUser", user.details.email));
-    if (history) {
-      return history.data();
+    if (user) {
+      const history = await getDoc(doc(db, "historyUser", user.details.email));
+      if (history) {
+        return history.data();
+      }
+      return false;
     }
     return false;
   }

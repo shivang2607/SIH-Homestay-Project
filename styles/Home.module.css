@@ -159,6 +159,23 @@
   margin-left: 0.5rem;
 }
 
+.dropdown{
+  background-color: rgb(92, 214, 188);
+  font-weight: 600;
+  outline: none;
+  border: none;
+  color: #121212;
+}
+.dropdown:hover, 
+.dropdown:focus,
+.dropdown:active
+{
+  background-color: rgb(57, 133, 116);
+  outline: none;
+  border: none;
+  color: #fff;
+
+}
 
 @media (max-width: 1000px) {
   .grid {
