@@ -27,6 +27,7 @@
   margin-right: auto;
 }
 
+
 .login{
   background-color: rgb(132, 229, 229);
   padding: 4px 12px;
@@ -137,7 +138,6 @@
 
 
  .maindiv{
-  
   padding: 2vh 2vw;
   background-color:rgb(245, 255, 255);
   border-radius: 5px;

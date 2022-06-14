@@ -1,26 +1,70 @@
-import React from 'react'
+import { React, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import HomeStay from '../../../components/homestay';
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../../firebase/initFirebase";
+
 
 
 const HomestayId = () => {
 
 
   const router = useRouter();
-  const {homestayId} = router.query;
+  const { homestayId } = router.query;
+  
+  const [homeDetails, setHomeDetails] = useState({})
+
+  useEffect(() => {
+
+
+
+
+    if (!localStorage.getItem(`${homestayId}`)) {
+      const docRef = doc(db, "Homes", `${homestayId}`);
+      getDoc(docRef).then(docSnap => {
+        localStorage.setItem(homestayId, JSON.stringify(docSnap.data()))
+        setHomeDetails(JSON.parse(localStorage.getItem(homestayId)))
+      });
+
+
+
+    }
+    else {
+      setHomeDetails(JSON.parse(localStorage.getItem(homestayId)))
+      console.log("This is running, local storage se get kiya h ")
+
+    }
+    console.log(homeDetails)
+    console.log(homestayId)
+
+
+    // download()
+
+
+  }, [])
+
 
   return (
     <div>
-       <HomeStay
-                src="https://media.nomadicmatt.com/2018/apartment.jpg"
-                title="Himalayan Hideout"
-                location="Choj Village | 1.8 km from city centre
-                1.9 km from Manikaran Gurudwara"
-                description="Superhost with great amenities and a fabolous shopping complex nearby"
-                price="70/night"
-            />
+      {console.log(homeDetails)}
+      {homeDetails && <HomeStay
+        details={homeDetails}
+        homestayId={homestayId}
+      />
+      }
     </div>
   )
 }
 
 export default HomestayId
+
+
+
+export async function getServerSideProps(context) {
+
+
+
+  return {
+    props: {},
+  }
+}
