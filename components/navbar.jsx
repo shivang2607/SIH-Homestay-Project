@@ -6,11 +6,11 @@ import { Container, Dropdown } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
 
 const NavBar = () => {
-  const { signIn, checkUserCookies, getUserCookies, getHomeHistory } =
+  const { signIn, checkUserCookies, getUserCookies, checkHomeInDb } =
     useFirebase();
   let btn = null;
   let opts = null;
-  const history = getHomeHistory();
+  const history = checkHomeInDb();
   console.log("history: ", history);
   if (history.length > 0) {
     opts = (

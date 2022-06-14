@@ -46,7 +46,7 @@ export async function UpdateStateHomestay() {
     snapshot.docs.map((document) => {
       document.data().current.forEach(async (element) => {
         console.log(element);
-        if (element.checkOutTime < Timestamp.now().seconds * 1000) {
+        if (element.checkOutTime <= Timestamp.now().seconds) {
           await setDoc(
             doc(db, "historyHomestay", document.id),
             {
@@ -66,7 +66,7 @@ export async function UpdateStateHomestay() {
     snapshot.docs.map((document) => {
       document.data().current.forEach(async (element) => {
         console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
-        if (element.checkOutTime < Timestamp.now().seconds * 1000) {
+        if (element.checkOutTime < Timestamp.now().seconds) {
           await setDoc(
             doc(db, "historyUser", document.id),
             {
@@ -221,7 +221,9 @@ export function FirebaseProvider({ children }) {
     // console.log((Timestamp.now()).toMillis())
     const ratingRef = doc(db, "Homes", id);
     await updateDoc(ratingRef, {
-      ratings: arrayUnion({ user, stars, addedOn: Timestamp.now() }),
+      ratings: arrayUnion({
+         user, stars, addedOn: Timestamp.now()
+         }),
     });
   }
 
@@ -231,6 +233,7 @@ export function FirebaseProvider({ children }) {
     homeStayId,
     userName,
     userPhone,
+    ownerPhone,
     HomestayName,
     checkInTime,
     checkOutTime,
@@ -255,8 +258,8 @@ export function FirebaseProvider({ children }) {
             current: arrayUnion({
               userName,
               userPhone,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
+              checkInTime,
+              checkOutTime,
               peopleCount,
               TotalRent,
             }),
@@ -270,12 +273,14 @@ export function FirebaseProvider({ children }) {
             current: arrayUnion({
               homeStayId,
               HomestayName,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
+              checkInTime,
+              checkOutTime,
               Location,
               Address,
               peopleCount,
               TotalRent,
+              emailOwner,
+              ownerPhone,
             }),
           },
           { merge: true }
@@ -297,6 +302,7 @@ export function FirebaseProvider({ children }) {
     homeStayId,
     userName,
     userPhone,
+    ownerPhone,
     HomestayName,
     checkInTime,
     checkOutTime,
@@ -307,10 +313,10 @@ export function FirebaseProvider({ children }) {
   ) {
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     const historyUserRef = doc(db, "historyUser", emailUser);
-    homeStayId = "wdFQ8rBHcAYaPzelHNb3";
-    userName = "Shivang";
-    userPhone = "9079377724";
-    HomestayName = "maatoshri";
+    // homeStayId = "wdFQ8rBHcAYaPzelHNb3";
+    // userName = "Shivang";
+    // userPhone = "9079377724";
+    // HomestayName = "maatoshri";
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
         transaction.set(
@@ -319,16 +325,16 @@ export function FirebaseProvider({ children }) {
             current: arrayRemove({
               userName,
               userPhone,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
+              checkInTime,
+              checkOutTime,
               peopleCount,
               TotalRent,
             }),
             cancelled: arrayUnion({
               userName,
               userPhone,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
+              checkInTime,
+              checkOutTime,
               peopleCount,
               TotalRent,
             }),
@@ -342,22 +348,26 @@ export function FirebaseProvider({ children }) {
             current: arrayRemove({
               homeStayId,
               HomestayName,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
+              checkInTime,
+              checkOutTime,
               Location,
               Address,
               peopleCount,
               TotalRent,
+              emailOwner,
+              ownerPhone,
             }),
             cancelled: arrayUnion({
               homeStayId,
               HomestayName,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
+              checkInTime,
+              checkOutTime,
               Location,
               Address,
               peopleCount,
               TotalRent,
+              emailOwner,
+              ownerPhone,
             }),
           },
           { merge: true }
@@ -372,7 +382,7 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function getHomeHistory() {
+  async function checkHomeInDb() {
     const user = getUserCookies();
     if (user) {
       const history = await getDoc(
@@ -384,6 +394,34 @@ export function FirebaseProvider({ children }) {
       return false;
     }
     return false;
+  }
+  async function getHomeHistory(homes, checkIn, checkOut) {
+    
+    const final = await homes.map(async val=>{
+
+      console.log(val.host.email)
+      const history = await getDoc(doc(db, "historyHomestay",val.host.email));
+      const his = history.data();
+      let booked_guests = 0;
+      if(history.length>0){
+      const current_bookings = his.current;
+      current_bookings.map(booking => {
+       
+        if (((booking.checkInTime.seconds >= checkIn && booking.checkInTime.seconds <= checkOut)) ||
+          (booking.checkOutTime / 1000 <= checkOut && booking.checkOutTime / 1000 >= checkIn) || (booking.checkOutTime / 1000 >= checkOut && booking.checkInTime<=checkIn)) {
+          booked_guests += booking.peopleCount;
+        }
+  
+      })
+    
+    }
+    return await {...val, booked_guests};
+
+    })   
+   let abc = await Promise.all(final)      
+    return abc;
+
+    
   }
 
   async function getUserHistory() {
@@ -508,6 +546,7 @@ export function FirebaseProvider({ children }) {
     sendMail,
     checkUserCookies,
     getUserCookies,
+    checkHomeInDb
   };
 
   return (
