@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import NavBar from "../components/navbar";
@@ -18,7 +19,6 @@ TimeAgo.addLocale(ru)
 
 
 const theme = extendTheme({
-  config,
   components: {
     Steps,
   },

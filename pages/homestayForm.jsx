@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 const HomeStayForm = () => {
   const router = useRouter()
   let body = null;
-  const { checkUserCookies, getHomeHistory } = useFirebase();
-  const history = getHomeHistory();
+  const { checkUserCookies, checkHomeInDb } = useFirebase();
+  const history = checkHomeInDb();
   if (checkUserCookies()) {
     if (history.length > 0) {
       router.replace("/")

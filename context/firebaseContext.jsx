@@ -222,8 +222,10 @@ export function FirebaseProvider({ children }) {
     const ratingRef = doc(db, "Homes", id);
     await updateDoc(ratingRef, {
       ratings: arrayUnion({
-         user, stars, addedOn: Timestamp.now()
-         }),
+        user,
+        stars,
+        addedOn: Timestamp.now(),
+      }),
     });
   }
 
@@ -396,32 +398,30 @@ export function FirebaseProvider({ children }) {
     return false;
   }
   async function getHomeHistory(homes, checkIn, checkOut) {
-    
-    const final = await homes.map(async val=>{
-
-      console.log(val.host.email)
-      const history = await getDoc(doc(db, "historyHomestay",val.host.email));
+    const final = await homes.map(async (val) => {
+      console.log(val.host.email);
+      const history = await getDoc(doc(db, "historyHomestay", val.host.email));
       const his = history.data();
       let booked_guests = 0;
-      if(history.length>0){
-      const current_bookings = his.current;
-      current_bookings.map(booking => {
-       
-        if (((booking.checkInTime.seconds >= checkIn && booking.checkInTime.seconds <= checkOut)) ||
-          (booking.checkOutTime / 1000 <= checkOut && booking.checkOutTime / 1000 >= checkIn) || (booking.checkOutTime / 1000 >= checkOut && booking.checkInTime<=checkIn)) {
-          booked_guests += booking.peopleCount;
-        }
-  
-      })
-    
-    }
-    return await {...val, booked_guests};
-
-    })   
-   let abc = await Promise.all(final)      
+      if (history.length > 0) {
+        const current_bookings = his.current;
+        current_bookings.map((booking) => {
+          if (
+            (booking.checkInTime.seconds >= checkIn &&
+              booking.checkInTime.seconds <= checkOut) ||
+            (booking.checkOutTime / 1000 <= checkOut &&
+              booking.checkOutTime / 1000 >= checkIn) ||
+            (booking.checkOutTime / 1000 >= checkOut &&
+              booking.checkInTime <= checkIn)
+          ) {
+            booked_guests += booking.peopleCount;
+          }
+        });
+      }
+      return await { ...val, booked_guests };
+    });
+    let abc = await Promise.all(final);
     return abc;
-
-    
   }
 
   async function getUserHistory() {
@@ -473,6 +473,7 @@ export function FirebaseProvider({ children }) {
           email: result.user.email,
           name: result.user.displayName,
           photo: result.user.photoURL,
+          number: result.user.phoneNumber,
         }),
         { expires: 7 }
       );
@@ -531,6 +532,11 @@ export function FirebaseProvider({ children }) {
     return false;
   }
 
+  function signOut() {
+    Cookies.remove("user", { expires: 7 });
+    window.location = window.location.pathname;
+  }
+
   const value = {
     UpdateStateHomestay,
     addHomestay,
@@ -546,7 +552,8 @@ export function FirebaseProvider({ children }) {
     sendMail,
     checkUserCookies,
     getUserCookies,
-    checkHomeInDb
+    checkHomeInDb,
+    signOut
   };
 
   return (

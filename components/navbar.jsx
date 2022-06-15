@@ -6,7 +6,7 @@ import { Container, Dropdown } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
 
 const NavBar = () => {
-  const { signIn, checkUserCookies, getUserCookies, checkHomeInDb } =
+  const { signIn, checkUserCookies, getUserCookies, checkHomeInDb, signOut } =
     useFirebase();
   let btn = null;
   let opts = null;
@@ -44,6 +44,9 @@ const NavBar = () => {
             <Link href={`/users/${cookie.details.token.slice(5, 25)}`}>
               Dashboard
             </Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Link href={'#'}><button onClick={signOut}>Sign Out</button></Link>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
