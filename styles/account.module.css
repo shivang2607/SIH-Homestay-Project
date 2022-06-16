@@ -86,6 +86,10 @@
     margin: 1rem 0;
 }
 
+.activeButton{
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
 .pricetag{
     background-color: teal;
     border-radius: 5px;
@@ -111,6 +115,10 @@
     border-radius: 5px;
 }
 
+.features {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
 
 
 

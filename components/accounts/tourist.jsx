@@ -4,18 +4,23 @@ import { doc, getDoc } from "firebase/firestore";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
+import { useFirebase } from "../../context/firebaseContext";
+
 
 import styles from "../../styles/account.module.css";
 
 const Tourist = () => {
   const [userHistory, setUserHistory] = React.useState([]);
-
+  const {getUserCookies,cancelBooking} = useFirebase();
+  const cookies= getUserCookies();
+  
+console.log("useremail",cookies.details)
   React.useEffect(() => {
-    const email = "shivangkh26@gmail.com";
+    const email = "diksha@gmail.com" ;
 
     if (JSON.parse(sessionStorage.getItem(`tourist ${email}`))) {
       setUserHistory(JSON.parse(sessionStorage.getItem(`tourist ${email}`)));
-      console.log("from local session storage", userHistory);
+      //console.log("from local session storage", userHistory);
     } else {
       const docRef = doc(db, "historyUser", email);
       getDoc(docRef).then((docSnap) => {
@@ -26,12 +31,16 @@ const Tourist = () => {
             JSON.stringify(docSnap.data())
           );
         } else {
-          window.alert("No Bookings Yet");
+          //window.alert("No Bookings Yet tourist");
         }
       });
-      console.log("from firebase",userHistory);
+    //  console.log("from firebase",userHistory);
     }
   }, []);
+
+  function cancelBooking1(){
+    cancelBooking()
+  }
 
   function miliToDate(mili) {
     const date = Date(mili);
@@ -40,7 +49,7 @@ const Tourist = () => {
 
   return (
     <div>
-      {userHistory && console.log(userHistory)}
+      {userHistory && console.log("user",userHistory)}
       <Tabs
         className={styles.book}
         orientation="vertical"
@@ -55,6 +64,7 @@ const Tourist = () => {
 
         <TabPanels className={`${styles.book}`}>
           <TabPanel>
+            {/* <button className={`mt-5 ${styles.btn}`}onClick={cancelBooking1}>kjuyu</button> */}
             <div className={` ${styles.current}`}>
               <div style={{ justifyContent: "center" }}>
                 {userHistory.current &&
@@ -73,9 +83,9 @@ const Tourist = () => {
                             <h4>Total Rent: </h4>
                             <h2 className={`${styles.pricetag}`}>
                               Rs. {currentBook.TotalRent}{" "}
-                              <h4 className={`${styles.subpricetag}`}>
+                              <div className={`${styles.subpricetag}`}>
                                 ({currentBook.TotalRent/currentBook.peopleCount} / head)
-                              </h4>
+                              </div>
                             </h2>
                           </div>
 
@@ -87,7 +97,7 @@ const Tourist = () => {
                           </div>
 
                           <button className={`mt-5 ${styles.btn}`}>
-                            <TiCancel color="white" size={25} />
+                            <TiCancel color="white" size={25}  />
                             Cancel Booking
                           </button>
                         </Card.Body>
@@ -117,9 +127,9 @@ const Tourist = () => {
                             <h4>Total Rent: </h4>
                             <h2 className={`${styles.pricetag}`}>
                               Rs. {pastBook.TotalRent}{" "}
-                              <h4 className={`${styles.subpricetag}`}>
+                              <div className={`${styles.subpricetag}`}>
                                 (120 / head)
-                              </h4>
+                              </div>
                             </h2>
                           </div>
 
@@ -155,9 +165,9 @@ const Tourist = () => {
                             <h4>Total Rent: </h4>
                             <h2 className={`${styles.pricetag}`}>
                               Rs. {cancelledBook.TotalRent}{" "}
-                              <h4 className={`${styles.subpricetag}`}>
+                              <div className={`${styles.subpricetag}`}>
                                 ({cancelledBook.TotalRent/cancelledBook.peopleCount}/ head)
-                              </h4>
+                              </div>
                             </h2>
                           </div>
 

@@ -1,5 +1,4 @@
 import {  Flex, Heading,Button, Center } from "@chakra-ui/react";
-// import {  } from "react-bootstrap";
 import Spinner from 'react-bootstrap/Spinner'
 import { Step, Steps, useSteps } from "chakra-ui-steps"
 import { FiClipboard, FiDollarSign, FiUser } from "react-icons/fi" 
@@ -9,17 +8,11 @@ import Step2 from "./step2"
 import Step3 from "./step3"
 import { useFirebase } from "../../context/firebaseContext";
 import styles from "../../styles/homestayform.module.css";
-
-
-
 import {
   useForm,
-  Controller,
   FormProvider,
-  useFormContext,
-  useFieldArray,
 } from "react-hook-form";
-// import { load } from "npm";
+
 
 const steps = [
   { label: "Personal Info", icon: FiUser, size: "Large" },
@@ -29,13 +22,12 @@ const steps = [
 
 
 export const HomestayForm = () => {
- // console.log(useFirebase())
    const {addHomestay}  = useFirebase();
   const [city,setcity] =React.useState('')
   const [state,setstate] =React.useState('')
   const [time, settime] = useState(['10:00:00', '11:00:00']);
   const [loading, setLoading] = useState(false)
-  const { nextStep, prevStep, reset, activeStep } = useSteps({
+  const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
   })
 
@@ -54,7 +46,7 @@ export const HomestayForm = () => {
 
   function GetContent(index){
     switch(index){
-      case 0: return( <Step3 setcity={setcity} setstate={setstate}/>);
+      case 0: return( <Step1/>);
       case 1: return( <Step2 settime={settime} time={time}/>);
       case 2: return( <Step3 setcity={setcity} setstate={setstate}/>);
       
@@ -72,7 +64,6 @@ export const HomestayForm = () => {
      tConvert(time[0].slice(0,-3))+" to "+tConvert(time[1].slice(0,-3)),data.ac,city,state,data.address,Number(data.maxAccomodation),Number(data.rent),data.popularDestinations,data.images,Number(data.airportDistance),Number(data.busDistance),Number(data.railwayDistance))
       setLoading(false)
     }
-
     nextStep()
    }
 
@@ -120,7 +111,7 @@ export const HomestayForm = () => {
       </Steps>
     
       {activeStep === steps.length ? (
-        <Flex px={4} py={4} width="100%" flexDirection="column" className="mb-2 mt-2" >
+        <Flex px={4} py={4} width="100%" flexDirection="column" className="mb-2 mt-2" height="100vh" >
           <Heading fontSize="xl" textAlign="center" >
             Woohoo! All steps completed!
             

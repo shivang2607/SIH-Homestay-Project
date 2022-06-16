@@ -196,8 +196,8 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-  async function setActiveStatus(id, state) {
-    const activeRef = doc(db, "Homes", id);
+  async function setActiveStatus(docid, state) {
+    const activeRef = doc(db, "Homes", docid);
 
     await updateDoc(activeRef, {
       active: state,
@@ -289,6 +289,20 @@ export function FirebaseProvider({ children }) {
     } catch (e) {
       console.log("Transaction failed: ", e);
     }
+  }
+
+
+
+  async function updateHomestay(docid, desc,AC, pricePerNight, nonVeg, alcoholTolerant, coupleFriendly, nonVegTolerant, petAllowance,Rules,openTime){
+      const docref = doc(db, "Homes", docid);
+      await updateDoc(docref, {
+        pricePerNight,
+  Rules:{
+    Rules,
+    nonVeg,alcoholTolerant, coupleFriendly, petAllowance, nonVegTolerant, openTime
+  },
+  desc,AC,
+});
   }
 
   async function cancelBooking(
@@ -423,6 +437,7 @@ export function FirebaseProvider({ children }) {
           email: result.user.email,
           name: result.user.displayName,
           photo: result.user.photoURL,
+          number: result.user.phoneNumber,
         }),
         { expires: 7 }
       );
@@ -471,6 +486,7 @@ export function FirebaseProvider({ children }) {
     addComment,
     addRating,
     bookHomestay,
+    updateHomestay,
     cancelBooking,
     getHomeHistory,
     getUserHistory, 
