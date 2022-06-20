@@ -6,15 +6,15 @@ import Search from '../components/search'
 import { useFirebase } from '../context/firebaseContext'
 export default function Home() {
 
-  const {getHomeHistory, UpdateStateHomestay} = useFirebase()
+  const {getHomeHistory} = useFirebase()
   console.log(getHomeHistory)
 
   React.useEffect(() => {
     
-    const update = async()=>{
-      await UpdateStateHomestay();
-    }
-    update()
+      // const update = async()=>{
+      //   await UpdateStateHomestay();
+      // }
+      // update()
    
   }, [])
   

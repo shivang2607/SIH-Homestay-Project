@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { auth, db, storage } from "../firebase/initFirebase";
-import Cookies from "js-cookie";
 import { v4 } from "uuid";
-import nodemailer from "nodemailer";
-import { transporter, message } from "../email/emailconfig";
+import Cookies from "js-cookie";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import {
   addDoc,
@@ -23,15 +21,18 @@ import {
   runTransaction,
   arrayRemove,
 } from "firebase/firestore";
-import { client } from "../email/emailconfig";
 import {
   onAuthStateChanged,
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
   signOut,
+  setPersistence,
+  browserSessionPersistence,
+  inMemoryPersistence,
 } from "firebase/auth";
-import { async } from "@firebase/util";
+import Router from "next/router";
+import emailjs from "@emailjs/browser";
 
 const FirebaseContext = React.createContext();
 export function useFirebase() {
@@ -108,30 +109,36 @@ export function FirebaseProvider({ children }) {
     Capacity,
     pricePerNight,
     popularDestinationsNearby,
-    images
+    images,
+    airportDistance,
+    busStationDistance,
+    railwayStationDistance
   ) {
+    let imageUrls = [];
     //images upload hori h yahase
     if (!images) return console.log("bhaai images to daaal");
     for (let i = 0; i < images.length; i++) {
-      const imageRef = ref(
-        storage,
-        `images/shivang@awesome.com/${images[i].name + v4()}`
-      );
+      const imageRef = ref(storage, `images/${email}/${images[i].name + v4()}`);
       await uploadBytes(imageRef, images[i]).then(() => {
         console.log("uploaded");
       });
+
+      const url = await getDownloadURL(imageRef);
+      imageUrls[i] = url;
     }
 
     await addDoc(collection(db, "Homes"), {
       // homestayName: "maatoshri",
       // desc: "",
       homestayName,
+      URLS: imageUrls,
       desc,
       comments: [],
+      active: true,
       ratings: [],
       host: {
         // name: "shivang",
-        // email: "shivang@awesome.com",
+        // email: "hostname@gmail.com",
         // phone: "9079377724",
         // male: 2,
         // female: 1,
@@ -183,6 +190,17 @@ export function FirebaseProvider({ children }) {
       pricePerNight,
       popularDestinationsNearby,
       registerTime: Timestamp.now(),
+      airportDistance,
+      busStationDistance,
+      railwayStationDistance,
+    });
+  }
+
+  async function setActiveStatus(id, state) {
+    const activeRef = doc(db, "Homes", id);
+
+    await updateDoc(activeRef, {
+      active: state,
     });
   }
 
@@ -204,8 +222,10 @@ export function FirebaseProvider({ children }) {
     const ratingRef = doc(db, "Homes", id);
     await updateDoc(ratingRef, {
       ratings: arrayUnion({
-         user, stars, addedOn: Timestamp.now()
-         }),
+        user,
+        stars,
+        addedOn: Timestamp.now(),
+      }),
     });
   }
 
@@ -228,7 +248,7 @@ export function FirebaseProvider({ children }) {
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     // homeStayId = "wdFQ8rBHcAYaPzelHNb3";
     // userName = "Shivang";
-    // userPhone = "9079377724";
+    // userPhone = "9259905738";
     // HomestayName = "maatoshri"
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
@@ -364,66 +384,57 @@ export function FirebaseProvider({ children }) {
     }
   }
 
+  async function checkHomeInDb() {
+    const user = getUserCookies();
+    if (user) {
+      const history = await getDoc(
+        doc(db, "historyHomestay", user.details.email)
+      );
+      if (history) {
+        return history.data();
+      }
+      return false;
+    }
+    return false;
+  }
   async function getHomeHistory(homes, checkIn, checkOut) {
-    
-    const final = await homes.map(async val=>{
-
-      console.log(val.host.email)
-      const history = await getDoc(doc(db, "historyHomestay",val.host.email));
+    const final = await homes.map(async (val) => {
+      console.log(val.host.email);
+      const history = await getDoc(doc(db, "historyHomestay", val.host.email));
       const his = history.data();
       let booked_guests = 0;
-      if(history.length>0){
-      const current_bookings = his.current;
-      current_bookings.map(booking => {
-       
-        if (((booking.checkInTime.seconds >= checkIn && booking.checkInTime.seconds <= checkOut)) ||
-          (booking.checkOutTime / 1000 <= checkOut && booking.checkOutTime / 1000 >= checkIn) || (booking.checkOutTime / 1000 >= checkOut && booking.checkInTime<=checkIn)) {
-          booked_guests += booking.peopleCount;
-        }
-  
-      })
-    
-    }
-    return await {...val, booked_guests};
-
-    })   
-   let abc = await Promise.all(final)      
+      if (history.length > 0) {
+        const current_bookings = his.current;
+        current_bookings.map((booking) => {
+          if (
+            (booking.checkInTime.seconds >= checkIn &&
+              booking.checkInTime.seconds <= checkOut) ||
+            (booking.checkOutTime / 1000 <= checkOut &&
+              booking.checkOutTime / 1000 >= checkIn) ||
+            (booking.checkOutTime / 1000 >= checkOut &&
+              booking.checkInTime <= checkIn)
+          ) {
+            booked_guests += booking.peopleCount;
+          }
+        });
+      }
+      return await { ...val, booked_guests };
+    });
+    let abc = await Promise.all(final);
     return abc;
-
-    
   }
 
   async function getUserHistory() {
-    onAuthStateChanged(auth, async (user) => {
-      const history = await getDoc(doc(db, "historyUser", user.email));
-      return history.data();
-    })
-  }
-
-  async function sendEmail(emailUser, emailOwner) {
-    const message = {
-      to: `${tourist.name} <${emailUser}>`,
-      from: `${homestay.name} <${emailOwner}>`,
-      subject: `${homestay.name} has confirmed your booking`,
-    };
-    client.send(message, (err, info) => {
-      console.log(err || info);
-    });
-  }
-
-  async function getUserFromCookie() {
-    const cookie = Cookies.get("auth");
-    if (!cookie) {
-      return;
+    const user = getUserCookies();
+    if (user) {
+      const history = await getDoc(doc(db, "historyUser", user.details.email));
+      if (history) {
+        return history.data();
+      }
+      return false;
     }
-    return JSON.parse(cookie);
+    return false;
   }
-
-  async function setUserCookie(user) {
-    Cookies.set("auth", JSON.stringify(user), { expires: 10 });
-  }
-
-  const removeUserCookie = () => Cookies.remove("auth");
 
   function useAuth() {
     const [authState, setAuthState] = useState({
@@ -440,146 +451,109 @@ export function FirebaseProvider({ children }) {
       });
       return () => unregisterAuthObserver();
     }, []);
-    return { ...authState };
+    return { auth, ...authState };
   }
-
-  async function useReadTourist() {
-    const [tourist, setTourist] = useState({
-      name: "",
-      phoneNum: "",
-      email: "",
-    });
-    useEffect(() => {
-      const reader = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          try {
-            firebase
-              .firestore()
-              .collection("Tourist")
-              .doc(user.email)
-              .get()
-              .then((doc) => {
-                setTourist({
-                  name: doc.data().name,
-                  phoneNum: doc.data().phoneNum,
-                  email: user.email,
-                });
-              });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      });
-      return () => reader();
-    }, []);
-    return { ...tourist };
-  }
-
-  async function useReadHomeStay() {
-    const [homeStay, setHomeStay] = useState({
-      name: "",
-      phoneNum: "",
-      address: "",
-      price: "",
-      description: "",
-      image: "",
-      email: "",
-    });
-    useEffect(() => {
-      const reader = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          try {
-            firebase
-              .firestore()
-              .collection("HomeStay")
-              .doc(user.email)
-              .get()
-              .then((doc) => {
-                setHomeStay({
-                  name: doc.data().name,
-                  phoneNum: doc.data().phoneNum,
-                  address: doc.data().address,
-                  price: doc.data().price,
-                  description: doc.data().description,
-                  image: doc.data().image,
-                  email: user.email,
-                });
-              });
-          } catch (error) {
-            console.log(error);
-          }
-        }
-      });
-      return () => reader();
-    }, []);
-  }
-
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({
-    prompt: "select_account",
-    auth_type: "reauthenticate",
-  });
 
   async function signIn() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        const user = result.user;
-        // console.log(token, user);
-      })
-      .catch((err) => {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        const email = err.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(err);
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: "select_account",
+        auth_type: "reauthenticate",
       });
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const userData = mapUserData(user);
-        setUserCookie(userData);
-      }
-    });
-  }
-  async function sendMail() {
-    transporter.sendMail(message, function (err, info) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(info);
-      }
-    });
+      setPersistence(auth, inMemoryPersistence);
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      console.log("result: ", result);
+      Cookies.set(
+        "user",
+        JSON.stringify({
+          token: token,
+          email: result.user.email,
+          name: result.user.displayName,
+          photo: result.user.photoURL,
+          number: result.user.phoneNumber,
+        }),
+        { expires: 7 }
+      );
+      window.location = window.location.pathname;
+    } catch (error) {
+      console.log(error.code, error.message);
+    }
   }
 
-  async function signOut() {
-    signOut(auth)
-      .then(() => {
-        removeUserCookie();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  async function sendMail(
+    homestay_name,
+    to_email,
+    to_name,
+    message,
+    subject,
+    greetings
+  ) {
+    var template_params = {
+      homestay_name: homestay_name,
+      to_email: to_email,
+      message: message,
+      to_name: to_name,
+      subject: subject,
+      greetings: greetings,
+    };
+    emailjs
+      .send(
+        "service_mx4lksw",
+        "template_60qfdkn",
+        template_params,
+        "JSUCvQi3lkcl1ScoG"
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      );
+  }
+
+  function checkUserCookies() {
+    const user = Cookies.get("user");
+    if (user) {
+      return true;
+    }
+    return false;
+  }
+  function getUserCookies() {
+    const user = Cookies.get("user");
+    if (user) {
+      const details = JSON.parse(user);
+      return { details };
+    }
+    return false;
+  }
+
+  function signOut() {
+    Cookies.remove("user", { expires: 7 });
+    window.location = window.location.pathname;
   }
 
   const value = {
     UpdateStateHomestay,
     addHomestay,
+    setActiveStatus,
     addComment,
     addRating,
     bookHomestay,
     cancelBooking,
     getHomeHistory,
     getUserHistory,
-    sendEmail,
-    getUserFromCookie,
-    setUserCookie,
-    removeUserCookie,
     useAuth,
-    useReadTourist,
-    useReadHomeStay,
     signIn,
-    signOut,
     sendMail,
+    checkUserCookies,
+    getUserCookies,
+    checkHomeInDb,
+    signOut
   };
 
   return (

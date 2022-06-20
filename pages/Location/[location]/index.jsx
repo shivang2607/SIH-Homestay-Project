@@ -1,72 +1,70 @@
-import React, { useEffect, useState } from 'react'
-import Card from '../../../components/Card';
-import { useRouter } from 'next/router'
+import React, { useEffect, useState } from "react";
+import Card from "../../../components/Card";
+import { useRouter } from "next/router";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../../firebase/initFirebase";
-import { addDoc, setDoc, getDoc, collection, Timestamp, serverTimestamp, query, where, doc, deleteDoc, getDocs, onSnapshot, arrayUnion, updateDoc, runTransaction, arrayRemove, } from "firebase/firestore";
-import { useFirebase } from '../../../context/firebaseContext';
-import HomeStay from '../../../components/homestay';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Link from 'next/link';
 
-// console.log(getHomeHistory)
-
-
-
+import {
+  addDoc,
+  setDoc,
+  getDoc,
+  collection,
+  Timestamp,
+  serverTimestamp,
+  query,
+  where,
+  doc,
+  deleteDoc,
+  getDocs,
+  onSnapshot,
+  arrayUnion,
+  updateDoc,
+  runTransaction,
+  arrayRemove,
+} from "firebase/firestore";
+import { useFirebase } from "../../../context/firebaseContext";
+import HomeStay from "../../../components/homestay";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Link from "next/link";
+import { MdMargin } from "react-icons/md";
 
 const Location = ({ homes }) => {
-
-  const { getHomeHistory } = useFirebase()
   const router = useRouter();
   const { location, checkIn, checkOut, guests } = router.query;
-  const [cacheHomes, setCacheHomes] = useState({})
-  const [homeList, setHomesList] = useState([])
-  const [page, setPage] = useState(1)
-  const [homeListPage, setHomesListPage] = useState([])
-  const [count, setCount] = useState(2)
-  const [more, setMore] = useState(true)
+  const [cacheHomes, setCacheHomes] = useState({});
+  const [homeList, setHomesList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [homeListPage, setHomesListPage] = useState([]);
+  const [count, setCount] = useState(2);
+  const [more, setMore] = useState(true);
   // console.log("finally chal gya yeh ",homeList)
   useEffect(() => {
-
     const res = async () => {
-      const H = await getHomeHistory(JSON.parse(homes), checkIn, checkOut)
-      console.log(JSON.parse(homes).length)
-      setHomesList(H)
-      setHomesListPage(H.slice(0, 2))
-      setMore(true)
-      H.map(ghar => {
-        localStorage.setItem(ghar.docid, JSON.stringify(ghar))
-      })
-    }
-    res()
+      setHomesList(JSON.parse(homes));
+      setHomesListPage(JSON.parse(homes).slice(0, 2));
+      setMore(true);
+    };
+    res();
+  }, []);
 
-  }, [])
-
-  console.log("this is the lenght", homeList)
-
+  console.log("this is the lenght", homeList);
 
   const fetchMoreData = () => {
-
-    console.log("Home list page", homeListPage)
+    console.log("Home list page", homeListPage);
 
     if (homeListPage.length >= homeList.length) {
-      setMore(false)
+      setMore(false);
       return;
     }
-    setHomesListPage(prev => prev.concat(homeList.slice(count, count + 2)));
+    setHomesListPage((prev) => prev.concat(homeList.slice(count, count + 2)));
 
-    setCount(count => count + 2);
-
-
-  }
-
+    setCount((count) => count + 2);
+  };
 
   var sum_star = 0;
 
-
   return (
     <>
-
       <div>
         <InfiniteScroll
           dataLength={homeListPage.length}
@@ -74,27 +72,30 @@ const Location = ({ homes }) => {
           hasMore={more}
           loader={<h4>Loading...</h4>}
           endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b> You have seen it all, ab chup chaap book krle koi bhi ghar !!</b>
-            </p>
+            <div style={{ textAlign: "center" ,display:'flex',justifyContent: 'center' }}>
+              <div style={{display: "flex" , margin: '1rem' , backgroundColor:'teal' , color:'white' , fontSize :'larger', fontWeight : '800' , borderRadius : '15px' , width:'40vw',justifyContent:'center' ,height :'5rem',alignItems:'center'}}>
+              
+                {" "}
+                
+                  YOU HAVE REACHED THE END!!
+              
+              </div>
+            </div>
           }
-
         >
-
-
-          {homeListPage.map(home => {
-            const { booked_guests } = home
+          {homeListPage.map((home) => {
+            const { booked_guests } = home;
             // console.table("This is my Home", home.ratings)
-            home.ratings.map(rating => {
+            home.ratings.map((rating) => {
               sum_star = sum_star + rating.stars;
-            })
+            });
 
-
-
-            return <Card
-            //  <Link href = {`/Location/${location}/${home.docid}`} > <a target="_blank">
-                // onClick={() => router.push(`/Location/${location}/${home.docid}`)}
+            return (
+              <Card
                 src={home.URLS[1]}
+                checkIn={checkIn}
+                checkOut={checkOut}
+                guests={guests}
                 locate={location}
                 docid={home.docid}
                 title={home.homestayName}
@@ -107,53 +108,35 @@ const Location = ({ homes }) => {
                 rating={sum_star}
                 length_ratings={home.ratings.length}
               />
-            {/* </a></Link> */}
+            );
+            {
+            
+            }
           })}
-
-      </InfiniteScroll>
-      {/* <Card
-          src="https://media.nomadicmatt.com/2018/apartment.jpg"
-          title="1 Bedroom apartment 1"
-          location="Durgapura | 4.4 km from Jaipur Airport"
-          description="Superhost with great amenities and a fabolous shopping complex nearby"
-          price="£70/night"
-        />
-        <Card
-          src="https://media.nomadicmatt.com/2018/apartment.jpg"
-          title="1 Bedroom apartment 2"
-          location="Durgapura | 4.4 km from Jaipur Airport"
-          description="Superhost with great amenities and a fabolous shopping complex nearby"
-          price="£70/night"
-        /> */}
-    </div>
-
+        </InfiniteScroll>
+        
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Location
+export default Location;
 
 export async function getServerSideProps(context) {
-
-
   let homes = [];
-  const q = query(collection(db, "Homes"), where("city", "==", context.params.location), where("active", "==", true));
-  // ,where("activestate","==","true")
+  const q = query(
+    collection(db, "Homes"),
+    where("city", "==", context.params.location),
+    where("active", "==", true)
+  );
   const querySnapshot = await getDocs(q);
-
   querySnapshot.forEach(async (Doc) => {
-
-    homes.push((Object.assign(Doc.data(), { "docid": Doc.id })))
-
+    homes.push(Object.assign(Doc.data(), { docid: Doc.id }));
   });
 
-
-  homes = JSON.stringify(homes)
-
-
-
+  homes = JSON.stringify(homes);
 
   return {
     props: { homes },
-  }
+  };
 }
