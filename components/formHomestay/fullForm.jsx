@@ -55,7 +55,7 @@ export const HomestayForm = () => {
   }
 
   const onSubmit = async (data) =>{
-    console.log(tConvert(time[0])+" to "+tConvert(time[1]))
+   // console.log(data.images)
     
     if(activeStep === steps.length-1){
 

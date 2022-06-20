@@ -197,6 +197,9 @@ function Step2(props) {
           </div>
         </fieldset>
 
+<fieldset className={`${styles.features} row border p-4 my-3 mx-1 `}>
+          <legend>Rules</legend>
+
         {fields.map((field, index) => (
           <div key={index} className= {`${styles.rules} form-group  my-2 mx-1`}>
             <div className={styles.rulesText}>
@@ -233,6 +236,8 @@ function Step2(props) {
           </div>
         ))}
 
+
+
         <button
           type="button"
           className="btn mr-2 "
@@ -240,6 +245,7 @@ function Step2(props) {
         >
          <MdAddBox color="blue" size={70}/>
         </button>
+        </fieldset>
       </div>
     </div>
   );

@@ -299,8 +299,7 @@ function Step3(props) {
 
               
                
-               {
-                
+               {               
                 let validimage =true
                 Array.prototype.forEach.call(value, (el) => {
                     const fileType = el.type;
@@ -312,9 +311,28 @@ function Step3(props) {
                     return `Please upload a image of format ${fileTypes2}`
                   }
                 }
-                 
-                
 
+                {
+                  let validimage =true
+                Array.prototype.forEach.call(value, (el) => {
+                   
+                    if (el.size>8000000) {
+                     validimage=false
+                    }
+                  });
+                  if(!validimage){
+                    return `Size of image is greater than 8mb`
+                  }
+
+                }
+                {
+                  // console.log(value.length,"fjfkj")
+                  let validimage =true
+                  if(value.length<3){
+                    return `Please Upload Minimum 3 Photos of your house`
+                  }
+                }
+                 
                
               },
             })}
