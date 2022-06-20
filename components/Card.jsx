@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from '../styles/Card.module.css'
 import { useRouter } from 'next/router'
-import { BiRupee } from 'react-icons/bi';
 import { Badge } from '@chakra-ui/react';
-import { Link } from '@chakra-ui/react'
 import Image from 'next/image'
 
 function Card({ src, title, location, description, price, locate, docid, state, city, Rules,rating,length_ratings, checkIn, checkOut, guests }) {

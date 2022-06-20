@@ -34,7 +34,6 @@ const HomestayId = ({ data }) => {
 
   return (
     <div>
-      {console.log(homeDetails)}
       {homeDetails && (
         <HomeStay details={homeDetails} homestayId={homestayId} />
       )}
@@ -45,17 +44,14 @@ const HomestayId = ({ data }) => {
 export default HomestayId;
 
 export async function getServerSideProps(context) {
-  console.log(context.query);
   const { homestayId, checkIn, checkOut } = context.query;
 
   const docRef = doc(db, "Homes", homestayId);
   const docSnap = await getDoc(docRef);
   let data;
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     data = docSnap.data();
   } else {
-    // doc.data() will be undefined in this case
     console.log("No such document!");
   }
 
@@ -65,11 +61,6 @@ export async function getServerSideProps(context) {
   if (history.exists()) {
     const current_bookings = his.current;
     current_bookings.map((booking) => {
-      console.log(
-        "ye h booking ka checkin time",
-        booking.checkInTime.seconds,
-        checkOut
-      );
       if (
         (booking.checkInTime.seconds >= checkIn &&
           booking.checkInTime.seconds <= checkOut) ||
@@ -84,7 +75,6 @@ export async function getServerSideProps(context) {
   }
   data = { ...data, booked_guests };
 
-  // console.log("ye booked guests vaala data", data);
   data = JSON.stringify(data);
   return {
     props: { data },

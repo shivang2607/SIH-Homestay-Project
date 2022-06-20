@@ -10,13 +10,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Textarea } from '@chakra-ui/react'
 import { useState } from 'react';
-import Reviewstars from "../components/star";
 import { Badge } from '@chakra-ui/react';
 import newPlaces from '../components/items'
-import { Button, ButtonGroup } from '@chakra-ui/react'
-import { Container, Row, Col } from "react-bootstrap";
+import { Button } from '@chakra-ui/react'
 import { v4 } from "uuid";
 import Image from 'next/image'
+import Reviewstars from './star';
 // import styles from "../styles/stars.module.css"
 import ReactTimeAgo from 'react-time-ago'
 import { useRouter } from 'next/router'
@@ -52,21 +51,14 @@ function HomeStay({ details, homestayId }) {
     const [head, setHead] = useState("")
     const [guest, setGuest] = useState(1)
     const router = useRouter()
-    const { checkIn, checkOut, guests, homestayId1, location } = router.query
-    // const [cityname, setCityName] = useState("")
-    // const [disname, setDisName] = useState("")
-    // const [statename, setStateName] = useState("")
-    
-    var checkin_date =new Date(checkIn * 1000)
-    console.log("this is my checkin date",checkin_date)
-    console.log("jim checkin date",startDate)
-    console.log("this is homestay id ",homestayId)
-    
-    var checkout_date =new Date(checkOut * 1000)
-    console.log("this is my checkout date",checkout_date)
-    
+    const { checkIn, checkOut, guests, location } = router.query
 
-    const { addComment, addRating, useAuth, bookHomestay, sendMail , checkUserCookies,signIn } = useFirebase();
+    var checkin_date = new Date(checkIn * 1000)
+
+    var checkout_date = new Date(checkOut * 1000)
+
+
+    const { addComment, addRating, useAuth, bookHomestay, sendMail, checkUserCookies, signIn } = useFirebase();
     const { user } = useAuth();
     const [stopDate, setStopDate] = useState(checkout_date)
     const [startDate, setStartDate] = useState(checkin_date)
@@ -77,23 +69,21 @@ function HomeStay({ details, homestayId }) {
     const [disname, setDisName] = useState("")
     const [statename, setStateName] = useState("")
 
-    
-    
-    console.log(router.query)
+
+
+
     const handleOnSearch = (string, results) => {
-        // onSearch will have as the first callback parameter
-        // the string searched and for the second the results.
         console.log(string, results)
     }
 
     const handleOnHover = (result) => {
-        // the item hovered
+
         console.log(result)
     }
 
     const handleOnSelect = (item) => {
-        // the item selected
-        console.log("this is the item",item)
+
+        console.log("this is the item", item)
         setCityName(item.City);
         setStateName(item.State);
         setDisName(item.District)
@@ -107,15 +97,6 @@ function HomeStay({ details, homestayId }) {
         console.log('Focused')
     }
 
-    // const formatResult = (item) => {
-    //     return (
-    //         <>
-
-    //             <span style={{ display: 'block', textAlign: 'left' }}>{item.cityState}</span>
-
-    //         </>
-    //     )
-    // }
 
 
 
@@ -143,16 +124,16 @@ function HomeStay({ details, homestayId }) {
     }
 
     function getGuests(val) {
-        if(val.target.value > 15){
+        if (val.target.value > 15) {
             setGuest(15)
         }
-        else if( val.target.value < 1){
-            setGuest(1)   
+        else if (val.target.value < 1) {
+            setGuest(1)
         }
-        else{
+        else {
             setGuest(val.target.value)
         }
-        
+
 
 
     }
@@ -179,30 +160,15 @@ function HomeStay({ details, homestayId }) {
 
     }
     var old_checkin_Date = checkin_date
-     checkin_date = checkin_date.getDate() + "/"+checkin_date.getMonth()+"/"+checkin_date.getFullYear()
-     var old_checkout_Date= checkout_date
-checkout_date = checkout_date.getDate() + "/"+checkout_date.getMonth()+"/"+checkout_date.getFullYear()
+    checkin_date = checkin_date.getDate() + "/" + checkin_date.getMonth() + "/" + checkin_date.getFullYear()
+    var old_checkout_Date = checkout_date
+    checkout_date = checkout_date.getDate() + "/" + checkout_date.getMonth() + "/" + checkout_date.getFullYear()
 
-var diffrecnedate = new Date(old_checkout_Date - old_checkin_Date).getDate() - 1
-var price = diffrecnedate * details.pricePerNight;
-    // var diffrecnedate = new Date(stopDate - startDate).getDate() - 1
-    // var price = diffrecnedate * details.pricePerNight;
-    // var checkIn_date = new Date(checkIn * 1000);
-    // var old_checkin_Date = checkin_date
-    //  checkin_date = checkin_date.getDate() + "/"+checkin_date.getMonth()+"/"+checkin_date.getFullYear()
-// console.log("this is the chekcin date",checkin_date)
-//  checkin_date = checkin_date.toLocaleDateString("en-US")
-// var checkout_date =new Date(checkOut * 1000)
-// var old_checkout_Date= checkout_date
-// checkout_date = checkout_date.getDate() + "/"+checkout_date.getMonth()+"/"+checkout_date.getFullYear()
-// console.log("this is the chekcout date",checkout_date)
+    var diffrecnedate = new Date(old_checkout_Date - old_checkin_Date).getDate() - 1
+    var price = diffrecnedate * details.pricePerNight;
 
     async function booknow(e) {
         e.preventDefault();
-        //     emailUser, 
-
-
-
         console.log("this is the booked guests", details.booked_guests)
         console.log("the owner eamil", details.host.email)
         console.log("the details.docid", details.docid)
@@ -219,18 +185,13 @@ var price = diffrecnedate * details.pricePerNight;
 
         const bookingID = v4();
         await bookHomestay(bookingID, "diksha1.dcmc@gmail.com", details.host.email, homestayId, "diksha singla", details.host.phone, details.homestayName, startDate, stopDate, Number(guest), price, details.city, details.address);
-        // homestay_name,
-        // to_email,
-        // to_name,
-        // message,
-        // subject,
-        // greetings
+
         //to the user
 
-        sendMail(details.homestayName,user.email,user.name,`<p>Your booking of  ${details.homestayName}   from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>` , "HOMESTAY BOOKED","Congratulations");
+        sendMail(details.homestayName, user.email, user.name, `<p>Your booking of  ${details.homestayName}   from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>`, "HOMESTAY BOOKED", "Congratulations");
 
-// to the host
-        sendMail(details.homestayName,details.host.email,details.host.name,`<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>` , "HOMESTAY BOOKED","Congratulations");
+        // to the host
+        sendMail(details.homestayName, details.host.email, details.host.name, `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`, "HOMESTAY BOOKED", "Congratulations");
 
     }
 
@@ -238,7 +199,7 @@ var price = diffrecnedate * details.pricePerNight;
 
     var sum_star = 0;
     return (
-        <> {details.host &&
+        <> {details.host ?
             <div>
                 <div>
                     <div className={styles.header_div}>
@@ -253,8 +214,8 @@ var price = diffrecnedate * details.pricePerNight;
                                         border: "none",
                                         opacity: "0.6",
                                         filter: "alpha(opacity=60)",
-                                        backgroundColor:'#000',
-                                        color:"GREY"
+                                        backgroundColor: '#000',
+                                        color: "grey"
                                     }}
                                     items={newPlaces}
                                     placeholder="Enter City/Town"
@@ -264,7 +225,7 @@ var price = diffrecnedate * details.pricePerNight;
                                     onFocus={handleOnFocus}
                                     autoFocus
                                     fuseOptions={{ keys: ["City", "State"] }}
-                                    // formatResult={formatResult}
+
                                     resultStringKeyName="cityState"
                                 />
                             </div>
@@ -276,7 +237,7 @@ var price = diffrecnedate * details.pricePerNight;
 
                                 <input placeholder={
                                     `Guests: ${guests}`}
-                                    className={styles.placeholder_guets} type="number" min="1" 
+                                    className={styles.placeholder_guets} type="number" min="1"
 
                                     onChange={getGuests} />
                             </div>
@@ -301,29 +262,28 @@ var price = diffrecnedate * details.pricePerNight;
 
                             </div>
 
-                           <div className={styles.seacrh_button}>
-                                <Button colorScheme='twitter' fontSize='1.2rem' variant='solid' 
-                                padding='1rem'size='md'
-                                paddingLeft='1.5rem'
-                                paddingRight='1.5rem' marginTop='0.2rem' borderRadius ='3rem'onClick={() => {
-                                    if(cityname != location)
-                                    {
-                                        router.push({
-                                            pathname: '/Location/[location]',
-                                            query: { location: cityname , checkIn: startDate.getTime() /1000, checkOut: stopDate.getTime() /1000, guests: guest }
-                                        })
-                                    }
-                                    else{
-                                        
-                                        console.log("jst chneags the values")
-                                        router.push({
-                                        
-                                            pathname: '/Location/[location]/'+homestayId,
-                                            query: { location: cityname ,checkIn: startDate.getTime()/ 1000, checkOut: stopDate.getTime() / 1000, guests: guest }
-                                        })
-                                    }
-                                    
-                                }}>
+                            <div className={styles.seacrh_button}>
+                                <Button colorScheme='twitter' fontSize='1.2rem' variant='solid'
+                                    padding='1rem' size='md'
+                                    paddingLeft='1.5rem'
+                                    paddingRight='1.5rem' marginTop='0.2rem' borderRadius='3rem' onClick={() => {
+                                        if (cityname != location) {
+                                            router.push({
+                                                pathname: '/Location/[location]',
+                                                query: { location: cityname, checkIn: startDate.getTime() / 1000, checkOut: stopDate.getTime() / 1000, guests: guest }
+                                            })
+                                        }
+                                        else {
+
+                                            console.log("jst chneags the values")
+                                            router.push({
+
+                                                pathname: '/Location/[location]/' + homestayId,
+                                                query: { location: cityname, checkIn: startDate.getTime() / 1000, checkOut: stopDate.getTime() / 1000, guests: guest }
+                                            })
+                                        }
+
+                                    }}>
                                     Search
                                 </Button>
                             </div>
@@ -341,10 +301,7 @@ var price = diffrecnedate * details.pricePerNight;
                             sum_star = sum_star + rating.stars;
                         })
                     }
-                    {/* {console.log(sum_star / details.ratings.length)} */}
-                    {/* {console.log(average_rating)} */}
 
-                    {/* <Reviewstars></Reviewstars> */}
                     <div className={styles.house_title}>
                         <h1>{details.homestayName}</h1>
                         {details.ratings.length != 0 && <div className={styles.rating_icons}> <h4 className={styles.average_Rating}>{sum_star / details.ratings.length}/5</h4></div>}
@@ -355,27 +312,27 @@ var price = diffrecnedate * details.pricePerNight;
                         <div className={styles.gallery_carousel}>
                             {<Carousel className='carousel'>
                                 <Carousel.Item interval={1000}>
-                                   
-                                    <Image src={details.URLS[0]} height={40} width={60}   
+
+                                    <Image src={details.URLS[0]} height={40} width={60}
                                         alt="First slide" layout='responsive' quality={100}
-                                        
-                                       
+
+
                                     />
-                                                                    </Carousel.Item>
+                                </Carousel.Item>
                                 <Carousel.Item interval={500}>
-                                
-                                    <Image src={details.URLS[1]} height={40} width={60}   
+
+                                    <Image src={details.URLS[1]} height={40} width={60}
                                         alt="Second slide" layout='responsive' quality={60}
-                                      
-                                       
+
+
                                     />
                                 </Carousel.Item>
                                 <Carousel.Item>
-                                {/* <div className={styles.img_block}> */}
-                                    <Image  src={details.URLS[2]} height={40} width={60}  
+                                    {/* <div className={styles.img_block}> */}
+                                    <Image src={details.URLS[2]} height={40} width={60}
                                         alt="Third slide" layout='responsive' quality={60}
-                                        
-                                       
+
+
                                     />
                                     {/* </div> */}
                                 </Carousel.Item>
@@ -383,12 +340,12 @@ var price = diffrecnedate * details.pricePerNight;
 
 
                         </div>
-                        {details.URLS && <><div className={styles.gallery_img2}><Image 
-                        height={40} width={60} 
-                        layout='responsive' quality={60} src={details.URLS[0]}  /></div>
-                            <div className={styles.gallery_img3}><Image height={40} width={60} layout='responsive' quality={60} src={details.URLS[1]}  /></div>
-                            <div className={styles.gallery_img4}><Image height={40} width={60} layout='responsive' quality={60} src={details.URLS[2]}  /></div>
-                            <div className={styles.gallery_img5}><Image height={40} width={60} layout='responsive' quality={60} src={details.URLS[1]}  /></div></>}
+                        {details.URLS && <><div className={styles.gallery_img2}><Image
+                            height={40} width={60}
+                            layout='responsive' quality={60} src={details.URLS[0]} /></div>
+                            <div className={styles.gallery_img3}><Image height={40} width={60} layout='responsive' quality={60} src={details.URLS[1]} /></div>
+                            <div className={styles.gallery_img4}><Image height={40} width={60} layout='responsive' quality={60} src={details.URLS[2]} /></div>
+                            <div className={styles.gallery_img5}><Image height={40} width={60} layout='responsive' quality={60} src={details.URLS[1]} /></div></>}
 
                     </div>
                     <div className={styles.small_detials}>
@@ -432,11 +389,11 @@ var price = diffrecnedate * details.pricePerNight;
                                         <p>{checkout_date}</p>
                                     </div>
 
-                                   
+
                                 </div>
 
                             </div>
-                           {!checkUserCookies() ? <div className={styles.reserve_button}>
+                            {checkUserCookies() ? <div className={styles.reserve_button}>
                                 <Button colorScheme='teal' fontSize='1.3rem' variant='solid' size='lg' onClick={booknow}> BOOK NOW </Button>
                             </div> : <div className={styles.reserve_button}>
                                 <Button colorScheme='teal' fontSize='1.3rem' variant='solid' size='lg' onClick={signIn}> SIGN IN TO BOOK NOW</Button>
@@ -476,23 +433,23 @@ var price = diffrecnedate * details.pricePerNight;
 
                     {details.comments.length != 0 && <>  <hr className={styles.line} /> <div>
                         <div className={styles.location_div}>
-                            
-                       
+
+
 
                             <p><MdLocationCity size={30} />
-                            <h4 className={styles.pop_locations}><strong>Popular Locations Nearby</strong></h4>
+                                <h4 className={styles.pop_locations}><strong>Popular Locations Nearby</strong></h4>
                             </p>
-                            
+
                         </div>
                         {details.popularDestinationsNearby.map(comment => {
-                            // console.log("these commet", comment)
+
                             return <div className={styles.popular_container}>
                                 <div className={styles.box}>
                                     <div className={styles.box_top}>
                                         <div className={styles.profile1}>
                                             <div className={styles.comment_user1}>
-                                            <p><MdLocationPin size={25} color="rgb(163, 23, 49)" />
-                                                <strong>{comment.head}</strong></p>
+                                                <p><MdLocationPin size={25} color="rgb(163, 23, 49)" />
+                                                    <strong>{comment.head}</strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -550,7 +507,7 @@ var price = diffrecnedate * details.pricePerNight;
                             <h4 className={styles.user_rating}><strong>User Ratings & Reviews</strong></h4><span>(Based on user ratings and reviews)</span>
                         </div>
                         {details.comments.map(comment => {
-                            // console.log("these commet", comment)
+
                             return <div className={styles.reviews_container}>
                                 <div className={styles.box}>
                                     <div className={styles.box_top}>
@@ -581,25 +538,17 @@ var price = diffrecnedate * details.pricePerNight;
 
                     <div className={styles.add_ratrev}>
                         <div className={styles.add_buttons}>
-                            {/* { checkUserCookies() ? <Button onClick={onEditOpen} colorScheme='teal' fontSize='1.3rem' variant='outline' size='lg'>
-                            ADD RATINGS
-                        </Button> : <Button onClick={onEditOpen} colorScheme='teal' fontSize='1.3rem' variant='outline' size='lg' isDisabled='false'>
-                            ADD RATINGS
-                        </Button>}
-
-                        {checkUserCookies() ?<Button onClick={onOpen} colorScheme='teal' variant='outline' fontSize='1.3rem' size='lg'   >
-                            ADD REVIEWS
-                        </Button> : <Button onClick={onOpen} colorScheme='teal' variant='outline' fontSize='1.3rem' size='lg' isDisabled='false'  >
-                            ADD REVIEWS
-                        </Button>} */}
-
-                            <Button onClick={onEditOpen} colorScheme='teal' fontSize='1.3rem' variant='outline' size='lg'>
+                            {checkUserCookies() ? <Button onClick={onEditOpen} colorScheme='teal' fontSize='1.3rem' variant='outline' size='lg'>
                                 ADD RATINGS
-                            </Button>
-                            <Button onClick={onOpen} colorScheme='teal' variant='outline' fontSize='1.3rem' size='lg'   >
-                                ADD REVIEWS
-                            </Button>
+                            </Button> : <Button onClick={onEditOpen} colorScheme='teal' fontSize='1.3rem' variant='outline' size='lg' isDisabled='false'>
+                                ADD RATINGS
+                            </Button>}
 
+                            {checkUserCookies() ? <Button onClick={onOpen} colorScheme='teal' variant='outline' fontSize='1.3rem' size='lg'   >
+                                ADD REVIEWS
+                            </Button> : <Button onClick={onOpen} colorScheme='teal' variant='outline' fontSize='1.3rem' size='lg' isDisabled='false'  >
+                                ADD REVIEWS
+                            </Button>}
                         </div>
                         <div>
                             <Modal closeOnOverlayClick={false} isOpen={isEditOpen} onClose={onEditClose}>
@@ -706,7 +655,7 @@ var price = diffrecnedate * details.pricePerNight;
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div> : <Reviewstars />}
         </>
     )
 }

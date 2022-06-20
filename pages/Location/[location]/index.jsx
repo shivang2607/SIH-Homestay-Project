@@ -1,43 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../../components/Card";
 import { useRouter } from "next/router";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../../firebase/initFirebase";
+import { db } from "../../../firebase/initFirebase";
 
 import {
-  addDoc,
-  setDoc,
-  getDoc,
+  
   collection,
-  Timestamp,
-  serverTimestamp,
   query,
   where,
-  doc,
-  deleteDoc,
   getDocs,
-  onSnapshot,
-  arrayUnion,
-  updateDoc,
-  runTransaction,
-  arrayRemove,
+  
 } from "firebase/firestore";
-import { useFirebase } from "../../../context/firebaseContext";
-import HomeStay from "../../../components/homestay";
+
+
 import InfiniteScroll from "react-infinite-scroll-component";
-import Link from "next/link";
-import { MdMargin } from "react-icons/md";
+
 
 const Location = ({ homes }) => {
   const router = useRouter();
   const { location, checkIn, checkOut, guests } = router.query;
-  const [cacheHomes, setCacheHomes] = useState({});
   const [homeList, setHomesList] = useState([]);
-  const [page, setPage] = useState(1);
   const [homeListPage, setHomesListPage] = useState([]);
   const [count, setCount] = useState(2);
   const [more, setMore] = useState(true);
-  // console.log("finally chal gya yeh ",homeList)
   useEffect(() => {
     const res = async () => {
       setHomesList(JSON.parse(homes));
@@ -85,7 +70,6 @@ const Location = ({ homes }) => {
         >
           {homeListPage.map((home) => {
             const { booked_guests } = home;
-            // console.table("This is my Home", home.ratings)
             home.ratings.map((rating) => {
               sum_star = sum_star + rating.stars;
             });
