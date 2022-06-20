@@ -20,6 +20,8 @@ function Step3(props) {
     }
   );
 
+  // props.setcity="Agra"
+  // prop
   const [images, setImages] = useState(null);
   const [isValidImage, setIsValidImage] = useState(true);
   
@@ -60,7 +62,7 @@ function Step3(props) {
 
   return (
     
-    <div style={{ borderRadius: "10px" }} className="card mb-5 mt-3 shadow">
+    <div style={{ borderRadius: "10px" }} className= {`${styles.cardbody} card mb-5 mt-3 shadow`}>
       <div className={`${styles.cardhead} card-header p-3 `}>Other Information </div>
       <div className="card-body">
         <fieldset className={`${styles.features} row border p-4 my-4 mx-2 `}>
@@ -90,7 +92,7 @@ function Step3(props) {
               
                 styling={{
                   zIndex: "3",
-                  fontSize: "20px",
+                  fontSize: "1.1rem",
                   borderRadius: "5px",
                   boxShadow: "rgba(190, 182, 182, 0.986) 2px 3px 2px 0px",
                 }}

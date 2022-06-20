@@ -30,7 +30,7 @@ function Step2(props) {
   );
 
   return (
-    <div style={{ borderRadius: "10px" }} className="card mb-5 mt-3 shadow">
+    <div style={{ borderRadius: "10px" }} className= {`${styles.cardbody} card mb-5 mt-3 shadow`}>
       <div className={`${styles.cardhead} card-header p-3 `}>Homestay Info</div>
       <div className="card-body" >
         <div className="row ">
@@ -114,12 +114,12 @@ function Step2(props) {
               clearIcon={null}
               clockAriaLabel="Toggle clock"
               hourAriaLabel="Hour"
-              maxDetail="second"
+            //  maxDetail="minute"
               minuteAriaLabel="Minute"
               nativeInputAriaLabel="Time"
               value={props.time}
               onChange={props.settime}
-              secondAriaLabel="Second"
+              
             />
           </div>
         </div>
@@ -198,8 +198,8 @@ function Step2(props) {
         </fieldset>
 
         {fields.map((field, index) => (
-          <div key={index} className="form-group row my-2 mx-1">
-            <div className="col-md-11">
+          <div key={index} className= {`${styles.rules} form-group  my-2 mx-1`}>
+            <div className={styles.rulesText}>
               <input
                 id={`rules.${index}`}
                 key={field.id}
@@ -220,7 +220,7 @@ function Step2(props) {
               </div>
             )}
 
-            <div className="col-md-1">
+            <div className={styles.rulesDelete}>
               <button
                 type="button"
                 className="btn col "

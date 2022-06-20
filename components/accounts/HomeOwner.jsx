@@ -35,6 +35,7 @@ const HomeOwner = () => {
     petAllowance: false,
     AC: false,
   });
+  const [loading,setLoading]= React.useState(false)
 
   const { setActiveStatus, updateHomestay } = useFirebase();
 
@@ -43,37 +44,48 @@ const HomeOwner = () => {
   //  const [rules,setRules]=React.useState();
 
   React.useEffect(() => {
-    console.log("HHare Kris");
+   // console.log("HHare Kris");
     const email = "shankar@gmail.com";
-    const emailOwner = "shankar@gmail.com";
     const homeRef = collection(db, "Homes");
-    const q = query(homeRef, where("host.email", "==", emailOwner));
+    const q = query(homeRef, where("host.email", "==", email));
+
     getDocs(q).then((querySnapshot) => {
+      if (querySnapshot.empty){
+        setLoading(true)
+    
+    }else{
+      setLoading(false)
       querySnapshot.forEach((doc) => {
         setdataHome(doc.data());
         setDocId(doc.id);
         rules = doc.data().Rules.Rules;
-        dataHome && console.log("heyiughjd ", dataHome);
+       // dataHome && console.log("heyiughjd ", dataHome);
       });
+
+      if (JSON.parse(sessionStorage.getItem(`Owner ${email}`))) {
+        setOwnerHistory(JSON.parse(sessionStorage.getItem(`Owner ${email}`)));
+        //  console.log("from local session storage", OwnerHistory);
+      } else {
+        const docRef = doc(db, "historyHomestay", email);
+        getDoc(docRef).then((docSnap) => {
+          if (docSnap.exists()) {
+  
+            setOwnerHistory(docSnap.data());
+            sessionStorage.setItem(
+              `Owner ${email}`,
+              JSON.stringify(docSnap.data())
+            );
+  
+          } else {
+            // window.alert("No Bookings Yet owener");
+          }
+        });
+        // console.log("from firebase", OwnerHistory);
+      }
+         
+      }
     });
-    if (JSON.parse(sessionStorage.getItem(`Owner ${email}`))) {
-      setOwnerHistory(JSON.parse(sessionStorage.getItem(`Owner ${email}`)));
-      //  console.log("from local session storage", OwnerHistory);
-    } else {
-      const docRef = doc(db, "historyHomestay", email);
-      getDoc(docRef).then((docSnap) => {
-        if (docSnap.exists()) {
-          setOwnerHistory(docSnap.data());
-          sessionStorage.setItem(
-            `Owner ${email}`,
-            JSON.stringify(docSnap.data())
-          );
-        } else {
-          // window.alert("No Bookings Yet owener");
-        }
-      });
-      // console.log("from firebase", OwnerHistory);
-    }
+  
   }, []);
 
   React.useEffect(() => {
@@ -118,12 +130,16 @@ const HomeOwner = () => {
     }));
   }
 
-  function miliToDate(mili) {
-    const date = Date(mili);
-    return date;
+  function miliToDate(time) {
+    const fireBaseTime = new Date(
+      time.seconds * 1000 + time.nanoseconds / 1000000,
+    );
+    const date = fireBaseTime.toDateString();
+    //console.log(fireBaseTime)
+    return fireBaseTime
   }
   function Submit(data) {
-    console.log(data, rules);
+    //console.log(data, rules);
     updateHomestay(
       docId,
       data.description,
@@ -145,8 +161,9 @@ const HomeOwner = () => {
   // ))}
 
   return (
-    <div>
-      {dataHome && console.log("data", OwnerHistory)}
+    <>
+    <div hidden={loading} >
+      {/* {dataHome && console.log("data", OwnerHistory)} */}
       <Tabs
         className={styles.book}
         orientation="vertical"
@@ -161,19 +178,21 @@ const HomeOwner = () => {
         </TabList>
 
         <TabPanels className={`${styles.book}`}>
-          <TabPanel>
+          <TabPanel  >
+
+            <div className={styles.activebutton}>        
             <Switch
               id="active"
               isChecked={active}
               onChange={(e) => {
                 setActive(!active);
               }}
-             className={styles.activeButton}
               size="lg"
-            >
+            ></Switch>
               {active ? "Deactivate Home " : "Activate Home"}
-            </Switch>
-            <div className="card">
+              </div>
+            
+            <div className={`${styles.update} card m-0`} >
               <div className="card-body">
                 <form onSubmit={handleSubmit(Submit)}>
                   {/* <button onClick={reset(dataHome)}>resst</button> */}
@@ -338,6 +357,11 @@ const HomeOwner = () => {
                     </div>
                   </fieldset>
 
+                  <fieldset
+                    className={`${styles.features} row border p-4 my-3 mx-1 `}
+                  >
+                    <legend>Rules</legend>
+
                   {fields.map((field, index) => (
                     <div key={index} className="form-group row my-2 mx-1">
                       <div className="col-md-11">
@@ -384,6 +408,7 @@ const HomeOwner = () => {
                   >
                     <MdAddBox color="blue" size={70} />
                   </button>
+                  </fieldset>
 
                   {/* {dataHome.Rules?.Rules.map((rule)=>
         {
@@ -395,7 +420,7 @@ const HomeOwner = () => {
 
                   <button
                     type="submit"
-                    className="form--submit btn-primary px-3 py-2 "
+                    className= {`${styles.submit} form--submit`}                   
                   >
                     Update
                   </button>
@@ -403,13 +428,14 @@ const HomeOwner = () => {
               </div>
             </div>
           </TabPanel>
-          <TabPanel>
-            <div className={` ${styles.current}`}>
+
+          <TabPanel className={` ${styles.current}`}>
+            <div >
               <div style={{ justifyContent: "center" }}>
-                {OwnerHistory.current &&
+                {OwnerHistory.current?
                   OwnerHistory.current.map((currentBook) => {
                     return (
-                      <Card className={`${styles.card}`}>
+                      <Card className={`${styles.card}`} key={currentBook.bookingID}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{currentBook.userName} </h3>
@@ -431,29 +457,35 @@ const HomeOwner = () => {
                             </h2>
                           </div>
 
+                        
                           <div className={`${styles.date}`}>
-                            <span>Check In Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check In Date: </span> <div className={`${styles.datetag}`}>{miliToDate(currentBook.checkInTime).toDateString()}</div>
+                               
                           </div>
                           <div className={`${styles.date}`}>
-                            <span>Check Out Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check Out Date: </span> <div className={`${styles.datetag}`}>{miliToDate(currentBook.checkOutTime).toDateString()}
+                               </div>
                           </div>
 
+                          <div className={`${styles.date}`}>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(currentBook.bookedAt).toDateString()}</div>
+                          </div>
                           {/* <button className={`mt-5 ${styles.btn}`}  ><TiCancel color="white" size={25}/>Cancel Booking</button> */}
                         </Card.Body>
                       </Card>
                     );
-                  })}
+                  }): <div className={styles.nodata}></div>}
               </div>
             </div>
           </TabPanel>
 
-          <TabPanel>
-            <div className={` ${styles.current}`}>
+          <TabPanel className={` ${styles.current}`}>
+            <div >
               <div style={{ justifyContent: "center" }}>
-                {OwnerHistory.past &&
+                {OwnerHistory.past?
                   OwnerHistory.past.map((pastBook) => {
                     return (
-                      <Card className={`${styles.card}`}>
+                      <Card className={`${styles.card}`} key={pastBook.bookingID}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{pastBook.userName} </h3>
@@ -474,26 +506,33 @@ const HomeOwner = () => {
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span>Check In Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check In Date: </span> <div className={`${styles.datetag}`}>{miliToDate(pastBook.checkInTime).toDateString()}</div>
+                               
                           </div>
                           <div className={`${styles.date}`}>
-                            <span>Check Out Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check Out Date: </span> <div className={`${styles.datetag}`}>{miliToDate(pastBook.checkOutTime).toDateString()}
+                               </div>
                           </div>
+
+                          <div className={`${styles.date}`}>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(pastBook.bookedAt).toDateString()}</div>
+                          </div>
+
                         </Card.Body>
                       </Card>
                     );
-                  })}
+                  }): <div className={styles.nodata}></div>}
               </div>
             </div>
           </TabPanel>
 
-          <TabPanel>
-            <div className={` ${styles.current}`}>
+          <TabPanel className={`${styles.current}`}>
+            <div >
               <div style={{ justifyContent: "center" }}>
-                {OwnerHistory.cancelled &&
+                {OwnerHistory.cancelled?
                   OwnerHistory.cancelled.map((cancelledBook) => {
                     return (
-                      <Card className={`${styles.card}`}>
+                      <Card className={`${styles.card}`} key={cancelledBook.bookingID}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{cancelledBook.userName} </h3>
@@ -509,30 +548,37 @@ const HomeOwner = () => {
                               <div className={`${styles.subpricetag}`}>
                                 (
                                 {cancelledBook.TotalRent /
-                                  cancelledook.peopleCount}{" "}
+                                  cancelledBook.peopleCount}{" "}
                                 / head)
                               </div>
                             </h2>
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span>
-                              Check In Date: {miliToDate(1653979476708)}{" "}
-                            </span>
+                            <span className={`${styles.dateLabel}`}>Check In Date: </span> <div className={`${styles.datetag}`}>{miliToDate(cancelledBook.checkInTime).toDateString()}</div>
+                               
                           </div>
                           <div className={`${styles.date}`}>
-                            <span>Check Out Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check Out Date: </span> <div className={`${styles.datetag}`}>{miliToDate(cancelledBook.checkOutTime).toDateString()}
+                               </div>
                           </div>
+
+                          <div className={`${styles.date}`}>
+                            <span className={`${styles.dateLabel}`}>Cancelled On: </span><div className={`${styles.datetag}`}>{miliToDate(cancelledBook.cancelledAt).toDateString()}</div>
+                          </div>
+
                         </Card.Body>
                       </Card>
                     );
-                  })}
-              </div>{" "}
+                  }): <div className={styles.nodata}></div>}
+              </div>
             </div>
           </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
+    <div hidden={!loading} className={styles.nodata}></div>
+    </>
   );
 };
 

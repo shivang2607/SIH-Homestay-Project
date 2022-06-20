@@ -1,11 +1,7 @@
-.step1 label {
-  font-size: 12px;
-  font: bold;
+.cardbody {
+  background-color: ghostwhite;
 }
-.step1 legend {
-  font-size: x-large;
-  font: bold;
-}
+
 
 .timerange {
   display: flex;
@@ -13,6 +9,24 @@
   /* padding: 20px; */
   margin-top: 2rem;
   width: 50%;
+  background-color: white;
+}
+
+.rules{
+  display:flex;
+justify-content: center
+
+}
+
+.rulesText{
+  display:flex;
+  width: 53vw;
+ 
+}
+
+.rulesDelete{
+  display:flex;
+  padding: none;
 }
 
 .textfield {
@@ -74,4 +88,29 @@
 
 .features {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.stepper{
+  font-weight: 800 !important;
+  font-size: xx-large !important;
+}
+
+
+@media (max-width: 1000px){
+  .form{
+width: 90vw;
+  }
+  .textfield{
+    font-size: 1rem;
+    padding: 5px;
+  }
+.familydetails{
+  display: flex;
+  flex-direction: column;
+}
+
+.rulesText{
+  width: 63vw;
+}
+
 }

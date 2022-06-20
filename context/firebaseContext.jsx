@@ -306,45 +306,47 @@ export function FirebaseProvider({ children }) {
   }
 
   async function cancelBooking(
+    bookingID,
     emailUser,
     emailOwner,
     homeStayId,
     userName,
-    userPhone,
     HomestayName,
     checkInTime,
     checkOutTime,
     peopleCount,
     TotalRent,
     Location,
-    Address
+    Address,
+    ownerPhone,
+    bookedAt,
   ) {
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     const historyUserRef = doc(db, "historyUser", emailUser);
-    homeStayId = "wdFQ8rBHcAYaPzelHNb3";
-    userName = "Shivang";
-    userPhone = "9079377724";
-    HomestayName = "maatoshri";
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
         transaction.set(
           historyHomestayRef,
           {
             current: arrayRemove({
-              userName,
-              userPhone,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
-              peopleCount,
-              TotalRent,
+             TotalRent,
+             bookingID,
+             checkInTime,
+             checkOutTime,
+             emailUser,
+             peopleCount,
+             userName,
+             bookedAt,
             }),
             cancelled: arrayUnion({
-              userName,
-              userPhone,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
-              peopleCount,
               TotalRent,
+              bookingID,
+              checkInTime,
+              checkOutTime,
+              emailUser,
+              peopleCount,
+              userName,
+              cancelledAt:Timestamp.now(),
             }),
           },
           { merge: true }
@@ -354,24 +356,33 @@ export function FirebaseProvider({ children }) {
           historyUserRef,
           {
             current: arrayRemove({
-              homeStayId,
-              HomestayName,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
-              Location,
               Address,
-              peopleCount,
+              HomestayName,
+              Location,
               TotalRent,
+              bookedAt,
+              bookingID,
+              checkInTime,
+              checkOutTime,
+              emailOwner,
+              homeStayId,
+              ownerPhone,
+              peopleCount,
+              
             }),
             cancelled: arrayUnion({
-              homeStayId,
-              HomestayName,
-              checkInTime: Timestamp.now(),
-              checkOutTime: Timestamp.now().toMillis(),
-              Location,
               Address,
-              peopleCount,
+              HomestayName,
+              Location,
               TotalRent,
+              bookingID,
+              checkInTime,
+              checkOutTime,
+              emailOwner,
+              homeStayId,
+              ownerPhone,
+              peopleCount,
+             cancelledAt:Timestamp.now(),
             }),
           },
           { merge: true }

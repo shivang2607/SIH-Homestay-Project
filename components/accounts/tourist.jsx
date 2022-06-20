@@ -1,54 +1,121 @@
 import React from "react";
 import { db } from "../../firebase/initFirebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
 import { useFirebase } from "../../context/firebaseContext";
-
+ 
+//email send 
 
 import styles from "../../styles/account.module.css";
+import { async } from "@firebase/util";
 
 const Tourist = () => {
   const [userHistory, setUserHistory] = React.useState([]);
-  const {getUserCookies,cancelBooking} = useFirebase();
+  const {getUserCookies,cancelBooking, sendMail} = useFirebase();
   const cookies= getUserCookies();
+  const [currentId, setCurrentId]= React.useState(null);
+  const [loading,setLoading]= React.useState(false)
   
-console.log("useremail",cookies.details)
+  
+  
+//console.log("useremail",cookies.details)
   React.useEffect(() => {
     const email = "diksha@gmail.com" ;
 
-    if (JSON.parse(sessionStorage.getItem(`tourist ${email}`))) {
-      setUserHistory(JSON.parse(sessionStorage.getItem(`tourist ${email}`)));
-      //console.log("from local session storage", userHistory);
-    } else {
+    // if (JSON.parse(sessionStorage.getItem(`tourist ${email}`))) {
+    //   setUserHistory(JSON.parse(sessionStorage.getItem(`tourist ${email}`)));
+    //   //console.log("from local session storage", userHistory);
+    // }else {
+
       const docRef = doc(db, "historyUser", email);
-      getDoc(docRef).then((docSnap) => {
+      const unsub = onSnapshot(docRef, (docSnap) => {
+        console.log("attached");
         if (docSnap.exists()) {
+          setLoading(false)
           setUserHistory(docSnap.data());
           sessionStorage.setItem(
             `tourist ${email}`,
             JSON.stringify(docSnap.data())
           );
         } else {
-          //window.alert("No Bookings Yet tourist");
+         setLoading(true)
         }
-      });
+    });
+   
+      // getDoc(docRef).then((docSnap) => {
+      //   if (docSnap.exists()) {
+      //     setUserHistory(docSnap.data());
+      //     sessionStorage.setItem(
+      //       `tourist ${email}`,
+      //       JSON.stringify(docSnap.data())
+      //     );
+      //   } else {
+      //     //window.alert("No Bookings Yet tourist");
+      //   }
+      // });
     //  console.log("from firebase",userHistory);
-    }
+  //  }
+
+    return () => {
+      console.log("detached \n hello");
+      unsub();
+  }
   }, []);
 
-  function cancelBooking1(){
-    cancelBooking()
+ async function cancelBooking1( currentbook){
+    const emailUser="diksha@gmail.com";
+    const userName= "diksha singla";
+    const { bookingID,
+      emailOwner,
+      homeStayId,
+      HomestayName,
+      checkInTime,
+      checkOutTime,
+      peopleCount,
+      TotalRent,
+      Location,
+      Address,
+      ownerPhone,bookedAt}= currentbook;
+
+   //  console.log("checkate",miliToDate(checkInTime).toDateString()) 
+
+   await cancelBooking(bookingID,emailUser,emailOwner,homeStayId,userName,HomestayName, miliToDate(checkInTime),miliToDate(checkOutTime),peopleCount,TotalRent,Location,Address,ownerPhone,miliToDate(bookedAt));
+
+   const usermail= "abhaylodhiab11@gmail.com"
+   const greetings="Hope , Your are doing fine"
+   const Homestayname="GrahAshram"
+   const subject = "Booking Cancelled"
+
+   const messageuser =  `<p>As per your request, your booking at ${HomestayName} between the dates  ${miliToDate(checkInTime).toDateString()} to ${miliToDate(checkOutTime).toDateString()} has been successfully cancelled <br/> BookingId: ${bookingID} <br/> Total Rent booked: ${TotalRent} <br/> Number of people: ${peopleCount}. </p>`
+
+   sendMail(Homestayname, usermail,userName, messageuser, subject,greetings);
+
+   const ownermail= "abhaylodhiab11@gmail.com"
+  const messageOwner= `<p>Booking at your Home (With Booking ID : ${bookingID} ) between the dates  ${miliToDate(checkInTime).toDateString()}   to ${miliToDate(checkOutTime).toDateString()}  has been canelled by ${userName} <br/>  Total Rent: ${TotalRent} <br/> Number of people: ${peopleCount}  <br/> <br/> Have a nice day. </p>`
+
+
+   sendMail(Homestayname,ownermail, "Hello Owner of "+HomestayName , messageOwner, subject,greetings);
+
+
+   sessionStorage.clear();
+  // window.location.reload();  
+   
   }
 
-  function miliToDate(mili) {
-    const date = Date(mili);
-    return date;
+  function miliToDate(time) {
+    const fireBaseTime = new Date(
+      time.seconds * 1000 + time.nanoseconds / 1000000,
+    );
+    const date = fireBaseTime.toDateString();
+    //console.log(fireBaseTime)
+    return fireBaseTime
   }
 
   return (
-    <div>
+    <>
+    <div hidden={loading}>
       {userHistory && console.log("user",userHistory)}
       <Tabs
         className={styles.book}
@@ -63,14 +130,14 @@ console.log("useremail",cookies.details)
         </TabList>
 
         <TabPanels className={`${styles.book}`}>
-          <TabPanel>
+          <TabPanel className={` ${styles.current}`} >
             {/* <button className={`mt-5 ${styles.btn}`}onClick={cancelBooking1}>kjuyu</button> */}
-            <div className={` ${styles.current}`}>
+            <div >
               <div style={{ justifyContent: "center" }}>
                 {userHistory.current &&
                   userHistory.current.map((currentBook) => {
                     return (
-                      <Card className={`${styles.card}`}>
+                      <Card className={`${styles.card}`} key={currentBook.bookingID}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{currentBook.HomestayName} </h3>
@@ -90,14 +157,20 @@ console.log("useremail",cookies.details)
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span>Check In Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check In Date: </span> <div className={`${styles.datetag}`}>{miliToDate(currentBook.checkInTime).toDateString()}</div>
+                               
                           </div>
                           <div className={`${styles.date}`}>
-                            <span>Check Out Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check Out Date: </span> <div className={`${styles.datetag}`}>{miliToDate(currentBook.checkOutTime).toDateString()}
+                               </div>
                           </div>
 
-                          <button className={`mt-5 ${styles.btn}`}>
-                            <TiCancel color="white" size={25}  />
+                          <div className={`${styles.date}`}>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(currentBook.bookedAt).toDateString()}</div>
+                          </div>
+
+                          <button className={`mt-5 ${styles.btn}`} onClick={()=>cancelBooking1(currentBook)}>
+                            <TiCancel color="white" size={25}   />
                             Cancel Booking
                           </button>
                         </Card.Body>
@@ -111,10 +184,10 @@ console.log("useremail",cookies.details)
           <TabPanel>
             <div className={` ${styles.current}`}>
               <div style={{ justifyContent: "center" }}>
-                {userHistory.past &&
+                {userHistory.past?
                   userHistory.past.map((pastBook) => {
                     return (
-                      <Card className={`${styles.card}`}>
+                      <Card className={`${styles.card}`} key={pastBook.bookingID}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{pastBook.HomestayName} </h3>
@@ -134,25 +207,34 @@ console.log("useremail",cookies.details)
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span>Check In Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check In Date: </span> <div className={`${styles.datetag}`}>{miliToDate(pastBook.checkInTime).toDateString()}</div>
+                               
                           </div>
                           <div className={`${styles.date}`}>
-                            <span>Check Out Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check Out Date: </span> <div className={`${styles.datetag}`}>{miliToDate(pastBook.checkOutTime).toDateString()}
+                               </div>
                           </div>
+
+                          <div className={`${styles.date}`}>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(pastBook.bookedAt).toDateString()}</div>
+                          </div>
+
                         </Card.Body>
                       </Card>
                     );
-                  })}
+                  }): <div className={styles.nodata}></div>}
               </div>
             </div>
           </TabPanel>
-          <TabPanel>
-            <div className={` ${styles.current}`}>
+          <TabPanel className={` ${styles.current}`}>
+            
+              <div>
               <div style={{ justifyContent: "center" }}>
-                {userHistory.cancelled &&
+                
+                {userHistory.cancelled?
                   userHistory.cancelled.map((cancelledBook) => {
                     return (
-                      <Card className={`${styles.card}`}>
+                      <Card className={`${styles.card}`} key={cancelledBook.bookingID}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{cancelledBook.HomestayName} </h3>
@@ -172,23 +254,31 @@ console.log("useremail",cookies.details)
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span>
-                              Check In Date: {miliToDate(1653979476708)}{" "}
-                            </span>
+                            <span className={`${styles.dateLabel}`}>Check In Date: </span> <div className={`${styles.datetag}`}>{miliToDate(cancelledBook.checkInTime).toDateString()}</div>
+                               
                           </div>
                           <div className={`${styles.date}`}>
-                            <span>Check Out Date: </span>
+                            <span className={`${styles.dateLabel}`}>Check Out Date: </span> <div className={`${styles.datetag}`}>{miliToDate(cancelledBook.checkOutTime).toDateString()}
+                               </div>
                           </div>
+
+                          <div className={`${styles.date}`}>
+                            <span className={`${styles.dateLabel}`}>Cancelled On: </span><div className={`${styles.datetag}`}>{miliToDate(cancelledBook.cancelledAt).toDateString()}</div>
+                          </div>
+
                         </Card.Body>
                       </Card>
                     );
-                  })}
-              </div>{" "}
-            </div>
+                  }): <div className={styles.nodata}></div>}
+                  </div>
+              </div>
+           
           </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
+    <div hidden={!loading} className={styles.nodata}> </div>
+    </>
   );
 };
 

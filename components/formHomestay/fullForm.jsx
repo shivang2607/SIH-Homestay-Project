@@ -1,7 +1,8 @@
 import {  Flex, Heading,Button, Center } from "@chakra-ui/react";
 import Spinner from 'react-bootstrap/Spinner'
 import { Step, Steps, useSteps } from "chakra-ui-steps"
-import { FiClipboard, FiDollarSign, FiUser } from "react-icons/fi" 
+import { FiClipboard, FiDollarSign, FiUser  } from "react-icons/fi" 
+import {ImLocation} from 'react-icons/im'
 import React, {useState} from 'react'
 import Step1 from "./step1"
 import Step2 from "./step2"
@@ -15,9 +16,9 @@ import {
 
 
 const steps = [
-  { label: "Personal Info", icon: FiUser, size: "Large" },
-  { label: "HomeStay Info", icon: FiClipboard, size: "100px" },
-  { label: "Location", icon: FiDollarSign, size: "100px" },
+  { label: "Personal Info", icon: FiUser },
+  { label: "HomeStay Info", icon: FiClipboard },
+  { label: "Location", icon: ImLocation},
 ]
 
 
@@ -25,7 +26,7 @@ export const HomestayForm = () => {
    const {addHomestay}  = useFirebase();
   const [city,setcity] =React.useState('')
   const [state,setstate] =React.useState('')
-  const [time, settime] = useState(['10:00:00', '11:00:00']);
+  const [time, settime] = useState(['6:00', '11:00']);
   const [loading, setLoading] = useState(false)
   const { nextStep, prevStep, activeStep } = useSteps({
     initialStep: 0,
@@ -54,14 +55,14 @@ export const HomestayForm = () => {
   }
 
   const onSubmit = async (data) =>{
-    console.log(tConvert(time[0].slice(0,-3))+" to "+tConvert(time[1].slice(0,-3)))
+    console.log(tConvert(time[0])+" to "+tConvert(time[1]))
     
     if(activeStep === steps.length-1){
 
       console.log(state,Object.assign(data, {city: city}))
        setLoading(true)
      await addHomestay(data.homestayName,data.descript,data.hostName,data.email,data.phone,Number(data.males),Number(data.females),Number(data.children), data.pet,data.alcohol,data.couple,data.tolerrenceNonveg,data.nonVeg,data.rules,
-     tConvert(time[0].slice(0,-3))+" to "+tConvert(time[1].slice(0,-3)),data.ac,city,state,data.address,Number(data.maxAccomodation),Number(data.rent),data.popularDestinations,data.images,Number(data.airportDistance),Number(data.busDistance),Number(data.railwayDistance))
+     tConvert(time[0])+" to "+tConvert(time[1]),data.ac,city,state,data.address,Number(data.maxAccomodation),Number(data.rent),data.popularDestinations,data.images,Number(data.airportDistance),Number(data.busDistance),Number(data.railwayDistance))
       setLoading(false)
     }
     nextStep()
@@ -100,12 +101,14 @@ export const HomestayForm = () => {
     <div className={styles.wholecard}>
        <Center> <Flex flexDir="column" className={`${styles.form} my-5 `}  >
       
-      <Steps activeStep={activeStep} className="mb-4 mt-3" >
+      <Steps activeStep={activeStep} className={ `${styles.stepper} mb-4 mt-3`} >
       
        
-         {steps.map(({ label, icon, size }, index) => (
-          <Step label={label} key={label} icon={icon} size={size}  >        
+         {steps.map(({ label, icon, size}, index) => (
+
+          <Step label={label} key={label} icon={icon}  >        
           </Step>
+
         ))}
 
       </Steps>
