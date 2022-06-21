@@ -1,22 +1,20 @@
 import React from 'react';
 import styles from '../styles/Card.module.css'
 import { useRouter } from 'next/router'
-import { BiRupee } from 'react-icons/bi';
 import { Badge } from '@chakra-ui/react';
-import Link from 'next/link';
 import Image from 'next/image'
 
-function Card({ src, title, location, description, price, locate, docid, state, city, Rules,rating,length_ratings }) {
+function Card({ src, title, location, description, price, locate, docid, state, city, Rules,rating,length_ratings, checkIn, checkOut, guests }) {
     const router = useRouter()
     return (
 
         <div className={styles.card_div}>
-             <a href = {`/Location/${city}/${docid}`} target="_blank">
+             <a href = {`/Location/${city}/${docid}?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`} target="_blank" >
             <div class={styles.container}  >
                 <div class={styles.card_post} >
                     <div class={styles.card_post_img}>
                         {/* <Image  loader ={styles.card_post_img} src={src} alt="" /> */}
-                        <img src={src} alt="" />
+                        <Image src={src} alt="" quality={60} layout='fill' />
                     </div>
                     <div class={styles.card_post_info}>
                         <h1 class={styles.card_post_title}>{title}</h1>

@@ -196,8 +196,8 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-  async function setActiveStatus(docid, state) {
-    const activeRef = doc(db, "Homes", docid);
+  async function setActiveStatus(id, state) {
+    const activeRef = doc(db, "Homes", id);
 
     await updateDoc(activeRef, {
       active: state,
@@ -481,7 +481,7 @@ export function FirebaseProvider({ children }) {
         prompt: "select_account",
         auth_type: "reauthenticate",
       });
-      setPersistence(auth, browserSessionPersistence);
+      setPersistence(auth, inMemoryPersistence);
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
