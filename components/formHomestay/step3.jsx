@@ -20,7 +20,11 @@ function Step3(props) {
     }
   );
 
+  // props.setcity="Agra"
+  // prop
   const [images, setImages] = useState(null);
+  const [isValidImage, setIsValidImage] = useState(true);
+  
 
   const handleOnSearch = (string, results) => {
     // onSearch will have as the first callback parameter
@@ -58,8 +62,8 @@ function Step3(props) {
 
   return (
     
-    <div style={{ borderRadius: "10px" }} className="card mb-5 mt-3 shadow">
-      <div className={`${styles.cardhead} card-header `}>Other Information </div>
+    <div style={{ borderRadius: "10px" }} className= {`${styles.cardbody} card mb-5 mt-3 shadow`}>
+      <div className={`${styles.cardhead} card-header p-3 `}>Other Information </div>
       <div className="card-body">
         <fieldset className={`${styles.features} row border p-4 my-4 mx-2 `}>
           <legend>Address</legend>
@@ -85,9 +89,12 @@ function Step3(props) {
                 resultStringKeyName="cityState"
                 name="cityState"
                 placeholder="Enter your City/Town"
+              
                 styling={{
                   zIndex: "3",
-                  fontSize: "20px",
+                  fontSize: "1.1rem",
+                  borderRadius: "5px",
+                  boxShadow: "rgba(190, 182, 182, 0.986) 2px 3px 2px 0px",
                 }}
               />
             </div>
@@ -287,17 +294,46 @@ function Step3(props) {
             {...register("images", {
               required: "This is required",
               validate: (value) => {
-                const fileTypes = ["image/jpg", "image/jpeg", "image/png"];
-                const fileTypes2 = ["jpg", "jpeg", "png"];
+                const fileTypes = ["image/jpg", "image/jpeg", "image/png","image/webp"];
+                const fileTypes2 = ["jpg", "jpeg", "png","webp"];
 
-                {
-                  Array.prototype.forEach.call(value, (el) => {
+              
+               
+               {               
+                let validimage =true
+                Array.prototype.forEach.call(value, (el) => {
                     const fileType = el.type;
                     if (!fileTypes.includes(fileType)) {
-                      return `Please poload a valid image format. (${fileTypes})`;
+                     validimage=false
                     }
                   });
+                  if(!validimage){
+                    return `Please upload a image of format ${fileTypes2}`
+                  }
                 }
+
+                {
+                  let validimage =true
+                Array.prototype.forEach.call(value, (el) => {
+                   
+                    if (el.size>8000000) {
+                     validimage=false
+                    }
+                  });
+                  if(!validimage){
+                    return `Size of image is greater than 8mb`
+                  }
+
+                }
+                {
+                  // console.log(value.length,"fjfkj")
+                  let validimage =true
+                  if(value.length<3){
+                    return `Please Upload Minimum 3 Photos of your house`
+                  }
+                }
+                 
+               
               },
             })}
           />

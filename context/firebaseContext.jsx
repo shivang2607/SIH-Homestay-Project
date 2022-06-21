@@ -196,8 +196,8 @@ export function FirebaseProvider({ children }) {
     });
   }
 
-  async function setActiveStatus(id, state) {
-    const activeRef = doc(db, "Homes", id);
+  async function setActiveStatus(docid, state) {
+    const activeRef = doc(db, "Homes", docid);
 
     await updateDoc(activeRef, {
       active: state,
@@ -298,47 +298,62 @@ export function FirebaseProvider({ children }) {
     }
   }
 
+
+
+  async function updateHomestay(docid, desc,AC, pricePerNight, nonVeg, alcoholTolerant, coupleFriendly, nonVegTolerant, petAllowance,Rules,openTime){
+      const docref = doc(db, "Homes", docid);
+      await updateDoc(docref, {
+        pricePerNight,
+  Rules:{
+    Rules,
+    nonVeg,alcoholTolerant, coupleFriendly, petAllowance, nonVegTolerant, openTime
+  },
+  desc,AC,
+});
+  }
+
   async function cancelBooking(
+    bookingID,
     emailUser,
     emailOwner,
     homeStayId,
     userName,
-    userPhone,
-    ownerPhone,
     HomestayName,
     checkInTime,
     checkOutTime,
     peopleCount,
     TotalRent,
     Location,
-    Address
+    Address,
+    ownerPhone,
+    bookedAt,
   ) {
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     const historyUserRef = doc(db, "historyUser", emailUser);
-    // homeStayId = "wdFQ8rBHcAYaPzelHNb3";
-    // userName = "Shivang";
-    // userPhone = "9079377724";
-    // HomestayName = "maatoshri";
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
         transaction.set(
           historyHomestayRef,
           {
             current: arrayRemove({
-              userName,
-              userPhone,
-              checkInTime,
-              checkOutTime,
-              peopleCount,
-              TotalRent,
+             TotalRent,
+             bookingID,
+             checkInTime,
+             checkOutTime,
+             emailUser,
+             peopleCount,
+             userName,
+             bookedAt,
             }),
             cancelled: arrayUnion({
-              userName,
-              userPhone,
+              TotalRent,
+              bookingID,
               checkInTime,
               checkOutTime,
+              emailUser,
               peopleCount,
-              TotalRent,
+              userName,
+              cancelledAt:Timestamp.now(),
             }),
           },
           { merge: true }
@@ -348,28 +363,33 @@ export function FirebaseProvider({ children }) {
           historyUserRef,
           {
             current: arrayRemove({
-              homeStayId,
+              Address,
               HomestayName,
+              Location,
+              TotalRent,
+              bookedAt,
+              bookingID,
               checkInTime,
               checkOutTime,
-              Location,
-              Address,
-              peopleCount,
-              TotalRent,
               emailOwner,
+              homeStayId,
               ownerPhone,
+              peopleCount,
+              
             }),
             cancelled: arrayUnion({
-              homeStayId,
+              Address,
               HomestayName,
+              Location,
+              TotalRent,
+              bookingID,
               checkInTime,
               checkOutTime,
-              Location,
-              Address,
-              peopleCount,
-              TotalRent,
               emailOwner,
+              homeStayId,
               ownerPhone,
+              peopleCount,
+             cancelledAt:Timestamp.now(),
             }),
           },
           { merge: true }
@@ -544,6 +564,7 @@ export function FirebaseProvider({ children }) {
     addComment,
     addRating,
     bookHomestay,
+    updateHomestay,
     cancelBooking,
     getHomeHistory,
     getUserHistory,
