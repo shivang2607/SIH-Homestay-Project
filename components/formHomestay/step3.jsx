@@ -294,8 +294,8 @@ function Step3(props) {
             {...register("images", {
               required: "This is required",
               validate: (value) => {
-                const fileTypes = ["image/jpg", "image/jpeg", "image/png"];
-                const fileTypes2 = ["jpg", "jpeg", "png"];
+                const fileTypes = ["image/jpg", "image/jpeg", "image/png","image/webp"];
+                const fileTypes2 = ["jpg", "jpeg", "png","webp"];
 
               
                

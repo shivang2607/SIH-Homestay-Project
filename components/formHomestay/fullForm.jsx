@@ -143,7 +143,8 @@ export const HomestayForm = () => {
           </Button> 
              
            </form>
-         <Center> <h1 hidden={!loading}>Wait Uploading</h1><br></br><Spinner hidden={!loading} animation="border" role="status" ></Spinner></Center>  
+           <Flex px={4} py={4} width="100%" flexDirection="column" className="mb-2 mt-2" height="100vh">
+         <Center> <h1 hidden={!loading}>Wait Uploading</h1><br></br><Spinner hidden={!loading} animation="border" role="status" ></Spinner></Center>  </Flex>
            </FormProvider>   
       )}
     </Flex>

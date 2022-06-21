@@ -104,11 +104,14 @@ function Step2(props) {
             )}
           </div>
 
-          <div className="col-sm-6 col-md-6">
+          <div className={`${styles.timeRangeContainer} col-sm-6 col-md-6`}>
+          <label htmlFor="openTime"  >Open Time</label>
             <TimeRangePicker
               amPmAriaLabel="Select AM/PM"
               className={styles.timerange}
               required={true}
+              id="openTime"
+              name="openTime"
               //wrapperClassName={styles.react-timerange-picker__wrapper}
               clearAriaLabel="Clear value"
               clearIcon={null}
@@ -121,6 +124,7 @@ function Step2(props) {
               onChange={props.settime}
               
             />
+             
           </div>
         </div>
 
@@ -133,7 +137,7 @@ function Step2(props) {
             className={classNames(` ${styles.textfield} form-control`, {
               "is-invalid": errors.descript,
             })}
-            placeholder="Desc"
+            placeholder="Description"
             {...register("descript", {
               required: "This is required",
             })}
