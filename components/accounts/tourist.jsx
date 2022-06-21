@@ -7,7 +7,7 @@ import { TiCancel } from "react-icons/ti";
 import { useFirebase } from "../../context/firebaseContext";
  
 //email send 
-
+import Image from 'next/image'
 import styles from "../../styles/account.module.css";
 import { async } from "@firebase/util";
 
@@ -22,7 +22,7 @@ const Tourist = () => {
   
 //console.log("useremail",cookies.details)
   React.useEffect(() => {
-    const email = "diksha@gmail.com" ;
+    const email = "botfakeq@gmail.com" ;
 
     // if (JSON.parse(sessionStorage.getItem(`tourist ${email}`))) {
     //   setUserHistory(JSON.parse(sessionStorage.getItem(`tourist ${email}`)));
@@ -65,9 +65,10 @@ const Tourist = () => {
   }, []);
 
  async function cancelBooking1( currentbook){
-    const emailUser="diksha@gmail.com";
-    const userName= "diksha singla";
-    const { bookingID,
+    const emailUser="botfakeq@gmail.com";
+    const userName= "fakeq bot";
+    const {
+      bookingId,
       emailOwner,
       homeStayId,
       HomestayName,
@@ -77,26 +78,27 @@ const Tourist = () => {
       TotalRent,
       Location,
       Address,
-      ownerPhone,bookedAt}= currentbook;
+      ownerPhone,
+      bookedAt}= currentbook;
 
    //  console.log("checkate",miliToDate(checkInTime).toDateString()) 
+   console.log("bookingId",bookingId)
+   await cancelBooking(bookingId,emailUser,emailOwner,homeStayId,userName,HomestayName, miliToDate(checkInTime),miliToDate(checkOutTime),peopleCount,TotalRent,Location,Address,ownerPhone,miliToDate(bookedAt));
 
-   await cancelBooking(bookingID,emailUser,emailOwner,homeStayId,userName,HomestayName, miliToDate(checkInTime),miliToDate(checkOutTime),peopleCount,TotalRent,Location,Address,ownerPhone,miliToDate(bookedAt));
+  //  const usermail= "abhaylodhiab11@gmail.com"
+  //  const greetings="Hope , Your are doing fine"
+  //  const Homestayname="GrahAshram"
+  //  const subject = "Booking Cancelled"
 
-   const usermail= "abhaylodhiab11@gmail.com"
-   const greetings="Hope , Your are doing fine"
-   const Homestayname="GrahAshram"
-   const subject = "Booking Cancelled"
+  //  const messageuser =  `<p>As per your request, your booking at ${HomestayName} between the dates  ${miliToDate(checkInTime).toDateString()} to ${miliToDate(checkOutTime).toDateString()} has been successfully cancelled <br/> bookingId: ${bookingId} <br/> Total Rent booked: ${TotalRent} <br/> Number of people: ${peopleCount}. </p>`
 
-   const messageuser =  `<p>As per your request, your booking at ${HomestayName} between the dates  ${miliToDate(checkInTime).toDateString()} to ${miliToDate(checkOutTime).toDateString()} has been successfully cancelled <br/> BookingId: ${bookingID} <br/> Total Rent booked: ${TotalRent} <br/> Number of people: ${peopleCount}. </p>`
+  //  sendMail(Homestayname, usermail,userName, messageuser, subject,greetings);
 
-   sendMail(Homestayname, usermail,userName, messageuser, subject,greetings);
-
-   const ownermail= "abhaylodhiab11@gmail.com"
-  const messageOwner= `<p>Booking at your Home (With Booking ID : ${bookingID} ) between the dates  ${miliToDate(checkInTime).toDateString()}   to ${miliToDate(checkOutTime).toDateString()}  has been canelled by ${userName} <br/>  Total Rent: ${TotalRent} <br/> Number of people: ${peopleCount}  <br/> <br/> Have a nice day. </p>`
+  //  const ownermail= "abhaylodhiab11@gmail.com"
+  // const messageOwner= `<p>Booking at your Home (With Booking ID : ${bookingId} ) between the dates  ${miliToDate(checkInTime).toDateString()}   to ${miliToDate(checkOutTime).toDateString()}  has been canelled by ${userName} <br/>  Total Rent: ${TotalRent} <br/> Number of people: ${peopleCount}  <br/> <br/> Have a nice day. </p>`
 
 
-   sendMail(Homestayname,ownermail, "Hello Owner of "+HomestayName , messageOwner, subject,greetings);
+  //  sendMail(Homestayname,ownermail, "Hello Owner of "+HomestayName , messageOwner, subject,greetings);
 
 
    sessionStorage.clear();
@@ -134,10 +136,10 @@ const Tourist = () => {
             {/* <button className={`mt-5 ${styles.btn}`}onClick={cancelBooking1}>kjuyu</button> */}
             <div >
               <div style={{ justifyContent: "center" }}>
-                {userHistory.current &&
+                {userHistory.current?.length>0?
                   userHistory.current.map((currentBook) => {
                     return (
-                      <Card className={`${styles.card}`} key={currentBook.bookingID}>
+                      <Card className={`${styles.card}`} key={currentBook.bookingId}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{currentBook.HomestayName} </h3>
@@ -166,7 +168,7 @@ const Tourist = () => {
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(currentBook.bookedAt).toDateString()}</div>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.canceltag}`}>{miliToDate(currentBook.bookedAt).toDateString()}</div>
                           </div>
 
                           <button className={`mt-5 ${styles.btn}`} onClick={()=>cancelBooking1(currentBook)}>
@@ -176,7 +178,7 @@ const Tourist = () => {
                         </Card.Body>
                       </Card>
                     );
-                  })}
+                  }): <div ><Image src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div>}
               </div>
             </div>
           </TabPanel>
@@ -184,10 +186,10 @@ const Tourist = () => {
           <TabPanel>
             <div className={` ${styles.current}`}>
               <div style={{ justifyContent: "center" }}>
-                {userHistory.past?
+                {userHistory.past?.length>0?
                   userHistory.past.map((pastBook) => {
                     return (
-                      <Card className={`${styles.card}`} key={pastBook.bookingID}>
+                      <Card className={`${styles.card}`} key={pastBook.bookingId}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{pastBook.HomestayName} </h3>
@@ -216,13 +218,13 @@ const Tourist = () => {
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(pastBook.bookedAt).toDateString()}</div>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.canceltag}`}>{miliToDate(pastBook.bookedAt).toDateString()}</div>
                           </div>
 
                         </Card.Body>
                       </Card>
                     );
-                  }): <div className={styles.nodata}></div>}
+                  }): <div ><Image src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div>}
               </div>
             </div>
           </TabPanel>
@@ -231,10 +233,10 @@ const Tourist = () => {
               <div>
               <div style={{ justifyContent: "center" }}>
                 
-                {userHistory.cancelled?
+                {userHistory.cancelled?.length>0?
                   userHistory.cancelled.map((cancelledBook) => {
                     return (
-                      <Card className={`${styles.card}`} key={cancelledBook.bookingID}>
+                      <Card className={`${styles.card}`} key={cancelledBook.bookingId}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{cancelledBook.HomestayName} </h3>
@@ -262,22 +264,22 @@ const Tourist = () => {
                                </div>
                           </div>
 
-                          <div className={`${styles.date}`}>
-                            <span className={`${styles.dateLabel}`}>Cancelled On: </span><div className={`${styles.datetag}`}>{miliToDate(cancelledBook.cancelledAt).toDateString()}</div>
+                          <div className={`${styles.date} my-5`}>
+                            <span className={`${styles.dateLabel}`}>Cancelled On: </span><div  className={`${styles.canceltag}`}>{miliToDate(cancelledBook.cancelledAt).toDateString()}</div>
                           </div>
 
                         </Card.Body>
                       </Card>
                     );
-                  }): <div className={styles.nodata}></div>}
+                  }):<div ><Image src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div>}
                   </div>
               </div>
            
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </div>
-    <div hidden={!loading} className={styles.nodata}> </div>
+    </div><div  style={{ display: 'flex' , justifyContent: 'center'}}>
+     <Image hidden={!loading} src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div> 
     </>
   );
 };

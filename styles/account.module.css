@@ -67,7 +67,7 @@
      margin: 1rem 1.5rem; 
     
     width: 28rem ;
-    height: 23rem;
+    height: 25rem;
     border-radius:10px;
     justify-self: center;
     border: none;
@@ -118,6 +118,14 @@ color: white;
 border-radius: 5px;
 padding: 5px
 }
+
+.canceltag{
+    background-color: tomato;
+    color: white;
+    border-radius: 5px;
+    padding: 5px
+    }
+    
 
 .btn{
     display: flex;

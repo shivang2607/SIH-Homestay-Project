@@ -17,6 +17,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import Image from "next/image";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
@@ -62,10 +63,10 @@ const HomeOwner = () => {
        // dataHome && console.log("heyiughjd ", dataHome);
       });
 
-      if (JSON.parse(sessionStorage.getItem(`Owner ${email}`))) {
-        setOwnerHistory(JSON.parse(sessionStorage.getItem(`Owner ${email}`)));
-        //  console.log("from local session storage", OwnerHistory);
-      } else {
+      // if (JSON.parse(sessionStorage.getItem(`Owner ${email}`))) {
+      //   setOwnerHistory(JSON.parse(sessionStorage.getItem(`Owner ${email}`)));
+      //   //  console.log("from local session storage", OwnerHistory);
+      // } else {
         const docRef = doc(db, "historyHomestay", email);
         getDoc(docRef).then((docSnap) => {
           if (docSnap.exists()) {
@@ -81,7 +82,7 @@ const HomeOwner = () => {
           }
         });
         // console.log("from firebase", OwnerHistory);
-      }
+      //}
          
       }
     });
@@ -163,7 +164,7 @@ const HomeOwner = () => {
   return (
     <>
     <div hidden={loading} >
-      {/* {dataHome && console.log("data", OwnerHistory)} */}
+      {dataHome && console.log("data", OwnerHistory)}
       <Tabs
         className={styles.book}
         orientation="vertical"
@@ -432,10 +433,10 @@ const HomeOwner = () => {
           <TabPanel className={` ${styles.current}`}>
             <div >
               <div style={{ justifyContent: "center" }}>
-                {OwnerHistory.current?
+                {OwnerHistory.current?.length>0?
                   OwnerHistory.current.map((currentBook) => {
                     return (
-                      <Card className={`${styles.card}`} key={currentBook.bookingID}>
+                      <Card className={`${styles.card}`} key={currentBook.bookingId}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{currentBook.userName} </h3>
@@ -468,13 +469,13 @@ const HomeOwner = () => {
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(currentBook.bookedAt).toDateString()}</div>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.canceltag}`}>{miliToDate(currentBook.bookedAt).toDateString()}</div>
                           </div>
                           {/* <button className={`mt-5 ${styles.btn}`}  ><TiCancel color="white" size={25}/>Cancel Booking</button> */}
                         </Card.Body>
                       </Card>
                     );
-                  }): <div className={styles.nodata}></div>}
+                  }):<div style={{ display: 'flex' , justifyContent: 'center'}} ><Image src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div>}
               </div>
             </div>
           </TabPanel>
@@ -482,10 +483,10 @@ const HomeOwner = () => {
           <TabPanel className={` ${styles.current}`}>
             <div >
               <div style={{ justifyContent: "center" }}>
-                {OwnerHistory.past?
+                {OwnerHistory.past?.length>0?
                   OwnerHistory.past.map((pastBook) => {
                     return (
-                      <Card className={`${styles.card}`} key={pastBook.bookingID}>
+                      <Card className={`${styles.card}`} key={pastBook.bookingId}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{pastBook.userName} </h3>
@@ -515,13 +516,13 @@ const HomeOwner = () => {
                           </div>
 
                           <div className={`${styles.date}`}>
-                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.datetag}`}>{miliToDate(pastBook.bookedAt).toDateString()}</div>
+                            <span className={`${styles.dateLabel}`}>Booked On: </span><div className={`${styles.canceltag}`}>{miliToDate(pastBook.bookedAt).toDateString()}</div>
                           </div>
 
                         </Card.Body>
                       </Card>
                     );
-                  }): <div className={styles.nodata}></div>}
+                  }):<div style={{ display: 'flex' , justifyContent: 'center'}} ><Image src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div>}
               </div>
             </div>
           </TabPanel>
@@ -529,10 +530,10 @@ const HomeOwner = () => {
           <TabPanel className={`${styles.current}`}>
             <div >
               <div style={{ justifyContent: "center" }}>
-                {OwnerHistory.cancelled?
+                {OwnerHistory.cancelled?.length>0?
                   OwnerHistory.cancelled.map((cancelledBook) => {
                     return (
-                      <Card className={`${styles.card}`} key={cancelledBook.bookingID}>
+                      <Card className={`${styles.card}`} key={cancelledBook.bookingId}>
                         <Card.Body>
                           <Card.Title>
                             <h3>{cancelledBook.userName} </h3>
@@ -563,21 +564,22 @@ const HomeOwner = () => {
                                </div>
                           </div>
 
-                          <div className={`${styles.date}`}>
-                            <span className={`${styles.dateLabel}`}>Cancelled On: </span><div className={`${styles.datetag}`}>{miliToDate(cancelledBook.cancelledAt).toDateString()}</div>
+                          <div className={`${styles.date} my-5`}>
+                            <span className={`${styles.dateLabel}`}>Cancelled On: </span><div className={`${styles.canceltag}`}>{miliToDate(cancelledBook.cancelledAt).toDateString()}</div>
                           </div>
 
                         </Card.Body>
                       </Card>
                     );
-                  }): <div className={styles.nodata}></div>}
+                  }):<div style={{ display: 'flex' , justifyContent: 'center'}} ><Image src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div>}
               </div>
             </div>
           </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
-    <div hidden={!loading} className={styles.nodata}></div>
+    <div hidden={!loading} style={{ display: 'flex' , justifyContent: 'center'}}>
+     <Image hidden={!loading} src="/no-data-found.webp" layout='intrinsic' height={800} width={1000}/></div> 
     </>
   );
 };

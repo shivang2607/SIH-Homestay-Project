@@ -306,7 +306,7 @@ export function FirebaseProvider({ children }) {
   }
 
   async function cancelBooking(
-    bookingID,
+    bookingId,
     emailUser,
     emailOwner,
     homeStayId,
@@ -321,8 +321,10 @@ export function FirebaseProvider({ children }) {
     ownerPhone,
     bookedAt,
   ) {
+
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     const historyUserRef = doc(db, "historyUser", emailUser);
+    console.table(bookingId, emailUser, emailOwner,homeStayId,userName,HomestayName,checkInTime,checkOutTime,peopleCount,TotalRent,Location,Address,ownerPhone,bookedAt)
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
         transaction.set(
@@ -330,7 +332,7 @@ export function FirebaseProvider({ children }) {
           {
             current: arrayRemove({
              TotalRent,
-             bookingID,
+             bookingId,
              checkInTime,
              checkOutTime,
              emailUser,
@@ -340,7 +342,7 @@ export function FirebaseProvider({ children }) {
             }),
             cancelled: arrayUnion({
               TotalRent,
-              bookingID,
+              bookingId,
               checkInTime,
               checkOutTime,
               emailUser,
@@ -361,7 +363,7 @@ export function FirebaseProvider({ children }) {
               Location,
               TotalRent,
               bookedAt,
-              bookingID,
+              bookingId,
               checkInTime,
               checkOutTime,
               emailOwner,
@@ -375,7 +377,7 @@ export function FirebaseProvider({ children }) {
               HomestayName,
               Location,
               TotalRent,
-              bookingID,
+              bookingId,
               checkInTime,
               checkOutTime,
               emailOwner,
