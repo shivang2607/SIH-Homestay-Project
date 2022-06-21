@@ -56,8 +56,7 @@ export const HomestayForm = () => {
     switch(index){
       case 0: return( <Step1/>);
       case 1: return( <Step2 settime={settime} time={time}/>);
-      case 2: return( <Step3 setcity={setcity} setstate={setstate}/>);
-      
+      case 2: return( <Step3 setcity={setcity} setstate={setstate}/>); 
     }
   }
 

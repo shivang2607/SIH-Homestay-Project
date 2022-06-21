@@ -461,7 +461,7 @@ export function FirebaseProvider({ children }) {
         prompt: "select_account",
         auth_type: "reauthenticate",
       });
-      setPersistence(auth, inMemoryPersistence);
+      setPersistence(auth, browserSessionPersistence);
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;

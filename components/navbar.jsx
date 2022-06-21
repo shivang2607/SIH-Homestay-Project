@@ -36,10 +36,10 @@ const NavBar = () => {
     const cookie = getUserCookies();
     btn = (
       <Dropdown>
-        <Dropdown.Toggle className={styles.dropdown}>
+        <Dropdown.Toggle className={styles.dropdown} variant="light">
           {cookie.details.name}
         </Dropdown.Toggle>
-        <Dropdown.Menu variant="dark">
+        <Dropdown.Menu variant="light">
           <Dropdown.Item>
             <Link href={`/users/${cookie.details.token.slice(5, 25)}`}>
               Dashboard
