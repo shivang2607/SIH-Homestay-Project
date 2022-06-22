@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  margin: 1rem;
+  border-radius: 50%;
+}
+.button img {
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5rem;
+}
+.button img:hover{
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.5);
+}
+.button > h3 {
+  font-size: 1.25rem;
+}
+
+.image {
+  border-radius: 50%;
+  cursor: pointer;
+}
+.adjust {
+  padding: 4px;
+  background-color: lightgray;
+}
+
+
+@media screen and (max-width: 800px) {
+  .container {
+    flex-direction: column;
+  }
+}

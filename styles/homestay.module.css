@@ -8,6 +8,7 @@
 }
 
 .house_title {
+    
     margin-top: 3rem;
     /* border: solid; */
     display: flex;
@@ -51,6 +52,10 @@
     grid-template-areas: 'first first . .''first first . .';
     margin: 20px 0;
 }
+.img_block {
+    width: 10vw;
+    height: 10vh;
+}
 
 .gallery div img {
     width: 100%;
@@ -89,7 +94,6 @@
 .small_detials {
     display: flex;
     /* justify-content:space-between; */
-
 }
 
 .sub_div {
@@ -99,8 +103,15 @@
     flex-direction: column;
 }
 
-/* .maindiv {
+.sub_div {
     width: 50vw;
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.maindiv {
+    width: 40vw;
     margin-top: 1rem;
     margin-left: 5rem;
     border-radius: 5px;
@@ -109,25 +120,89 @@
     padding: 1.5rem;
 
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-} */
+} 
 
-/* .selection_div {
+ .selection_div {
 
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin-top: 1rem;
+    /* margin-top: 0.3rem; */
+    /* padding: 0.3rem; */
+    
+
+}
+.totalprice_div{
+    /* border: solid; */
+    display: flex;
+    flex-direction: row;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    justify-content: space-between;
     padding: 0.3rem;
+}
 
-} */
+.price_heading{
+    padding: 0.8rem;
+    
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.price_heading p{
+    margin-top: 0 !important;
+    font-size: 1.9rem;
+    font-family: 'Times New Roman', Times, serif    ;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    /* text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+.totalrent{
+    /* margin-right: 1rem; */
+    /* border: solid; */
+    padding: 0.9rem;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+  
+}
+.dates{
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: normal;
+    margin-bottom: 0 !important;
 
+}
+.total_price1{
+    margin-top: 0 !important;
+    font-size: 1.6rem;
+    font-weight: 900;
+    /* border: solid; */
+    padding-right: 0.3rem;
+    margin-bottom: 0 !important;
+
+}
+.number_guests{
+    margin: 0 !important;
+
+}
 .date_picker_dvi {
 
     margin-top: 0.7rem;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    padding: 0.6rem;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 800;
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px  */
 }
+
+
+
 
 
 .guestscss {
@@ -151,10 +226,11 @@
     padding: 0.9rem;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     padding-bottom: 1rem;
-    /* background: rgb(179,209,195);
-background: linear-gradient(90deg, rgba(179,209,195,1) 0%, rgba(246,251,250,1) 88%); */
-background: rgb(117,235,217);
-background: linear-gradient(90deg, rgba(117,235,217,1) 0%, rgba(246,251,250,1) 88%);
+    background: #045f9c;
+    
+    
+/* background: rgb(117,235,217);
+background: linear-gradient(90deg, rgba(117,235,217,1) 0%, rgba(246,251,250,1) 88%); */
    
 }
 .aisehi{
@@ -173,27 +249,54 @@ background: linear-gradient(90deg, rgba(117,235,217,1) 0%, rgba(246,251,250,1) 8
 }
 
 .datecss {
-    /* background: rgb(62,235,222);
-    background: radial-gradient(circle, rgba(62,235,222,1) 0%, rgba(193,211,211,1) 88%); */
+    opacity: 0.6;
+	filter: alpha(opacity=60); /* For IE8 and earlier */
+	background-color:#000;
     margin-right: none !important;
     font-size: 1rem;
     /* margin-bottom: 0.3rem; */
     padding: 0.7em;
     border: none !important;
     border-radius: 5px;
-    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     /* margin-top:0.3rem ; */
 
     /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
 }
+.guests_div input{
+    /* width: 17vw !important; */
+    /* width: auto; */
+    
+    
+}
+.guests_div ::placeholder{
+    color: white;
+}
+
 .placeholder_guets{
     /* margin-right: none !important; */
     font-size: 1rem;
     padding: 0.7em;
+    color: white;
+    font-weight: 900;
     border: none !important;
     border-radius: 5px;
+    /* background: #fafdff; */
+    opacity: 0.6;
+	filter: alpha(opacity=60); /* For IE8 and earlier */
+	background-color:rgb(0, 0, 0);
     /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
     
+}
+.rescearch_div ::placeholder{
+    color: white;
+}
+.start_date  ::placeholder{
+    color: white;
+}
+.end_date  ::placeholder{
+    color: white;
 }
 .auto{
     border-radius: 1px;
@@ -343,6 +446,63 @@ background: linear-gradient(90deg, rgba(27,171,102,1) 0%, rgba(136,235,210,1) 88
     padding: 1% 1%;
     margin-top: 1rem;
 }
+/* location nearby*/
+.pop_locations {
+    margin-right: 0.5rem;
+    display: inline-block;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.6rem;
+}
+.pop_locations strong{
+    background: #118A6D;
+background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+}
+.popular_container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+    align-items: center;
+
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.location_div p{
+    
+    display: flex;
+}
+.comment_user1 {
+    margin-top: 0.5rem;
+    margin-left: 0.3rem;
+    display: flex;
+    
+    font-size: 1.8rem;
+    font-weight: 300;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+.comment_user1 p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comment_user1 strong{
+    margin-left: 0.3rem;
+}
+
+.profile1{
+    display: flex;
+   
+}
+
+
+
+
+
 
 .user_rating {
     margin-right: 0.5rem;
@@ -396,6 +556,7 @@ background: linear-gradient(90deg, rgba(27,171,102,1) 0%, rgba(136,235,210,1) 88
 .reviews_container {
     display: flex;
     justify-content: center;
+   
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
@@ -508,7 +669,6 @@ background: linear-gradient(90deg, rgba(27,171,102,1) 0%, rgba(136,235,210,1) 88
     margin-left: 1rem;
     font-size: 1.5rem;
 }
-
 
 
 
