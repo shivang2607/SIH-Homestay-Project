@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/search.module.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -16,14 +16,16 @@ import Alert from "react-bootstrap/Alert";
 import Modal from "react-bootstrap/Modal";
 
 const Search = () => {
+  const tomorrow = new Date(); // The Date object returns today's timestamp
+  tomorrow.setDate(tomorrow.getDate() + 1);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const router = useRouter();
-  const [startDate, setStartDate] = useState(new Date());
-  const [stopDate, setStopDate] = useState(new Date());
+  const [startDate, setStartDate] = useState("");
+  const [stopDate, setStopDate] = useState("");
   const [cityname, setCityName] = useState("");
   const [disname, setDisName] = useState("");
   const [statename, setStateName] = useState("");
@@ -80,15 +82,24 @@ const Search = () => {
       console.log("empty is");
       setShow(true);
     } else {
+      // router.push({
+      //   pathname: "/Location/[location]",
+      //   query: {
+      //     checkin: startDate.getTime() / 1000,
+      //     checkout: stopDate.getTime() / 1000,
+      //     location: cityname,
+      //     statename,
+      //     disname,
+      //     people,
+      //   },
+      // });
       router.push({
         pathname: "/Location/[location]",
         query: {
-          checkindate: startDate.getTime() / 1000,
-          checkoutdate: stopDate.getTime() / 1000,
           location: cityname,
-          statename,
-          disname,
-          people,
+          checkIn: startDate.getTime() / 1000,
+          checkOut: stopDate.getTime() / 1000,
+          guests: people,
         },
       });
     }
@@ -121,13 +132,18 @@ const Search = () => {
         <Container className={styles.maindiv}>
           <form onSubmit={handleSubmit(handlesubmit)}>
             <Row>
-              <Col xs={12} md={3}>
+              <Col xs={12} md={12} lg={3}>
                 <div>
-                  <div className={`${styles.guests}`}>
+                  <div className={`${styles.autosearch}`}>
                     <ReactSearchAutocomplete
                       styling={{
                         borderRadius: "5px",
-                        boxShadow: "rgba(190, 182, 182, 0.986) 2px 3px 2px 0px",
+                        zIndex: "3",
+                        border: "none",
+                        filter: "alpha(opacity=60)",
+                        backgroundColor: "#121212",
+                        color: "#ffffffa0",
+                        height: "2.5rem",
                       }}
                       items={newPlaces}
                       placeholder="Enter City/Town"
@@ -143,7 +159,7 @@ const Search = () => {
                   </div>
                 </div>
               </Col>
-              <Col xs={12} md={3}>
+              <Col xs={4} md={4} lg={3}>
                 <div>
                   <input
                     onChange={handlechange}
@@ -166,39 +182,49 @@ const Search = () => {
                   )}
                 </div>
               </Col>
-              <Col xs={6} md={3}>
-                <div className={styles.dates}>
-                  <DatePicker
-                    placeholderText="Enter Check in Date"
-                    className={`${styles.datecss}  `}
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={new Date()}
-                  />
-                  {/* {console.log(startDate.getTime())} */}
-                </div>
-              </Col>
-              <Col xs={6} md={3}>
-                <div className={styles.dates}>
-                  <DatePicker
-                    placeholderText="Enter Check Out Date"
-                    className={`${styles.datecss}  ${styles.innerdiv}`}
-                    selected={stopDate}
-                    onChange={(date) => setStopDate(date)}
-                    dateFormat="dd/MM/yyyy"
-                    minDate={startDate}
-                  />
-                </div>
-              </Col>
+                <Col xs={8} md={4} lg={3}>
+                  <div className={styles.dates}>
+                    <DatePicker
+                      placeholderText="Enter Check in Date"
+                      className={`${styles.datecss}  `}
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      dateFormat="dd/MM/yyyy"
+                      minDate={new Date()}
+                    />
+                    {/* {console.log(startDate.getTime())} */}
+                  </div>
+                </Col>
+                <Col xs={8} md={4} lg={3}>
+                  <div className={styles.dates}>
+                    <DatePicker
+                      placeholderText="Enter Check Out Date"
+                      className={`${styles.datecss}  ${styles.innerdiv}`}
+                      selected={stopDate}
+                      onChange={(date) => setStopDate(date)}
+                      dateFormat="dd/MM/yyyy"
+                      minDate={tomorrow}
+                    />
+                  </div>
+                </Col>
             </Row>
             <Row>
+              {/* background-color: #abe9cd;
+background-image: linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%); */}
+
               <Col style={{ textAlign: "center" }}>
                 <Button
                   type="submit"
-                  variant="light"
+                  variant="primary"
                   size="lg"
-                  style={{ marginTop: "2rem", padding: ".5rem 1rem" }}
+                  style={{
+                    color: "#121212",
+                    marginTop: "1.25rem",
+                    padding: ".375rem 0.75rem",
+                    backgroundColor: "#abe9cd",
+                    backgroundImage:
+                      "linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%)",
+                  }}
                 >
                   Search
                 </Button>

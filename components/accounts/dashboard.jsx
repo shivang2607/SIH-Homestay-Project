@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "../../styles/account.module.css";
-
 import Tourist from "./tourist";
-import Owner from "./HomeOwner"
+import Owner from "./HomeOwner";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { FaUserCircle, FaHouseUser } from "react-icons/fa";
 
@@ -28,7 +27,7 @@ const Dashboard = () => {
             <Tourist />
           </TabPanel>
           <TabPanel>
-           <Owner/>
+            <Owner />
           </TabPanel>
         </TabPanels>
       </Tabs>
@@ -37,6 +36,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-

@@ -61,6 +61,7 @@ export async function getServerSideProps(context) {
   if (history.exists()) {
     const current_bookings = his.current;
     current_bookings.map((booking) => {
+      console.log(booking);
       if (
         (booking.checkInTime.seconds >= checkIn &&
           booking.checkInTime.seconds <= checkOut) ||
@@ -73,6 +74,7 @@ export async function getServerSideProps(context) {
       }
     });
   }
+  console.log(booked_guests);
   data = { ...data, booked_guests };
 
   data = JSON.stringify(data);

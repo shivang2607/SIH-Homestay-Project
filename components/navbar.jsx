@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Link from "next/link";
 import { Container, Dropdown } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
-
+import Image from "next/image";
 const NavBar = () => {
   const { signIn, checkUserCookies, getUserCookies, checkHomeInDb, signOut } =
     useFirebase();
@@ -15,18 +15,24 @@ const NavBar = () => {
   if (history.length > 0) {
     opts = (
       <>
-        <Link href="/">Home</Link>
-        <Link href="/about">About</Link>
+        <Link style={{ textDecoration: "none" }} href="/">
+          <a className={styles.link}>Home</a>
+        </Link>
+        <Link style={{ textDecoration: "none" }} href="/about">
+          <a className={styles.link}>About</a>
+        </Link>
       </>
     );
   } else {
     opts = (
       <>
-        <Link href="/">Home</Link>
-        <Link href="/homestayForm" passHref>
-          register your home
+        <Link style={{ textDecoration: "none" }} href="/">
+          <a className={styles.link}>Home</a>
         </Link>
-        <Link href="/about">About</Link>
+        <Link style={{ textDecoration: "none" }} href="/homestayForm" passHref>
+          <a className={styles.link}>register your home</a>
+        </Link>
+        {/* <Link href="/about">About</Link> */}
       </>
     );
   }
@@ -46,7 +52,9 @@ const NavBar = () => {
             </Link>
           </Dropdown.Item>
           <Dropdown.Item>
-            <Link href={'#'}><button onClick={signOut}>Sign Out</button></Link>
+            <Link href={"#"}>
+              <button onClick={signOut}>Sign Out</button>
+            </Link>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
@@ -55,7 +63,9 @@ const NavBar = () => {
   return (
     <Navbar fixed="top" collapseOnSelect expand="lg" className={styles.navbar}>
       <Container fluid className="mx-1">
-        <Navbar.Brand href="/">Hamara Logo</Navbar.Brand>
+        <Navbar.Brand href="/">
+          <Image src={"/static/logo_transparent.png"} alt="" layout="intrinsic" width={60} height={60}/>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <nav className={styles.nav}>{opts}</nav>
