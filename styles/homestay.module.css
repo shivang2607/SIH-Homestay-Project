@@ -1,167 +1,258 @@
-/* .homestay_main_div {
+.house_details {
+
+    padding-left: 10%;
+    padding-right: 10%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 0.6px;
+
+}
+
+.house_title {
+    margin-top: 3rem;
+    /* border: solid; */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-    border-radius: 10px;
-    padding-top: 40px;
+    justify-content: space-between;
 }
 
-.img_block{
-    padding-left: 12px;
-    padding-top: 10px;
-    object-fit: cover;    
-}
-
-
-.images {
-    width: 700px;
-    height: 430px;
-    
-    display: flex;
-    align-items: center;
-}
-
-.homestay_info_div {
-    width: 560px;
+.house_title h1 {
+    font-weight: 700;
+    font-size: 2.7rem;
+    background: #076e80;
+    background: linear-gradient(to bottom right, #265861 0%, #3f4545 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 
 
 }
 
-.homestay_name {
-    padding-top: 5px;
-    font-weight: bold;
-    padding-left: 12px;
-    margin-bottom: 0;
-}
-
-.homestay_location {
-    padding-left: 12px;
-    font-weight: 400;
-    margin-top: 2px;
-    color: rgb(70, 68, 68);
-}
-
-.homestay_details {
-    margin-left: 10px;
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    background: solid;
-    justify-content: center;
-    align-content: center;
-}
-
-h5 {
-    margin-left: 10px;
-    display: inline-block;
-
-}
-
-
-.rules {
-
-    margin-top: 20px;
-}
-
-.check_in_time {
-    font-size: 16px;
-}
-
-.rating_div {
-    margin-top: 40px;
-    
-}
-
-.user_rating {
-    display: inline-block;
-}
-
-.rating_tab {
-    display: grid;
-    grid-template-columns: 100px 1fr;
+.average_Rating {
+    font-size: 1.5rem;
 }
 
 .rating_icons {
-    margin-top: 30px;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 0.4rem;
     display: flex;
-    background-color: #249995;
-    height: 45px;
+    background: rgb(66, 157, 187);
+    background: linear-gradient(90deg, rgb(28, 99, 122) 1%, rgb(2, 63, 69) 99%);
+    height: 2.3rem;
     justify-content: center;
-    margin: 0 10px 0 0;
-    width: 88px;
-    font-size: 28px;
-    line-height: 28px;
+    width: 5rem;
     color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-right: 2rem;
+    margin-bottom: 0 !important;
 }
 
-.rating_content {
-    
-    align-items: center;
-}
+.gallery {
 
-.review_answere {
-    
-     color: #2e7775; 
-     font-size: 20px;
-    font-weight: 700;
-    margin-top: 10px;
-
-}
-
-p{
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-} */
-.house_details{
-    justify-content: left;
-    padding: 0 12%;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    letter-spacing: 0.6px;
-    /* background-color: aqua; */
-    /* border: solid;
-    border-width: 3px; */
-}
-.house_title{
-    margin-top: 3rem;
-    /* border: solid; */
-}
-
-.house_title h1{
-    font-weight: 700;
-    font-size: 2.7rem;
-}
-.gallery{
-   
     display: grid;
     grid-gap: 10px;
-    grid-template-areas: 'first first . .' 'first first . .';
-    margin:  20px 0 ;
+    grid-template-areas: 'first first . .''first first . .';
+    margin: 20px 0;
 }
 
-.gallery div img{
+.gallery div img {
     width: 100%;
     display: block;
     border-radius: .8rem;
 }
 
-.gallery_carousel{
+.gallery_carousel {
     grid-area: first;
 }
-.price_div{
-    
-    padding-right: 1%;
+
+.description {
+    align-content: left;
+    color: rgb(134, 128, 128);
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+}
+
+.price_div {
+    margin-left: 0.3rem;
+    width: 10rem;
+
+    display: flex;
+    font-size: large;
+    background: rgb(41, 189, 192);
+    background: radial-gradient(circle, rgba(41, 189, 192, 1) 1%, rgba(12, 151, 186, 1) 100%);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.small_detials {
+    display: flex;
+    /* justify-content:space-between; */
+
+}
+
+.sub_div {
+    width: 50vw;
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* .maindiv {
+    width: 50vw;
+    margin-top: 1rem;
+    margin-left: 5rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+} */
+
+/* .selection_div {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    padding: 0.3rem;
+
+} */
+
+.date_picker_dvi {
+
+    margin-top: 0.7rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+
+.guestscss {
+    min-height: 44px;
+    width: 100%;
+    margin-right: none !important;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    padding: 0.7em;
+    border: none !important;
+    border-radius: 5px;
+    /* box-shadow: 2px 3px 2px  rgba(190, 182, 182, 0.986); */
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.header_div{
+    margin-top: 0rem !important;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.9rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    padding-bottom: 1rem;
+    /* background: rgb(179,209,195);
+background: linear-gradient(90deg, rgba(179,209,195,1) 0%, rgba(246,251,250,1) 88%); */
+background: rgb(117,235,217);
+background: linear-gradient(90deg, rgba(117,235,217,1) 0%, rgba(246,251,250,1) 88%);
+   
+}
+.aisehi{
+    width: 100vw;
+    /* margin-top: 1rem; */
+    display: flex;
+    flex-direction: row;
+    padding: 0.3rem;
+   /* border: solid; */
+   justify-content: space-around;
+}
+.rescearch_div{
+    padding: 0.3rem;
+    width: 20vw;
+
+}
+
+.datecss {
+    /* background: rgb(62,235,222);
+    background: radial-gradient(circle, rgba(62,235,222,1) 0%, rgba(193,211,211,1) 88%); */
+    margin-right: none !important;
+    font-size: 1rem;
+    /* margin-bottom: 0.3rem; */
+    padding: 0.7em;
+    border: none !important;
+    border-radius: 5px;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
+    /* margin-top:0.3rem ; */
+
+    /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+}
+.placeholder_guets{
+    /* margin-right: none !important; */
+    font-size: 1rem;
+    padding: 0.7em;
+    border: none !important;
+    border-radius: 5px;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
     
 }
-.small_detials span{
+.auto{
+    border-radius: 1px;
+    background: rgb(27,171,102);
+background: linear-gradient(90deg, rgba(27,171,102,1) 0%, rgba(136,235,210,1) 88%);
+}
+
+.small_detials h1 {
+    font-size: 1.5rem;
+
+}
+
+.reserve_button {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+
+.text_price {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.perday {
+    font-size: large;
+    display: flex;
+    align-items: center;
+
+}
+
+.text_location {
+
+
+    font-size: 1.2rem;
+    color: #6e6c6c;
+    font-weight: 900;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.text_guests {
+    margin-top: 0.1rem;
+    margin-left: 0.5rem;
     font-size: 1.4rem;
+    color: #3d3d3d;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+
+.small_detials p {
+
+    margin-top: 0.3rem;
+    display: flex;
+}
+
 .homestay_details {
     margin-left: 10px;
     margin-top: 3rem;
@@ -169,69 +260,131 @@ p{
     display: flex;
     justify-content: space-around;
     border-radius: 0.4rem;
-    
+
     box-shadow: 0 1px 16px rgba(0, 0, 0, 0.3);
+
     padding: 1% 1%;
 }
-.homestay_details h6{
+
+.station_details {
+    margin-left: 10px;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0.4rem;
+
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    padding: 1% 1%;
+}
+
+.homestay_details h6 {
     font-size: larger;
     font-weight: 700;
     margin-bottom: 0;
 }
-.homestay_details span{
+
+.homestay_details span {
     margin-left: 5px;
-    font-size:larger;
+    font-size: larger;
     font-weight: 700;
 }
+
 .rules {
-    margin-top: 3.6rem;
+    margin-top: 1.4rem;
+}
+
+.rules h4 {
+    font-size: 2.4rem;
+    margin-top: 0;
+    margin-bottom: .3rem;
+    background: #CF1319;
+    background: linear-gradient(to bottom right, #CF1319 0%, #1C0302 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.regulations {
+    padding-left: 0.8rem;
+    font-size: 1.3rem;
+}
+
+.badges_div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-self: center;
+    width: 60vw;
+    margin: 1rem;
+}
+
+.rules h6 {
+
+    margin-bottom: 0.5rem;
+}
+
+
+.beds h6 {
+    margin-bottom: 0.2rem;
+}
+
+.bus,
+.railway,
+.airport {
+    font-size: 0.9rem;
 }
 
 .check_in_time {
-    font-size:large;
-}
-.rating_div{
-    padding: 1% 1%;
-    margin-top: 4rem;
-}
-.user_rating{
-    margin-right:0.5rem ;
-    display: inline-block;
-}
-.rating_div span{
     font-size: large;
 }
+
+.rating_div {
+    padding: 1% 1%;
+    margin-top: 1rem;
+}
+
+.user_rating {
+    margin-right: 0.5rem;
+    display: inline-block;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating_div span {
+    font-size: large;
+}
+
 .rating_tab {
     display: grid;
     grid-template-columns: 100px 1fr;
     /* border: solid; */
     /* padding: 0.5% 0.5%; */
     align-items: center;
-    
+
 }
 
-.rating_icons {
-    align-items: center;
-    border-radius: 0.4rem;
+.add_buttons {
+
+
+    margin-top: 1rem;
+    padding: 1rem;
     display: flex;
-    background-color: #249995;
-    height: 2.6rem;
-    justify-content: center;
-    width: 88px;
-    font-size: 1.5rem;
-    color: white;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    justify-content: space-evenly;
+    margin-bottom: 1rem;
+
 }
+
 
 
 .review_answere {
-     color: #2e7775; 
-     font-size: 1.3rem;
+    color: #2e7775;
+    font-size: 1.3rem;
     font-weight: 700;
     margin-top: 14px;
 }
 
-.line{
+.line {
     border: black;
     height: 1px;
     border-width: 2px;
@@ -240,61 +393,171 @@ p{
     margin-bottom: 3px;
 }
 
-.reviews_container{
+.reviews_container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
+    margin-bottom: 1rem;
 }
- .box{
-    width: 30rem;
+
+.box {
+    width: 55vw;
     background-color: white;
     padding: 1%;
     margin: 15px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); */
+    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; */
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
-.profile_img{
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 10px;
-}
-.profile_img img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    
-} 
-.profile{
-    display: flex;
-    align-items: center;
-}
-.name_user{
+
+
+.profile {
     display: flex;
     flex-direction: column;
 }
-.name_user strong{
-    color: #3d3d3d;
-    font-size: 1.3rem;
-    letter-spacing: 0.5px;
-    margin-left: 13px;
+
+.name_user {
+    display: flex;
 }
-.reviews p{
-    margin-top: 10px;
+
+.name_user strong {
+    color: #5c5959;
+    font-weight: 400;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1rem;
+    /* letter-spacing: 0.5px; */
+    margin-left: 0.5rem;
+}
+
+.comment_user {
+    margin-top: 0.5rem;
+    margin-left: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.8rem;
+    font-weight: 300;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+.username_Review {
+
+    margin-left: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    color: #6f6a6a;
+    font-size: large;
+    font-weight: 300;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+
+.reviews p {
+    color: #4c4e4f;
     font-size: 1.2rem;
 }
-.box_top{
+
+.box_top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
-.comments_client p{
+
+.comments_client p {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: small;
+    font-size: large;
+}
+
+
+
+.userReview {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    padding-left: 1rem;
+}
+
+.stars {
+
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+
+.faltu {
+    margin-right: 10;
+    cursor: pointer;
+}
+
+.rating_value {
+    margin-top: .2rem;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}
+
+
+
+
+@media screen and (max-width: 800px) {
+
+
+    .house_details {
+
+        padding-right: 1%;
+        padding-left: 5%;
+
+    }
+
+}
+
+
+@media screen and (max-width: 700px) {
+
+
+    .house_details {
+
+        padding-right: 0%;
+        padding-left: 5%;
+
+    }
+
+}
+
+
+@media screen and (max-width: 1268px) {
+    .date_picker_dvi {
+
+
+        flex-direction: column;
+
+    }
+
+    .datecss {
+        min-height: 44px;
+        width: 100%;
+        margin-bottom: 0.8rem;
+
+    }
+
+}
+
+@media screen and (max-width: 945px) {
+
+    .maindiv {
+        height: fit-content;
+    }
 }

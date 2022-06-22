@@ -38,52 +38,51 @@ export function useFirebase() {
   return React.useContext(FirebaseContext);
 }
 
-export async function UpdateStateHomestay() {
-  const historyUserRef = collection(db, "historyUser");
-  const historyHomestayRef = collection(db, "historyHomestay");
-  onSnapshot(historyHomestayRef, (snapshot) => {
-    snapshot.docs.map((document) => {
-      document.data().current.forEach(async (element) => {
-        console.log(element);
-        if (element.checkOutTime < Timestamp.now().seconds * 1000) {
-          await setDoc(
-            doc(db, "historyHomestay", document.id),
-            {
-              current: arrayRemove(element),
-              past: arrayUnion(element),
-            },
-            { merge: true }
-          );
-        } else {
-          console.log("I dont know whats happening");
-        }
-      });
-    });
-  });
-
-  onSnapshot(historyUserRef, (snapshot) => {
-    snapshot.docs.map((document) => {
-      document.data().current.forEach(async (element) => {
-        console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
-        if (element.checkOutTime < Timestamp.now().seconds * 1000) {
-          await setDoc(
-            doc(db, "historyUser", document.id),
-            {
-              current: arrayRemove(element),
-              past: arrayUnion(element),
-            },
-            { merge: true }
-          );
-        } else {
-          console.log("I dont know whats happening");
-        }
-      });
-    });
-  });
-}
-
 export function FirebaseProvider({ children }) {
   const [loading, setLoading] = useState(false);
+
+  async function UpdateStateHomestay() {
+    const historyUserRef = collection(db, "historyUser");
+    const historyHomestayRef = collection(db, "historyHomestay");
+    const unsub1 = onSnapshot(historyHomestayRef, (snapshot) => {
+      snapshot.docs.map((document) => {
+        document.data().current.forEach(async (element) => {
+          if (element.checkOutTime < Timestamp.now()) {
+            await setDoc(
+              doc(db, "historyHomestay", document.id),
+              {
+                current: arrayRemove(element),
+                past: arrayUnion(element),
+              },
+              { merge: true }
+            );
+          }
+        });
+      });
+    });
+
+    const unsub2 = onSnapshot(historyUserRef, (snapshot) => {
+      snapshot.docs.map((document) => {
+        document.data().current.forEach(async (element) => {
+          console.log("working");
+          // console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
+          if (element.checkOutTime < Timestamp.now()) {
+            await setDoc(
+              doc(db, "historyUser", document.id),
+              {
+                current: arrayRemove(element),
+                past: arrayUnion(element),
+              },
+              { merge: true }
+            );
+          }
+        });
+      });
+    });
+
+    // unsub1();
+    // unsub2();
+  }
 
   async function addHomestay(
     homestayName,
@@ -108,10 +107,15 @@ export function FirebaseProvider({ children }) {
     Capacity,
     pricePerNight,
     popularDestinationsNearby,
-    images
+    images,
+    airportDistance,
+    busStationDistance,
+    railwayStationDistance
   ) {
+    let imageUrls = [];
+
     //images upload hori h yahase
-    if (!images) return console.log("bhaai images to daaal");
+    if (!images) return null;
     for (let i = 0; i < images.length; i++) {
       const imageRef = ref(
         storage,
@@ -120,12 +124,15 @@ export function FirebaseProvider({ children }) {
       await uploadBytes(imageRef, images[i]).then(() => {
         console.log("uploaded");
       });
+      const url = await getDownloadURL(imageRef);
+      imageUrls[i] = url;
     }
 
     await addDoc(collection(db, "Homes"), {
       // homestayName: "maatoshri",
       // desc: "",
       homestayName,
+      URLS: imageUrls,
       desc,
       comments: [],
       ratings: [],
@@ -175,6 +182,7 @@ export function FirebaseProvider({ children }) {
       //         body: "A wonderful palace to visit"
       //     }
       // ]
+
       AC,
       city,
       state,
@@ -183,6 +191,9 @@ export function FirebaseProvider({ children }) {
       pricePerNight,
       popularDestinationsNearby,
       registerTime: Timestamp.now(),
+      airportDistance,
+      busStationDistance,
+      railwayStationDistance,
     });
   }
 
@@ -217,6 +228,8 @@ export function FirebaseProvider({ children }) {
     checkInTime,
     checkOutTime,
     peopleCount,
+    ownerPhone,
+    ownerEmail,
     TotalRent,
     Location,
     Address
@@ -252,6 +265,8 @@ export function FirebaseProvider({ children }) {
             current: arrayUnion({
               homeStayId,
               HomestayName,
+              ownerPhone,
+              ownerEmail,
               checkInTime: Timestamp.now(),
               checkOutTime: Timestamp.now().toMillis(),
               Location,
@@ -278,6 +293,7 @@ export function FirebaseProvider({ children }) {
     emailOwner,
     homeStayId,
     userName,
+    ownerPhone,
     userPhone,
     HomestayName,
     checkInTime,
@@ -354,18 +370,39 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function getHomeHistory() {
-    onAuthStateChanged(auth, async (user) => {
-      const history = await getDoc(doc(db, "historyHomestay", user.email));
-      return history.data();
-    })
-  }
+  // async function getHomeHistory(homes, checkIn, checkOut) {
+
+  //   const final = await homes.map(async val=>{
+
+  //     console.log(val.host.email)
+  //     const history = await getDoc(doc(db, "historyHomestay",val.host.email));
+  //     const his = history.data();
+  //     let booked_guests = 0;
+  //     if(history.exists()){
+  //     const current_bookings = his.current;
+  //     current_bookings.map(booking => {
+  //       console.log("ye h booking ka checkin time", booking.checkInTime.seconds, checkOut);
+  //       if (((booking.checkInTime.seconds >= checkIn && booking.checkInTime.seconds <= checkOut)) ||
+  //         (booking.checkOutTime.seconds  <= checkOut && booking.checkOutTime.seconds  >= checkIn) || (booking.checkOutTime.seconds >= checkOut && booking.checkInTime.seconds<=checkIn)) {
+  //         booked_guests += booking.peopleCount;
+  //       }
+
+  //     })
+
+  //   }
+  //   return await {...val, booked_guests};
+
+  //   })
+  //  let abc = await Promise.all(final)
+  //   return abc;
+
+  // }
 
   async function getUserHistory() {
     onAuthStateChanged(auth, async (user) => {
       const history = await getDoc(doc(db, "historyUser", user.email));
       return history.data();
-    })
+    });
   }
 
   async function sendEmail(emailUser, emailOwner) {
@@ -536,7 +573,6 @@ export function FirebaseProvider({ children }) {
     addRating,
     bookHomestay,
     cancelBooking,
-    getHomeHistory,
     getUserHistory,
     sendEmail,
     getUserFromCookie,

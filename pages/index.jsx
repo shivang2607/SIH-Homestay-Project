@@ -1,8 +1,25 @@
 import Head from 'next/head'
+import React from 'react'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Search from '../components/search'
+import { useFirebase } from '../context/firebaseContext'
 export default function Home() {
+
+  const {getHomeHistory} = useFirebase()
+  console.log(getHomeHistory)
+
+  React.useEffect(() => {
+    
+      // const update = async()=>{
+      //   await UpdateStateHomestay();
+      // }
+      // update()
+   
+  }, [])
+  
+
+
   return (
     <>
     <Search/>
