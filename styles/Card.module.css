@@ -80,7 +80,6 @@
   font-weight: 700;
   display: inline-flex;
 }
-
 .rating_tab {
   display: flex;
   justify-content: space-between;
@@ -260,6 +259,32 @@ justify-content: space-between;
 }
 
 @media screen and (max-width: 480px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: auto;
+  }
+  .friendly{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .card_post_rating_price {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .card_post_price{
+    align-self: center;
+  }
+  .card_post_title, .card_post_location, .card_post_text{
+    padding: 0;
+  }
   .card_post {
     flex-direction: column;
   }
@@ -272,9 +297,14 @@ justify-content: space-between;
   /* .container {
       margin-top: auto;
   } */
+  .rating_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
   .rating_tab {
-    padding-left: 3.5rem;
-    padding-right: 3rem;
+    margin-right: 0.5rem;
   }
 
   .rating_icons {
@@ -288,16 +318,17 @@ justify-content: space-between;
     justify-content: space-between;
   }
   .card_post_text {
-    padding-left: 6rem;
-    padding-right: 6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .card_post_location {
-    padding-left: 6rem;
+    padding-left: 1rem;
   }
   .card_post_title {
     font-size: 1.5rem;
-    padding-left: 6rem;
+    padding-left: 1rem;
+    padding-right: auto;
   }
 }
 @media screen and (max-width: 412px) {

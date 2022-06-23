@@ -24,6 +24,7 @@ import Reviewstars from "./star";
 // import styles from "../styles/stars.module.css"
 import ReactTimeAgo from "react-time-ago";
 import { useRouter } from "next/router";
+import { AiFillStar } from 'react-icons/ai'
 
 import { FaStar } from "react-icons/fa";
 import {
@@ -46,14 +47,16 @@ const colors = {
 };
 
 function HomeStay({ details, homestayId }) {
+  const router = useRouter();
+  const { checkIn, checkOut, guests, location } = router.query;
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState();
   const [body, setBody] = useState("");
   const [head, setHead] = useState("");
-  const [guest, setGuest] = useState(1);
-  const router = useRouter();
-  const { checkIn, checkOut, guests, location } = router.query;
-  
+  const [guest, setGuest] = useState(router.query.guests);
+ 
+ 
+
   var checkin_date = new Date(checkIn * 1000);
 
   var checkout_date = new Date(checkOut * 1000);
@@ -89,26 +92,22 @@ function HomeStay({ details, homestayId }) {
   const [statename, setStateName] = useState("");
 
   const handleOnSearch = (string, results) => {
-    console.log(string, results);
+    
   };
 
   const handleOnHover = (result) => {
-    console.log(result);
+    
   };
 
   const handleOnSelect = (item) => {
-    console.log("this is the item", item);
     setCityName(item.City);
     setStateName(item.State);
     setDisName(item.District);
 
-    console.log(cityname);
-    console.log(statename);
-    console.log(disname);
+   
   };
 
   const handleOnFocus = () => {
-    console.log("Focused");
   };
 
   const stars = Array(5).fill(0);
@@ -151,8 +150,8 @@ function HomeStay({ details, homestayId }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    addRating(homestayId, currentValue, name);
     addComment(homestayId, head, name, body);
+    addRating(homestayId, currentValue, name);
     onClose();
   }
   var old_checkin_Date = checkin_date;
@@ -170,9 +169,10 @@ function HomeStay({ details, homestayId }) {
     "/" +
     checkout_date.getFullYear();
 
-  var diffrecnedate =
-    new Date(old_checkout_Date - old_checkin_Date).getDate() - 1;
-  var price = diffrecnedate * details.pricePerNight;
+  var diffrecnedate =new Date(old_checkout_Date - old_checkin_Date).getDate() - 1;
+
+  var price = diffrecnedate * details.pricePerNight * guest ;
+  
 
   async function booknow(e) {
     e.preventDefault();
@@ -183,9 +183,7 @@ function HomeStay({ details, homestayId }) {
     console.log("the details.docid", details.docid);
     console.log("the user", user);
     console.log("oxer phone", details.host.phone);
-
     console.log("neame homestaya", details.homestayName);
-
     console.log("the ostart date", startDate);
     console.log("the stop date", stopDate);
     console.log("the diffrence date", diffrecnedate);
@@ -235,8 +233,11 @@ function HomeStay({ details, homestayId }) {
   return (
     <>
       {details.host ? (
+        
         <div>
+
           <div>
+          
             <div className={styles.header_div}>
               <div>
                 <div className={styles.rescearch_div}>
@@ -319,7 +320,6 @@ function HomeStay({ details, homestayId }) {
                           },
                         });
                       } else {
-                        console.log("jst chneags the values");
                         router.push({
                           pathname: "/Location/[location]/" + homestayId,
                           query: {
@@ -350,7 +350,7 @@ function HomeStay({ details, homestayId }) {
                 <div className={styles.rating_icons}>
                   {" "}
                   <h4 className={styles.average_Rating}>
-                    {sum_star / details.ratings.length}/5
+                    {(sum_star / details.ratings.length).toFixed(1)}/5 <AiFillStar color="yellow"/>
                   </h4>
                 </div>
               )}
@@ -458,7 +458,7 @@ function HomeStay({ details, homestayId }) {
                       "these are bookoed guests",
                       details.booked_guests
                     )}
-                    {details.Capacity - details.booked_guests != 0 ? (
+                    {details.Capacity - details.booked_guests > 0 ? (
                       <strong style={{ color: "teal" }}>
                         <b>{details.Capacity - details.booked_guests}</b>
                       </strong>
@@ -473,13 +473,13 @@ function HomeStay({ details, homestayId }) {
                 <p className={styles.price_div}>
                   <h4 className={styles.text_price}>
                     {" "}
-                    ₹{details.pricePerNight}{" "}
+                    ₹{details.pricePerNight*guest}{" "}
                     <span className={`${styles.perday}`}>/Day</span>
                   </h4>
                 </p>
               </div>
 
-              {details.Capacity - details.booked_guests != 0 && (
+              {details.Capacity - details.booked_guests-guest >=0 && (
                 <div className={styles.maindiv}>
                   <div className={styles.selection_div}>
                     <div className={styles.totalprice_div}>
@@ -487,14 +487,14 @@ function HomeStay({ details, homestayId }) {
                         <p> Total Rent</p>
                       </div>
                       <div className={styles.totalrent}>
-                        <p className={styles.dates}>
+                        {/* <p className={styles.dates}>
                           {" "}
-                          {diffrecnedate} x {details.pricePerNight}
-                        </p>
+                          {diffrecnedate} Days
+                        </p> */}
                         <p className={styles.total_price1}> ₹ {price}</p>
                         <p className={styles.number_guests}>
                           {" "}
-                          {guests}(Guests)
+                         (for {diffrecnedate} days)
                         </p>
                       </div>
                     </div>
@@ -519,6 +519,7 @@ function HomeStay({ details, homestayId }) {
                         variant="solid"
                         size="lg"
                         onClick={booknow}
+                        disabled={loading}
                       >
                         {loading ? (
                           <>
@@ -594,7 +595,7 @@ function HomeStay({ details, homestayId }) {
             </div>
             <hr className={styles.line} />
 
-            {details.comments && details.comments.length != 0 && (
+            {details.comments?.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
@@ -705,7 +706,7 @@ function HomeStay({ details, homestayId }) {
             </div>
 
             <hr className={styles.line} />
-            {details.comments.length != 0 && (
+            {details.comments?.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
@@ -716,7 +717,7 @@ function HomeStay({ details, homestayId }) {
                     </h4>
                     <span>(Based on user ratings and reviews)</span>
                   </div>
-                  {details.comments.map((comment) => {
+                  {details.comments?.map((comment) => {
                     return (
                       <div className={styles.reviews_container} key={v4()}>
                         <div className={styles.box}>
@@ -727,7 +728,7 @@ function HomeStay({ details, homestayId }) {
                               </div>
                               <div className={styles.name_user}>
                                 <strong>
-                                  {comment.user}<br/>
+                                 { comment.user}<br/>
                                   {/* {name} */}
                                   <ReactTimeAgo
                                     date={
