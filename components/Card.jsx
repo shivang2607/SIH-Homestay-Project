@@ -3,7 +3,7 @@ import styles from "../styles/Card.module.css";
 import { useRouter } from "next/router";
 import { Badge } from "@chakra-ui/react";
 import Image from "next/image";
-import { AiFillStar } from 'react-icons/ai'
+import { AiFillStar } from "react-icons/ai";
 
 function Card({
   src,
@@ -43,7 +43,12 @@ function Card({
                   {location} {city} |{state}
                 </span>
               </div>
-              <p className={styles.card_post_text}>{description}</p>
+              <p className={styles.card_post_text}>
+                {navigator.userAgent.match(/Android/i) ||
+                navigator.userAgent.match(/iPhone/i)
+                  ? description.slice(0, 100) + "....."
+                  : description}
+              </p>
 
               {Rules && (
                 <div className={styles.badges_div}>
@@ -78,14 +83,15 @@ function Card({
               )}
               <div className={styles.rating_container}>
                 <div className={styles.card_post_rating_price}>
-                    <div className={styles.friendly}>
-                      <h1 className={styles.card_post_price}>
-                        ₹ {price} / night
-                      </h1>
+                  <div className={styles.friendly}>
+                    <h1 className={styles.card_post_price}>
+                      ₹ {price} / night
+                    </h1>
                     <div className={styles.rating_tab}>
                       {length_ratings != 0 && (
                         <div className={styles.rating_icons}>
-                          {parseInt(rating / length_ratings)}/5 &nbsp;<AiFillStar color="yellow"/>
+                          {parseInt(rating / length_ratings)}/5 &nbsp;
+                          <AiFillStar color="yellow" />
                         </div>
                       )}
                     </div>
