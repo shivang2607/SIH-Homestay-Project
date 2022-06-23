@@ -80,8 +80,11 @@ function Card({
                 <div className={styles.card_post_rating_price}>
                     <div className={styles.friendly}>
                       <h1 className={styles.card_post_price}>
-                        ₹ {price} / night
-                      </h1>
+                        ₹ {price*guests} / night
+                      </h1><br/>
+                      <h6 style={{color: "grey", fontWeight: "500"}}>
+                      (For {guests} person)
+                      </h6>
                     <div className={styles.rating_tab}>
                       {length_ratings != 0 && (
                         <div className={styles.rating_icons}>

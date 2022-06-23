@@ -5,11 +5,11 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
 import { useFirebase } from "../../context/firebaseContext";
+import Spinner from 'react-bootstrap/Spinner';
 
 //email send
 import Image from "next/image";
 import styles from "../../styles/account.module.css";
-import { async } from "@firebase/util";
 
 const Tourist = () => {
   const [userHistory, setUserHistory] = React.useState([]);
@@ -17,6 +17,8 @@ const Tourist = () => {
   const { details } = getUserCookies();
   const [currentId, setCurrentId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [cancelling, setCancelling]= React.useState(false);
+  const [cancelbookid,setCancelbookid]=React.useState(null)
 
   //console.log("useremail",cookies.details)
   React.useEffect(() => {
@@ -29,10 +31,14 @@ const Tourist = () => {
 
     const docRef = doc(db, "historyUser", email);
     const unsub = onSnapshot(docRef, (docSnap) => {
+      
       console.log("attached");
       if (docSnap.exists()) {
         setLoading(false);
+        setCancelling(false), 
+      setCancelbookid(null)
         setUserHistory(docSnap.data());
+
         sessionStorage.setItem(
           `tourist ${email}`,
           JSON.stringify(docSnap.data())
@@ -63,6 +69,7 @@ const Tourist = () => {
   }, []);
 
   async function cancelBooking1(currentbook) {
+    setCancelling(true);
     const emailUser = details.email;
     const userName = details.name;
     const {
@@ -79,9 +86,12 @@ const Tourist = () => {
       ownerPhone,
       bookedAt,
     } = currentbook;
+    
+    setCancelbookid(bookingId)
 
     //  console.log("checkate",miliToDate(checkInTime).toDateString())
-    console.log("bookingId", bookingId);
+    // console.log("bookingId", bookingId);
+   
     await cancelBooking(
       bookingId,
       emailUser,
@@ -98,6 +108,7 @@ const Tourist = () => {
       ownerPhone,
       miliToDate(bookedAt)
     );
+
 
     const greetings = "Hope , Your are doing fine";
     const Homestayname = "GrahAshram";
@@ -132,6 +143,8 @@ const Tourist = () => {
       subject,
       greetings
     );
+
+      
 
     sessionStorage.clear();
     // window.location.reload();
@@ -169,7 +182,10 @@ const Tourist = () => {
                 <div style={{ justifyContent: "center" }}>
                   {userHistory.current?.length > 0 ? (
                     userHistory.current.map((currentBook) => {
+                     
                       return (
+                      <>
+                      
                         <Card
                           className={`${styles.card}`}
                           key={currentBook.bookingId}
@@ -233,11 +249,30 @@ const Tourist = () => {
                               className={`mt-5 ${styles.btn}`}
                               onClick={() => cancelBooking1(currentBook)}
                             >
-                              <TiCancel color="white" size={25} />
+                             {(cancelbookid===currentBook.bookingId && cancelling) ? (
+                          <>
+                            {" "}
+                            <Spinner
+                              as="span"
+                              animation="grow"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                            Cancelling
+                          </>
+                        ) : (
+                          <>
+                          <TiCancel color="white" size={25} />
                               Cancel Booking
+                              </>
+                        )}
+                              
+                           
                             </button>
                           </Card.Body>
                         </Card>
+                        </>
                       );
                     })
                   ) : (
