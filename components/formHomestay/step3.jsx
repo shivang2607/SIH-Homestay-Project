@@ -252,6 +252,7 @@ function Step3(props) {
                   {...register(`popularDestinations.${index}.body`, {
                     required: "This is required",
                   })}
+                  
                 />
 
                 {errors.popularDestinations?.[index]?.body && (
