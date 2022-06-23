@@ -102,7 +102,7 @@ function Step3(props) {
             <div className="form-group col-md-6 ">
               {/* <label htmlFor="rent" className="mb-1">Address</label> */}
               <input
-                id="rent"
+                id="address"
                 name="address"
                 type="text"
                 className={classNames(`${styles.textfield} form-control`, {
@@ -135,6 +135,7 @@ function Step3(props) {
                   {...register("airportDistance", {
                     required: "This is required",
                   })}
+                  min='1'
                 />
                 {errors.airportDistance && (
                   <div className="invalid-feedback">
@@ -165,6 +166,7 @@ function Step3(props) {
                   {...register("railwayDistance", {
                     required: "This is required",
                   })}
+                  min='1'
                 />
                 {errors.railwayDistance && (
                   <div className="invalid-feedback">
@@ -195,6 +197,7 @@ function Step3(props) {
                   {...register("busDistance", {
                     required: "This is required",
                   })}
+                  min='1'
                 />
                 {errors.busDistance && (
                   <div className="invalid-feedback">
@@ -218,7 +221,6 @@ function Step3(props) {
               <div className="form-group">
                 <input
                   id={`popularDestinations.${index}.head`}
-                  key={field.id}
                   name={`popularDestinations.${index}.head`}
                   type="text"
                   className={classNames(
@@ -241,7 +243,6 @@ function Step3(props) {
               <div className="form-group">
                 <textarea
                   id={`popularDestinations.${index}.body`}
-                  key={field.id}
                   name={`popularDestinations.${index}.body`}
                   type="text"
                   className={classNames(
@@ -285,6 +286,7 @@ function Step3(props) {
         <fieldset className={`${styles.features} row border p-4 my-4 mx-2 `}>
           <legend>Upload Images</legend>
         <div className="form-group ">
+          <div className="input-group">
           <input
             type="file"
             multiple={true}
@@ -340,6 +342,7 @@ function Step3(props) {
           {errors.images && (
             <div className="invalid-feedback">{errors.images.message}</div>
           )}
+          </div>
         </div>
         </fieldset>
       </div>

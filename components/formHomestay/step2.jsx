@@ -60,7 +60,7 @@ function Step2(props) {
 
           <div className="form-group col">
             <label htmlFor="maxAccomodation" className="mb-1">
-              Max Accomodation
+              Accomodation
             </label>
             <input
               id="maxAccomodation"
@@ -69,7 +69,8 @@ function Step2(props) {
               className={classNames(`${styles.textfield} form-control`, {
                 "is-invalid": errors.maxAccomodation,
               })}
-              placeholder="Max Accomodation"
+              min='1'
+              placeholder="Accomodation"
               {...register("maxAccomodation", {
                 required: "This is required",
               })}
@@ -94,6 +95,8 @@ function Step2(props) {
               className={classNames(`${styles.textfield} form-control`, {
                 "is-invalid": errors.rent,
               })}
+              min='1'
+              max='10000'
               placeholder="Rent per Person"
               {...register("rent", {
                 required: "This is required",
@@ -103,9 +106,9 @@ function Step2(props) {
               <div className="invalid-feedback">{errors.rent.message}</div>
             )}
           </div>
-
-          <div className={`${styles.timeRangeContainer} col-sm-6 col-md-6`}>
-          <label htmlFor="openTime"  >Open Time</label>
+        <div className="col-sm-6 col-md-6">
+          <div className={`${styles.timeRangeContainer} `}>
+          <label htmlFor="openTime" className="mb-2 mx-2"  >Open Time</label>
             <TimeRangePicker
               amPmAriaLabel="Select AM/PM"
               className={styles.timerange}
@@ -125,6 +128,7 @@ function Step2(props) {
               
             />
              
+          </div>
           </div>
         </div>
 

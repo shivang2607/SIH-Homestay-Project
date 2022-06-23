@@ -124,6 +124,7 @@ import styles from '../../styles/homestayform.module.css'
           {...register("males", {
             required: "This is required",
           })}
+          min='0'
               />  
           {errors.males &&(
             <div className="invalid-feedback">{errors.males.message}</div>
@@ -141,6 +142,8 @@ import styles from '../../styles/homestayform.module.css'
           {...register("females", {
             required: "This is required",
           })}
+
+          min='0'
               />  
           {errors.females &&(
             <div className="invalid-feedback">{errors.females.message}</div>
@@ -158,6 +161,9 @@ import styles from '../../styles/homestayform.module.css'
           {...register("children", {
             required: "This is required",
           })}
+
+          min='0'
+
               />  
           {errors.children &&(
             <div className="invalid-feedback">{errors.children.message}</div>

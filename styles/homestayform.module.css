@@ -7,7 +7,7 @@
   display: flex;
   height: 2.5rem;
   /* padding: 20px; */
-  margin: 2rem ;
+  
   margin-left: 0.5rem !important;
   margin-right: 1rem !important;
   width: 50%;
@@ -16,7 +16,8 @@
 
 .timeRangeContainer{
 justify-content: center;
-
+display: flex;
+flex-direction: column;
 
 }
 
@@ -106,7 +107,7 @@ justify-content: center
 
 @media (max-width: 1000px){
   .form{
-width: 90vw;
+  width: 90vw;
   }
   .textfield{
     font-size: 1rem;
