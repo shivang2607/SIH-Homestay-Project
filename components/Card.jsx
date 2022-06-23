@@ -85,7 +85,7 @@ function Card({
                     <div className={styles.rating_tab}>
                       {length_ratings != 0 && (
                         <div className={styles.rating_icons}>
-                          {rating / length_ratings}/5 &nbsp;<AiFillStar color="yellow"/>
+                          {parseInt(rating / length_ratings)}/5 &nbsp;<AiFillStar color="yellow"/>
                         </div>
                       )}
                     </div>
