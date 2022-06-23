@@ -129,6 +129,7 @@ const Search = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+        {/* <div style={{display:"flex",width:"100%"}} className={styles.maindiv}> */}
         <Container className={styles.maindiv}>
           <form onSubmit={handleSubmit(handlesubmit)}>
             <Row>
@@ -142,7 +143,7 @@ const Search = () => {
                         border: "none",
                         filter: "alpha(opacity=60)",
                         backgroundColor: "#121212",
-                        color: "#ffffffa0",
+                        color: "cadetblue",
                         height: "2.5rem",
                       }}
                       items={newPlaces}
@@ -230,6 +231,7 @@ const Search = () => {
             </Row>
           </form>
         </Container>
+        
       </div>
     </>
   );

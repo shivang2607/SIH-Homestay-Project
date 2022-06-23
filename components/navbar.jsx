@@ -4,10 +4,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Link from "next/link";
 import { Container, Dropdown } from "react-bootstrap";
 import { useFirebase } from "../context/firebaseContext";
+import {useRouter} from 'next/router'
 import Image from "next/image";
 const NavBar = () => {
   const { signIn, checkUserCookies, getUserCookies, checkHomeInDb, signOut } =
     useFirebase();
+    const router = useRouter();
   let btn = null;
   let opts = null;
   const history = checkHomeInDb();
@@ -26,11 +28,11 @@ const NavBar = () => {
   } else {
     opts = (
       <>
-        <Link style={{ textDecoration: "none" }} href="/">
-          <a className={styles.link}>Home</a>
+        <Link  href="/">
+          <a style={router.pathname ==="/"?{ fontWeight:'bold', color:"orange" }:{textDecoration:"none"}} className={styles.link}>Home</a>
         </Link>
-        <Link style={{ textDecoration: "none" }} href="/homestayForm" passHref>
-          <a className={styles.link}>register your home</a>
+        <Link  href="/homestayForm" passHref>
+          <a style={router.pathname ==="/homestayForm"?{ fontWeight:'bold', color:"orange" }:{textDecoration:"none"}} className={styles.link}>Register Your Home</a>
         </Link>
         {/* <Link href="/about">About</Link> */}
       </>

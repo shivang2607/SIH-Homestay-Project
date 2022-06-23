@@ -18,8 +18,8 @@
   /* background-color: whitesmoke; */
   /* background-color: #15749a; */
   /* background: rgba(0, 128, 128, 0.75); */
-  background-color: rgba(35, 144, 174, 0.9);
-  background-image: linear-gradient(315deg, rgba(95, 95, 95, 0.471) 0%,  rgba(0, 0, 0, 0.4) 74%); 
+  background-color: rgba(44, 35, 174, 0.7);
+  background-image: linear-gradient(315deg, rgba(20, 167, 187, 0.4) 0%,  rgba(66, 3, 95, 0.471) 74%);
 }
 
 .search{
@@ -132,6 +132,7 @@
 .vdo{
   width: 600px;
   height: 340px;
+  margin-bottom: 3rem;
 }
 
 .footer {

@@ -8,7 +8,7 @@ const nextConfig = {
     domains: ['firebasestorage.googleapis.com'],
      
   },
-  experimental: { images: { layoutRaw: true } },
+  
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,

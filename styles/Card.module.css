@@ -120,6 +120,12 @@
   min-width: 30vw;
   margin: 1rem;
 }
+.badges_div{
+  display: flex;
+  justify-content: space-between;
+  min-width: 30vw;
+  margin: 1rem;
+}
 /* .card_post_rating_price{
 display: flex;
 flex-wrap: wrap;

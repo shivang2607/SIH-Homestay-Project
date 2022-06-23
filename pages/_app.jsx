@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css" 
 import "../styles/globals.css";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";

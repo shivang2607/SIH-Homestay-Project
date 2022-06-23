@@ -6,6 +6,7 @@ import {
   MdGroups,
 } from "react-icons/md";
 import { FaChild } from "react-icons/fa";
+import Spinner from 'react-bootstrap/Spinner';
 import { MdLocationCity } from "react-icons/md";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { BiBus, BiMale, BiFemale } from "react-icons/bi";
@@ -77,6 +78,7 @@ function HomeStay({ details, homestayId }) {
   const [startDate, setStartDate] = useState(checkin_date);
   const [show, setShow] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
@@ -173,6 +175,7 @@ function HomeStay({ details, homestayId }) {
 
   async function booknow(e) {
     e.preventDefault();
+    setLoading(true);
     details.booked_guests = details.booked_guests + guest;
     console.log("this is the booked guests", details.booked_guests);
     console.log("the owner eamil", details.host.email);
@@ -223,7 +226,8 @@ function HomeStay({ details, homestayId }) {
       "HOMESTAY BOOKED",
       "Congratulations"
     );
-    router.push(`/users/${cookies.details.token.slice(5, 25)}`);
+    router.replace(`/users/${cookies.details.token.slice(5, 25)}`);
+    setLoading(false);
   }
 
   var sum_star = 0;
@@ -515,7 +519,22 @@ function HomeStay({ details, homestayId }) {
                         size="lg"
                         onClick={booknow}
                       >
-                        BOOK NOW
+                        {loading ? (
+                          <>
+                            {" "}
+                            <Spinner
+                              as="span"
+                              animation="grow"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                            Booking...
+                          </>
+                        ) : (
+                          "BOOK NOW"
+                        )}
+                        
                       </Button>
                     </div>
                   ) : (

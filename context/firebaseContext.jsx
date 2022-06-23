@@ -46,44 +46,52 @@ export function FirebaseProvider({ children }) {
     const historyHomestayRef = collection(db, "historyHomestay");
     const unsub1 = onSnapshot(historyHomestayRef, (snapshot) => {
       console.log("listener1 attached");
-      snapshot.docs.map((document) => {
-        document.data().current.forEach(async (element) => {
-          console.log(element);
-          if (element.checkOutTime <= Timestamp.now().seconds) {
-            await setDoc(
-              doc(db, "historyHomestay", document.id),
-              {
-                current: arrayRemove(element),
-                past: arrayUnion(element),
-              },
-              { merge: true }
-            );
-          } else {
-            console.log("I dont know whats happening");
-          }
+      
+        snapshot.docs.map(async (document) => {
+          document.data().current && document.data().current.forEach(async (element) => {
+            console.log(element);
+            if (element.checkOutTime <= Timestamp.now().seconds) {
+              await setDoc(
+                doc(db, "historyHomestay", document.id),
+                {
+                  current: arrayRemove(element),
+                  past: arrayUnion(element),
+                },
+                { merge: true }
+              );
+            } else {
+              // console.log("I dont know whats happening");
+            }
+          });
         });
-      });
+      
+     
+      
     });
 
     const unsub2 = onSnapshot(historyUserRef, (snapshot) => {
       console.log("listener2 attached");
-      snapshot.docs.map((document) => {
-        document.data().current.forEach(async (element) => {
-          console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
-          if (element.checkOutTime < Timestamp.now().seconds) {
-            await setDoc(
-              doc(db, "historyUser", document.id),
-              {
-                current: arrayRemove(element),
-                past: arrayUnion(element),
-              },
-              { merge: true }
-            );
-          } else {
-            console.log("I dont know whats happening");
-          }
+     
+        snapshot.docs.map((document) => {
+        
+          document.data().current && document.data().current.forEach(async (element) => {
+            console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
+            if (element.checkOutTime < Timestamp.now().seconds) {
+              await setDoc(
+                doc(db, "historyUser", document.id),
+                {
+                  current: arrayRemove(element),
+                  past: arrayUnion(element),
+                },
+                { merge: true }
+              );
+            } else {
+              console.log("I dont know whats happening");
+            }
+          });
         });
-      });
+     
+      
     });
 
     return () => {

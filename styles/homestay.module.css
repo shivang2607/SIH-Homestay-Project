@@ -8,6 +8,7 @@
 }
 
 .house_title {
+    
     margin-top: 3rem;
     /* border: solid; */
     display: flex;
@@ -93,7 +94,13 @@
 .small_detials {
     display: flex;
     /* justify-content:space-between; */
+}
 
+.sub_div {
+    width: 50vw;
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .sub_div {
