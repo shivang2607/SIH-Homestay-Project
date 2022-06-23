@@ -155,8 +155,8 @@ const Tourist = () => {
   }
 
   return (
-    <>
-      <div style={loading && {display:'none'}}>
+    <>{
+    !loading?   <div >
         {userHistory && console.log("user", userHistory)}
         <Tabs
           className={styles.book}
@@ -443,18 +443,16 @@ const Tourist = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div>
-      <div  style={!loading ? {display:'none'} :{ display: "flex", justifyContent: "center" }}>
-        <Image
-          hidden={!loading}
-       
+      </div>:
+      <div  style={{ display: "flex", justifyContent: "center" }}>
+        <Image      
           src="/no-data-found.webp"
           layout="intrinsic"
           height={800}
           width={1000}
           alt=""
         />
-      </div>
+      </div>}
     </>
   );
 };
