@@ -11,7 +11,7 @@
   background-repeat: repeat-y;
 }
 .navbar {
-  color: white;
+   color: white;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-bottom: 1.5rem;
   height: 4rem;
@@ -22,23 +22,14 @@
   background-image: linear-gradient(315deg, rgba(20, 167, 187, 0.4) 0%,  rgba(66, 3, 95, 0.471) 74%);
 }
 
-.searchcontainer {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: 100vw;
-  justify-content: center;
-  overflow-x: hidden;
-  z-index: 100;
-  padding: 0;
-}
 .search{
-  display: flex;
-  flex-direction: column;
-  flex: 1 !important;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  z-index: 1000;
   padding: 0;
-  width: 100vw;
 }
+
 .nav {
   display: flex;
   width: 22rem;
@@ -46,6 +37,7 @@
   font-size: large;
   margin-right: auto;
 }
+
 .link:hover{
   color: rgb(0, 255, 247);
 }
@@ -195,16 +187,20 @@
   margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 1000px) {
+
+
+@media screen and (max-width: 990px) {
   .nav {
     flex-direction: column;
   }
+  .navbar{
+    height: min-content;
+  }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 550px) {
   .vdo{
     width: 100%;
-    height: auto;
   }
   .grid {
     width: 100%;
@@ -223,7 +219,8 @@
   .hero {
     z-index: 100;
     margin-top: 0;
-    width: fit-content;
+    padding: 0;
+    width: 100vw;
     background-color: #121212;
   }
   .hero img {

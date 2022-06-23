@@ -53,7 +53,7 @@ function HomeStay({ details, homestayId }) {
   const [guest, setGuest] = useState(1);
   const router = useRouter();
   const { checkIn, checkOut, guests, location } = router.query;
-
+  
   var checkin_date = new Date(checkIn * 1000);
 
   var checkout_date = new Date(checkOut * 1000);
@@ -145,13 +145,14 @@ function HomeStay({ details, homestayId }) {
 
   function handleRating(e) {
     e.preventDefault();
-    addRating(homestayId, currentValue, user);
+    addRating(homestayId, currentValue, name);
     onEditClose();
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    addComment(homestayId, head, user, body);
+    addRating(homestayId, currentValue, name);
+    addComment(homestayId, head, name, body);
     onClose();
   }
   var old_checkin_Date = checkin_date;
@@ -593,7 +594,7 @@ function HomeStay({ details, homestayId }) {
             </div>
             <hr className={styles.line} />
 
-            {details.comments.length != 0 && (
+            {details.comments && details.comments.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
@@ -726,8 +727,8 @@ function HomeStay({ details, homestayId }) {
                               </div>
                               <div className={styles.name_user}>
                                 <strong>
-                                  {/*comment.user.name*/}
-                                  {name}
+                                  {comment.user}<br/>
+                                  {/* {name} */}
                                   <ReactTimeAgo
                                     date={
                                       new Date(

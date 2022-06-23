@@ -74,7 +74,7 @@ const Search = () => {
   const handlechange = (e) => {
     /*  console.log(e.target.value); */
     setPeople(e.target.value);
-    /* console.log(people) */
+     console.log(people) 
   };
 
   const handlesubmit = () => {
