@@ -47,11 +47,7 @@ function MyApp({ Component, pageProps }) {
         </Head>
         <NavBar />
         <ChakraProvider theme={theme}>
-          <Container
-            style={{ marginLeft: "auto", padding: "0", width: "100vw",  }}
-          >
             <Component {...pageProps} />
-          </Container>
           <Footer />
         </ChakraProvider>
       </FirebaseProvider>
