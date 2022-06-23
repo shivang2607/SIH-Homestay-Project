@@ -72,13 +72,13 @@ const Search = () => {
   };
 
   const handlechange = (e) => {
-    /*  console.log(e.target.value); */
+    /*  console.log(e.target.value);  */
     setPeople(e.target.value);
-    /* console.log(people) */
+    /*  console.log(people)  */
   };
 
   const handlesubmit = () => {
-    if (!cityname || !startDate || !stopDate) {
+    if (!cityname || !startDate || !stopDate || !people) {
       console.log("empty is");
       setShow(true);
     } else {
@@ -117,10 +117,10 @@ const Search = () => {
                 textAlign: "center",
                 color: "blue",
                 fontFamily: "Montserrat",
-                fontSize: "18px",
+                fontSize: "17px",
               }}
             >
-              Like CityName, Checkin Date, Check out Date
+              Like CityName, Guests, Checkin Date, Checkout Date
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -167,20 +167,20 @@ const Search = () => {
                     placeholder="Guests"
                     name="guests"
                     className={classNames(
-                      `${styles.datecss} ${styles.guests} form-control`,
+                      `${styles.datecss} ${styles.guests}`,
                       { "is-invalid": errors.guests }
                     )}
                     type="number"
-                    {...register("guests", {
+                   /*  {...register("guests", {
                       required: "This is required",
-                    })}
+                    })} */
                     min="1"
                   />
-                  {errors.guests && (
+                 {/*  {errors.guests && (
                     <div className="invalid-feedback">
                       {errors.guests.message}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </Col>
                 <Col xs={8} md={4} lg={3}>
