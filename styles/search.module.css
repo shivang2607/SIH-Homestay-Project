@@ -23,6 +23,7 @@
   border: none !important;
   border-radius: 5px;
   width: 18vw;
+  z-index: 4;
 }
 
 @media screen and (max-width:1080px){
