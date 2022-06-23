@@ -27,7 +27,9 @@
 }
 
 .average_Rating {
+    display: flex;
     font-size: 1.5rem;
+    width: auto;
 }
 
 .rating_icons {
@@ -38,7 +40,7 @@
     background: linear-gradient(90deg, rgb(28, 99, 122) 1%, rgb(2, 63, 69) 99%);
     height: 2.3rem;
     justify-content: center;
-    width: 5rem;
+    width: 7rem;
     color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-right: 2rem;

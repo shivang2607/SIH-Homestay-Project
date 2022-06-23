@@ -24,6 +24,7 @@ import Reviewstars from "./star";
 // import styles from "../styles/stars.module.css"
 import ReactTimeAgo from "react-time-ago";
 import { useRouter } from "next/router";
+import { AiFillStar } from 'react-icons/ai'
 
 import { FaStar } from "react-icons/fa";
 import {
@@ -143,13 +144,14 @@ function HomeStay({ details, homestayId }) {
 
   function handleRating(e) {
     e.preventDefault();
-    addRating(homestayId, currentValue, user);
+    addRating(homestayId, currentValue, name);
     onEditClose();
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    addComment(homestayId, head, user, body);
+    addComment(homestayId, head, name, body);
+    addRating(homestayId, currentValue, name);
     onClose();
   }
   var old_checkin_Date = checkin_date;
@@ -181,9 +183,7 @@ function HomeStay({ details, homestayId }) {
     console.log("the details.docid", details.docid);
     console.log("the user", user);
     console.log("oxer phone", details.host.phone);
-
     console.log("neame homestaya", details.homestayName);
-
     console.log("the ostart date", startDate);
     console.log("the stop date", stopDate);
     console.log("the diffrence date", diffrecnedate);
@@ -350,7 +350,7 @@ function HomeStay({ details, homestayId }) {
                 <div className={styles.rating_icons}>
                   {" "}
                   <h4 className={styles.average_Rating}>
-                    {sum_star / details.ratings.length}/5
+                    {(sum_star / details.ratings.length).toFixed(1)}/5 <AiFillStar color="yellow"/>
                   </h4>
                 </div>
               )}
@@ -595,7 +595,7 @@ function HomeStay({ details, homestayId }) {
             </div>
             <hr className={styles.line} />
 
-            {details.comments.length != 0 && (
+            {details.comments?.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
@@ -706,7 +706,7 @@ function HomeStay({ details, homestayId }) {
             </div>
 
             <hr className={styles.line} />
-            {details.comments.length != 0 && (
+            {details.comments?.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
@@ -717,7 +717,7 @@ function HomeStay({ details, homestayId }) {
                     </h4>
                     <span>(Based on user ratings and reviews)</span>
                   </div>
-                  {details.comments.map((comment) => {
+                  {details.comments?.map((comment) => {
                     return (
                       <div className={styles.reviews_container} key={v4()}>
                         <div className={styles.box}>
@@ -728,8 +728,8 @@ function HomeStay({ details, homestayId }) {
                               </div>
                               <div className={styles.name_user}>
                                 <strong>
-                                  {/*comment.user.name*/}
-                                  {name}
+                                 { comment.user}<br/>
+                                  {/* {name} */}
                                   <ReactTimeAgo
                                     date={
                                       new Date(
