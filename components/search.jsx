@@ -186,7 +186,7 @@ const Search = () => {
                   <div className={styles.dates}>
                     <DatePicker
                       placeholderText="Enter Check in Date"
-                      className={`${styles.datecss}  `}
+                      className={`${styles.datecss}`}
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}
                       dateFormat="dd/MM/yyyy"
@@ -199,7 +199,7 @@ const Search = () => {
                   <div className={styles.dates}>
                     <DatePicker
                       placeholderText="Enter Check Out Date"
-                      className={`${styles.datecss}  ${styles.innerdiv}`}
+                      className={`${styles.datecss} ${styles.innerdiv}`}
                       selected={stopDate}
                       onChange={(date) => setStopDate(date)}
                       dateFormat="dd/MM/yyyy"
@@ -209,8 +209,6 @@ const Search = () => {
                 </Col>
             </Row>
             <Row>
-              {/* background-color: #abe9cd;
-background-image: linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%); */}
 
               <Col style={{ textAlign: "center" }}>
                 <Button

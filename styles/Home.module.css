@@ -11,33 +11,25 @@
   background-repeat: repeat-y;
 }
 .navbar {
-  color: white;
+   color: white;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-bottom: 1.5rem;
+  height: 4rem;
   /* background-color: whitesmoke; */
   /* background-color: #15749a; */
   /* background: rgba(0, 128, 128, 0.75); */
   background-color: rgba(35, 144, 174, 0.9);
-  background-image: linear-gradient(315deg, rgba(95, 95, 95, 0.471) 0%,  rgba(0, 0, 0, 0.4) 74%);
+  background-image: linear-gradient(315deg, rgba(95, 95, 95, 0.471) 0%,  rgba(0, 0, 0, 0.4) 74%); 
 }
 
-.searchcontainer {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: 100vw;
-  justify-content: center;
-  overflow-x: hidden;
-  z-index: 100;
-  padding: 0;
-}
 .search{
-  display: flex;
-  flex-direction: column;
-  flex: 1 !important;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  z-index: 1000;
   padding: 0;
-  width: 100vw;
 }
+
 .nav {
   display: flex;
   width: 22rem;
@@ -45,6 +37,7 @@
   font-size: large;
   margin-right: auto;
 }
+
 .link:hover{
   color: rgb(0, 255, 247);
 }
@@ -191,16 +184,20 @@
   margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 1000px) {
+
+
+@media screen and (max-width: 990px) {
   .nav {
     flex-direction: column;
   }
+  .navbar{
+    height: min-content;
+  }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 550px) {
   .vdo{
     width: 100%;
-    height: auto;
   }
   .grid {
     width: 100%;
@@ -219,7 +216,8 @@
   .hero {
     z-index: 100;
     margin-top: 0;
-    width: fit-content;
+    padding: 0;
+    width: 100vw;
     background-color: #121212;
   }
   .hero img {

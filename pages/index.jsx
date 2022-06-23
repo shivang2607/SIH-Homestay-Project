@@ -21,10 +21,8 @@ export default function Home() {
 
   return (
     <Container className={styles.container}>
-      <Container className={styles.searchcontainer}>
-        <Container className={styles.search}>
+      <Container className={styles.search}>
           <Search />
-        </Container>
       </Container>
       <div className={styles.herocontainer}>
         <div className={styles.hero}>
@@ -39,9 +37,9 @@ export default function Home() {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       ></iframe>
-      {/* <Container className={styles.content}>
+      <Container className={styles.content}>
         <UtilityButtons />
-      </Container> */}
+      </Container>
     </Container>
   );
 }

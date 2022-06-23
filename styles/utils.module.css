@@ -39,4 +39,7 @@
   .container {
     flex-direction: column;
   }
+  .image{
+    background-color: #fafafa;
+  }
 }
