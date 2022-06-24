@@ -935,12 +935,12 @@ function HomeStay({ details, homestayId }) {
               </div>
             </div>
           </div>
-        // </div>
+         </div>
       ) : (
         <Reviewstars />
       )}
     </>
-  );
+  )
 }
 
 export default HomeStay;
