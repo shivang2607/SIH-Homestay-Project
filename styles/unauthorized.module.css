@@ -1,0 +1,54 @@
+.container{
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #232222;
+}
+.image{
+  width: 30%;
+}
+.ganddalf{
+  border-radius: 50%;
+}
+.text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.625rem;
+  color: #03adc5;
+  font-weight: bolder;
+}
+.text h1{
+  font-size: 2.5rem;
+  margin-bottom: 0.625rem;
+}
+.btn{
+  color: #03adc5;
+  margin-top: 0.75rem;
+  border: 1px solid white;
+  padding: 0.25rem;
+  border-radius: 2px;
+  font-size: 1.25rem;
+  font-weight: bolder;
+}
+
+@media screen and (max-width: 768px) {
+  .container{
+    height: 100vh;
+  }
+  .image{
+    width: 70%;
+  }
+  .ganddalf{
+    width: 100%;
+    height: 100%;
+  }
+  .text{
+    margin-top: 0.625rem;
+    justify-content: center;
+    text-align: center;
+  }
+}

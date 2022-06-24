@@ -8,6 +8,7 @@
 }
 
 .house_title {
+    
     margin-top: 3rem;
     /* border: solid; */
     display: flex;
@@ -26,7 +27,9 @@
 }
 
 .average_Rating {
+    display: flex;
     font-size: 1.5rem;
+    width: auto;
 }
 
 .rating_icons {
@@ -37,7 +40,7 @@
     background: linear-gradient(90deg, rgb(28, 99, 122) 1%, rgb(2, 63, 69) 99%);
     height: 2.3rem;
     justify-content: center;
-    width: 5rem;
+    width: 7rem;
     color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-right: 2rem;
@@ -93,7 +96,13 @@
 .small_detials {
     display: flex;
     /* justify-content:space-between; */
+}
 
+.sub_div {
+    width: 50vw;
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .sub_div {
@@ -678,7 +687,6 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
 
 }
 
-
 @media screen and (max-width: 800px) {
     .aisehi{
         flex-direction: column;
@@ -782,6 +790,7 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
 
     .maindiv {
         height: fit-content;
+        margin-left: 6rem;
     }
     .badges_div{
         flex-direction: column;
@@ -813,6 +822,9 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
     }
     .reserve_button Button{
         font-size:1rem;
+    }
+    .maindiv{
+        margin-left: 1.2rem;
     }
 
 
