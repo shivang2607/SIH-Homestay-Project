@@ -346,6 +346,14 @@ justify-content: space-between;
     justify-content: center;
     flex-direction: column;
   }
+  .friendly h1{
+    margin: 0 !important;
+    
+  }
+  .friendly h6{
+    margin-top: 0 !important;
+    
+  }
   .card_post_rating_price {
     width: 100%;
     display: flex;
@@ -354,6 +362,7 @@ justify-content: space-between;
   }
   .card_post_price{
     align-self: center;
+    margin-bottom: 0;
   }
   .card_post_title, .card_post_location, .card_post_text{
     padding: 0;
@@ -371,6 +380,11 @@ justify-content: space-between;
   }
   .rating_tab {
     margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    
+    
   }
   .card_post_title {
     font-size: 1.5rem;
@@ -378,9 +392,13 @@ justify-content: space-between;
  
   .rating_icons {
     margin: auto;
+    padding: 1rem;
     margin-top: 0.4rem;
     font-size: 1.5rem;
+    width: 9rem;
   }
+  
+
 }
 
 /* @media screen and (max-width: 508px) {

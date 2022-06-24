@@ -23,9 +23,10 @@
 }
 
 .search{
-  /* display: flex; */
+  display: flex;
+  width:100%;
   /* flex-direction: column; */
-  /* justify-content: center; */
+  justify-content: center;
   z-index: 1000;
   padding: 0;
 }
@@ -208,6 +209,7 @@
   }
   .container {
     padding: 0;
+    
   }
   .herocontainer {
     display: flex;

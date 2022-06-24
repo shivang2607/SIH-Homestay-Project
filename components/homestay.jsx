@@ -211,7 +211,12 @@ function HomeStay({ details, homestayId }) {
       details.homestayName,
       cookies.details.email,
       cookies.details.name,
-      `<p>Your booking of  ${details.homestayName}   from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>`,
+      `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
+      <br/>OTHER DETAILS:
+      <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
+      <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
+      <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
+      <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
       "HOMESTAY BOOKED",
       "Congratulations"
     );
