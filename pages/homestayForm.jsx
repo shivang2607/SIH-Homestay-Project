@@ -6,18 +6,18 @@ import { useRouter } from "next/router";
 
 const HomeStayForm = () => {
   const router = useRouter()
-  let body = null;
+  let body = <FullForm />;
   const { checkUserCookies, checkHomeInDb } = useFirebase();
   const history = checkHomeInDb();
-  if (checkUserCookies()) {
-    if (history.length > 0) {
-      router.replace("/")
-    } else {
-      body = <FullForm />;
-    }
-  } else {
-    body = <Unauthorized />;
-  }
+  // if (checkUserCookies()) {
+  //   if (history.length > 0) {
+  //     router.replace("/")
+  //   } else {
+  //     body = <FullForm />;
+  //   }
+  // } else {
+  //   body = <Unauthorized />;
+  // }
   return <div>{body}</div>;
 };
 

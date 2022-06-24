@@ -46,7 +46,7 @@ function Card({
               <p className={styles.card_post_text}>
                 {navigator.userAgent.match(/Android/i) ||
                 navigator.userAgent.match(/iPhone/i)
-                  ? description.slice(0, 100) + "....."
+                  ? description.slice(0, 140) + "....."
                   : description}
               </p>
 
@@ -90,7 +90,7 @@ function Card({
                     <div className={styles.rating_tab}>
                       {length_ratings != 0 && (
                         <div className={styles.rating_icons}>
-                          {parseInt(rating / length_ratings)}/5 &nbsp;
+                          {(rating / length_ratings).toPrecision(1)}/5 &nbsp;
                           <AiFillStar color="yellow" />
                         </div>
                       )}
