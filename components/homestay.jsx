@@ -444,7 +444,7 @@ function HomeStay({ details, homestayId }) {
                         {details.popularDestinationsNearby.map(comment => {
 
                             return <div className={styles.popular_container}>
-                                <div className={styles.box}>
+                                <div className={styles.box1}>
                                     <div className={styles.box_top}>
                                         <div className={styles.profile1}>
                                             <div className={styles.comment_user1}>
@@ -472,6 +472,8 @@ function HomeStay({ details, homestayId }) {
                                 return <li>{rule}</li>
                             })}
                         </ul>
+                        <hr className='line' />
+                        <hr className='line' />
                         <div className={styles.badges_div}>
                             {details.Rules.alcoholTolerant ? <Badge colorScheme="whatsapp" fontSize='1rem'>ALCOHOL TOLERANT</Badge> : <Badge colorScheme='red' fontSize='1rem'>
                                 ALCOHOL INTOLERANT
