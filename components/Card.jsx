@@ -86,6 +86,7 @@ function Card({
                       (For {guests} person)
                     </h6>
                     <div className={styles.rating_tab}>
+                      {console.log("sdfg", rating, length_ratings)}
                       {length_ratings != 0 && (
                         <div className={styles.rating_icons}>
                           {(rating / length_ratings).toFixed(1)}/5 &nbsp;<AiFillStar color="yellow" />

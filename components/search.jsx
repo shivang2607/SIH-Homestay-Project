@@ -125,7 +125,7 @@ const Search = () => {
           </Modal.Footer>
         </Modal>
         {/* <div style={{display:"flex",width:"100%"}} className={styles.maindiv}> */}
-        <div className={styles.maindiv} style={{display:'flex', width:'99vw', overflowX:'hidden'}}>
+        <div className={styles.maindiv} style={{ width:'99vw'}}>
           <form onSubmit={handleSubmit(handlesubmit)}>
             <Row>
               <Col xs={12} md={12} lg={3}>

@@ -37,7 +37,7 @@ const Location = ({ homes }) => {
     setCount((count) => count + 2);
   };
 
-  var sum_star = 0;
+  
 
   return (
     <>
@@ -125,6 +125,8 @@ const Location = ({ homes }) => {
             >
                 {homeListPage.map((home) => {
                   const { booked_guests } = home;
+                  console.log("avcbd",home.ratings.length);
+                  let sum_star = 0;
                   home.ratings.map((rating) => {
                     sum_star = sum_star + rating.stars;
                   });
