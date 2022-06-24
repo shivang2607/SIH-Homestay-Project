@@ -12,7 +12,7 @@ import newPlaces from "../components/items";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import classNames from "classnames";
-import Alert from "react-bootstrap/Alert";
+import Spinner from 'react-bootstrap/Spinner';
 import Modal from "react-bootstrap/Modal";
 
 const Search = () => {
@@ -31,6 +31,7 @@ const Search = () => {
   const [statename, setStateName] = useState("");
   const [people, setPeople] = useState(1);
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -72,28 +73,21 @@ const Search = () => {
   };
 
   const handlechange = (e) => {
-    /*  console.log(e.target.value); */
+    /*  console.log(e.target.value);  */
     setPeople(e.target.value);
-    /* console.log(people) */
+    /*  console.log(people)  */
   };
 
   const handlesubmit = () => {
-    if (!cityname || !startDate || !stopDate) {
+    if (!cityname || !startDate || !stopDate || !people) {
       console.log("empty is");
       setShow(true);
     } else {
-      // router.push({
-      //   pathname: "/Location/[location]",
-      //   query: {
-      //     checkin: startDate.getTime() / 1000,
-      //     checkout: stopDate.getTime() / 1000,
-      //     location: cityname,
-      //     statename,
-      //     disname,
-      //     people,
-      //   },
-      // });
-      router.push({
+      setLoading(true);
+     
+      
+      loading || router.push({
+        
         pathname: "/Location/[location]",
         query: {
           location: cityname,
@@ -103,10 +97,11 @@ const Search = () => {
         },
       });
     }
+    setLoading(false);
   };
   return (
     <>
-      <div>
+      <div style ={{display:'flex', width:'100vw', justifyContent:'center', justifySelf:'center'}}>
         <Modal show={show} onHide={() => setShow(false)} animation={false}>
           <Modal.Header closeButton>
             <Modal.Title>Please, fill all the field </Modal.Title>
@@ -117,10 +112,10 @@ const Search = () => {
                 textAlign: "center",
                 color: "blue",
                 fontFamily: "Montserrat",
-                fontSize: "18px",
+                fontSize: "17px",
               }}
             >
-              Like CityName, Checkin Date, Check out Date
+              Like CityName, Guests, Checkin Date, Checkout Date
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -130,7 +125,7 @@ const Search = () => {
           </Modal.Footer>
         </Modal>
         {/* <div style={{display:"flex",width:"100%"}} className={styles.maindiv}> */}
-        <Container className={styles.maindiv}>
+        <div className={styles.maindiv} style={{display:'flex', width:'99vw', overflowX:'hidden'}}>
           <form onSubmit={handleSubmit(handlesubmit)}>
             <Row>
               <Col xs={12} md={12} lg={3}>
@@ -167,20 +162,20 @@ const Search = () => {
                     placeholder="Guests"
                     name="guests"
                     className={classNames(
-                      `${styles.datecss} ${styles.guests} form-control`,
+                      `${styles.datecss} ${styles.guests}`,
                       { "is-invalid": errors.guests }
                     )}
                     type="number"
-                    {...register("guests", {
+                   /*  {...register("guests", {
                       required: "This is required",
-                    })}
+                    })} */
                     min="1"
                   />
-                  {errors.guests && (
+                 {/*  {errors.guests && (
                     <div className="invalid-feedback">
                       {errors.guests.message}
                     </div>
-                  )}
+                  )} */}
                 </div>
               </Col>
                 <Col xs={8} md={4} lg={3}>
@@ -216,6 +211,7 @@ const Search = () => {
                   type="submit"
                   variant="primary"
                   size="lg"
+                  disabled={loading}
                   style={{
                     color: "#121212",
                     marginTop: "1.25rem",
@@ -225,12 +221,26 @@ const Search = () => {
                       "linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%)",
                   }}
                 >
-                  Search
+                 {loading ? (
+                          <>
+                            {" "}
+                            <Spinner
+                              as="span"
+                              animation="grow"
+                              size="sm"
+                              role="status"
+                              aria-hidden="true"
+                            />
+                            Searching...
+                          </>
+                        ) : (
+                          "Search"
+                        )}
                 </Button>
               </Col>
             </Row>
           </form>
-        </Container>
+        </div>
         
       </div>
     </>

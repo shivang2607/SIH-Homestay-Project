@@ -157,8 +157,9 @@ const HomeOwner = () => {
   // ))}
 
   return (
-    <>
-      <div hidden={loading}>
+    <>{
+      !loading? 
+      <div>
         {dataHome && console.log("data", OwnerHistory)}
         <Tabs
           className={styles.book}
@@ -672,20 +673,16 @@ const HomeOwner = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div>
-      <div
-        hidden={!loading}
-        style={{ display: "flex", justifyContent: "center" }}
-      >
+      </div>:
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Image
-          hidden={!loading}
           src="/no-data-found.webp"
           layout="intrinsic"
           height={800}
           width={1000}
           alt=""
         />
-      </div>
+      </div>}
     </>
   );
 };

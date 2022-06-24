@@ -5,11 +5,11 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
 import { useFirebase } from "../../context/firebaseContext";
+import Spinner from "react-bootstrap/Spinner";
 
 //email send
 import Image from "next/image";
 import styles from "../../styles/account.module.css";
-import { async } from "@firebase/util";
 
 const Tourist = () => {
   const [userHistory, setUserHistory] = React.useState([]);
@@ -17,6 +17,8 @@ const Tourist = () => {
   const { details } = getUserCookies();
   const [currentId, setCurrentId] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [cancelling, setCancelling] = React.useState(false);
+  const [cancelbookid, setCancelbookid] = React.useState(null);
 
   //console.log("useremail",cookies.details)
   React.useEffect(() => {
@@ -32,7 +34,9 @@ const Tourist = () => {
       console.log("attached");
       if (docSnap.exists()) {
         setLoading(false);
+        setCancelling(false), setCancelbookid(null);
         setUserHistory(docSnap.data());
+
         sessionStorage.setItem(
           `tourist ${email}`,
           JSON.stringify(docSnap.data())
@@ -63,6 +67,7 @@ const Tourist = () => {
   }, []);
 
   async function cancelBooking1(currentbook) {
+    setCancelling(true);
     const emailUser = details.email;
     const userName = details.name;
     const {
@@ -80,8 +85,11 @@ const Tourist = () => {
       bookedAt,
     } = currentbook;
 
+    setCancelbookid(bookingId);
+
     //  console.log("checkate",miliToDate(checkInTime).toDateString())
-    console.log("bookingId", bookingId);
+    // console.log("bookingId", bookingId);
+
     await cancelBooking(
       bookingId,
       emailUser,
@@ -147,8 +155,8 @@ const Tourist = () => {
   }
 
   return (
-    <>
-      <div hidden={loading}>
+    <>{
+    !loading?   <div >
         {userHistory && console.log("user", userHistory)}
         <Tabs
           className={styles.book}
@@ -170,74 +178,93 @@ const Tourist = () => {
                   {userHistory.current?.length > 0 ? (
                     userHistory.current.map((currentBook) => {
                       return (
-                        <Card
-                          className={`${styles.card}`}
-                          key={currentBook.bookingId}
-                        >
-                          <Card.Body>
-                            <Card.Title>
-                              <h3>{currentBook.HomestayName} </h3>
-                            </Card.Title>
-                            <Card.Subtitle
-                              className={`${styles.location} my-1`}
-                            >
-                              {currentBook.Address}, {currentBook.Location}
-                            </Card.Subtitle>
+                        <>
+                          <Card
+                            className={`${styles.card}`}
+                            key={currentBook.bookingId}
+                          >
+                            <Card.Body>
+                              <Card.Title>
+                                <h3>{currentBook.HomestayName} </h3>
+                              </Card.Title>
+                              <Card.Subtitle
+                                className={`${styles.location} my-1`}
+                              >
+                                {currentBook.Address}, {currentBook.Location}
+                              </Card.Subtitle>
 
-                            <div className={`${styles.price}`}>
-                              <h4>Total Rent: </h4>
-                              <h2 className={`${styles.pricetag}`}>
-                                Rs. {currentBook.TotalRent}{" "}
-                                <div className={`${styles.subpricetag}`}>
-                                  (
-                                  {currentBook.TotalRent /
-                                    currentBook.peopleCount}{" "}
-                                  / head)
+                              <div className={`${styles.price}`}>
+                                <h4>Total Rent: </h4>
+                                <h2 className={`${styles.pricetag}`}>
+                                  Rs. {currentBook.TotalRent}{" "}
+                                  <div className={`${styles.subpricetag}`}>
+                                    (
+                                    {currentBook.TotalRent /
+                                      currentBook.peopleCount}{" "}
+                                    / head)
+                                  </div>
+                                </h2>
+                              </div>
+
+                              <div className={`${styles.date}`}>
+                                <span className={`${styles.dateLabel}`}>
+                                  Check In Date:{" "}
+                                </span>{" "}
+                                <div className={`${styles.datetag}`}>
+                                  {miliToDate(
+                                    currentBook.checkInTime
+                                  ).toDateString()}
                                 </div>
-                              </h2>
-                            </div>
-
-                            <div className={`${styles.date}`}>
-                              <span className={`${styles.dateLabel}`}>
-                                Check In Date:{" "}
-                              </span>{" "}
-                              <div className={`${styles.datetag}`}>
-                                {miliToDate(
-                                  currentBook.checkInTime
-                                ).toDateString()}
                               </div>
-                            </div>
-                            <div className={`${styles.date}`}>
-                              <span className={`${styles.dateLabel}`}>
-                                Check Out Date:{" "}
-                              </span>{" "}
-                              <div className={`${styles.datetag}`}>
-                                {miliToDate(
-                                  currentBook.checkOutTime
-                                ).toDateString()}
+                              <div className={`${styles.date}`}>
+                                <span className={`${styles.dateLabel}`}>
+                                  Check Out Date:{" "}
+                                </span>{" "}
+                                <div className={`${styles.datetag}`}>
+                                  {miliToDate(
+                                    currentBook.checkOutTime
+                                  ).toDateString()}
+                                </div>
                               </div>
-                            </div>
 
-                            <div className={`${styles.date}`}>
-                              <span className={`${styles.dateLabel}`}>
-                                Booked On:{" "}
-                              </span>
-                              <div className={`${styles.canceltag}`}>
-                                {miliToDate(
-                                  currentBook.bookedAt
-                                ).toDateString()}
+                              <div className={`${styles.date}`}>
+                                <span className={`${styles.dateLabel}`}>
+                                  Booked On:{" "}
+                                </span>
+                                <div className={`${styles.canceltag}`}>
+                                  {miliToDate(
+                                    currentBook.bookedAt
+                                  ).toDateString()}
+                                </div>
                               </div>
-                            </div>
 
-                            <button
-                              className={`mt-5 ${styles.btn}`}
-                              onClick={() => cancelBooking1(currentBook)}
-                            >
-                              <TiCancel color="white" size={25} />
-                              Cancel Booking
-                            </button>
-                          </Card.Body>
-                        </Card>
+                              <button
+                                className={`mt-5 ${styles.btn}`}
+                                onClick={() => cancelBooking1(currentBook)}
+                              >
+                                {cancelbookid === currentBook.bookingId &&
+                                cancelling ? (
+                                  <>
+                                    {" "}
+                                    <Spinner
+                                      as="span"
+                                      animation="grow"
+                                      size="sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    />
+                                    Cancelling
+                                  </>
+                                ) : (
+                                  <>
+                                    <TiCancel color="white" size={25} />
+                                    Cancel Booking
+                                  </>
+                                )}
+                              </button>
+                            </Card.Body>
+                          </Card>
+                        </>
                       );
                     })
                   ) : (
@@ -416,17 +443,16 @@ const Tourist = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Image
-          hidden={!loading}
+      </div>:
+      <div  style={{ display: "flex", justifyContent: "center" }}>
+        <Image      
           src="/no-data-found.webp"
           layout="intrinsic"
           height={800}
           width={1000}
           alt=""
         />
-      </div>
+      </div>}
     </>
   );
 };

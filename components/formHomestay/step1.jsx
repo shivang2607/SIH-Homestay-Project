@@ -15,7 +15,7 @@ function Step1(params) {
     <div
       style={{ borderRadius: "10px" }}
       className={`${style.cardbody} card mb-5 mt-3 shadow`}
-    > 
+    >
       <div className={`${styles.cardhead} card-header p-3`}>
         {" "}
         Personal Information
@@ -153,6 +153,7 @@ function Step1(params) {
                 {...register("males", {
                   required: "This is required",
                 })}
+                min="0"
               />
               {errors.males && (
                 <div className="invalid-feedback">{errors.males.message}</div>
@@ -172,6 +173,7 @@ function Step1(params) {
                 {...register("females", {
                   required: "This is required",
                 })}
+                min="0"
               />
               {errors.females && (
                 <div className="invalid-feedback">{errors.females.message}</div>
@@ -191,6 +193,7 @@ function Step1(params) {
                 {...register("children", {
                   required: "This is required",
                 })}
+                min="0"
               />
               {errors.children && (
                 <div className="invalid-feedback">

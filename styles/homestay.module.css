@@ -27,7 +27,9 @@
 }
 
 .average_Rating {
+    display: flex;
     font-size: 1.5rem;
+    width: auto;
 }
 
 .rating_icons {
@@ -38,7 +40,7 @@
     background: linear-gradient(90deg, rgb(28, 99, 122) 1%, rgb(2, 63, 69) 99%);
     height: 2.3rem;
     justify-content: center;
-    width: 5rem;
+    width: 7rem;
     color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-right: 2rem;
@@ -563,7 +565,7 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
     margin-bottom: 1rem;
 }
 
-.box {
+.box,.box1 {
     width: 55vw;
     background-color: white;
     padding: 1%;
@@ -670,9 +672,44 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
     font-size: 1.5rem;
 }
 
+@media screen and (max-width: 1041px) {
+    .header_div{
+        flex-direction: column;
+        align-items: center;
+    }
+    .rescearch_div{
+        margin-bottom: 0.4rem;
+        width: 70vw;
+        
 
+    }
+
+
+}
 
 @media screen and (max-width: 800px) {
+    .aisehi{
+        flex-direction: column;
+        align-items: center;
+    }
+    .placeholder_guets{
+        width: 70vw;
+        margin-bottom: 0.9rem;
+
+    }
+    .start_date{
+        width: 70vw;
+    }
+    .end_date{
+        width: 70vw;
+    }
+    .datecss{
+        width: 100%;
+    }
+    .seacrh_button Button{
+        padding: 1.5rem;
+        font-size: 1.4rem;
+    }
 
 
     .house_details {
@@ -693,6 +730,19 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
         padding-right: 0%;
         padding-left: 5%;
 
+    }
+    .reserve_button Button{
+        font-size: 1.2rem;
+    }
+    .badges_div{
+        flex-direction: column;
+        padding: 0.3rem;
+        justify-content: left;
+        align-items: left;
+        margin: 0.4rem;
+    }
+    .badges_div Badge{
+        margin: 1rem;
     }
 
 }
@@ -715,9 +765,110 @@ background: repeating-linear-gradient(to top right, #118A6D 0%, #025d54 43%);
 
 }
 
+@media screen and (max-width: 1091px) {
+    .total_price1{
+        font-size: 1rem;
+
+    }
+    .price_heading p{
+        font-size: 1.4rem;
+    }
+
+
+}
+@media screen and (max-width: 610px) {
+    .reserve_button Button{
+        font-size: 1.1rem;
+    }
+    .badges_div{
+        display: flex;
+        flex-direction: column;
+    }
+
+}
 @media screen and (max-width: 945px) {
 
     .maindiv {
         height: fit-content;
+        margin-left: 6rem;
+    }
+    .badges_div{
+        flex-direction: column;
+        margin: 0.3rem;
+        padding-left: 0;
+        height: 30vh;
+        justify-content:space-between;
+        align-items:flex-start;
+
+    }
+    .badges_div Badge{
+        margin: 1rem;
+    }
+    .box1{
+        width: 100vw;
+    }
+    .box{
+        width: 100vw;
+    }
+
+}
+
+@media screen and (max-width: 564px) {
+    /* .price_heading p{
+        font-size: 1.2rem;
+    } */
+    .price_heading{
+        padding: 0;
+    }
+    .reserve_button Button{
+        font-size:1rem;
+    }
+    .maindiv{
+        margin-left: 1.2rem;
+    }
+
+
+}
+@media screen and (max-width: 530px) {
+    .price_heading p{
+        letter-spacing: normal;
+    }
+    .reserve_button Button{
+        font-size: 0.8rem;
+        padding: auto;
     }
 }
+@media screen and (max-width: 490px) {
+    .maindiv{
+        padding: 0.6rem;
+    }
+    .totalrent p{
+        font-size: 0.8rem;
+    }
+   
+    .price_heading p{
+        font-size: 0.9rem;
+    }
+    .date_picker_dvi p{
+        font-size: 0.8rem;
+    }
+    .popular_container{
+        align-items: left;
+        justify-content: flex-start;
+    }
+    .box1{
+        width: 100vw;
+    }
+    .box{
+        width: 100vw;
+    }
+    
+
+}
+@media screen and (max-width: 370px) {
+    .reserve_button Button{
+        font-size: 0.76rem;
+        padding: auto;
+    }
+}
+
