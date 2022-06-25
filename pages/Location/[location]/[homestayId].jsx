@@ -13,23 +13,6 @@ const HomestayId = ({ data }) => {
   useEffect(() => {
     setHomeDetails(JSON.parse(data));
 
-    // if (!localStorage.getItem(`${homestayId}`)) {
-    //   const docRef = doc(db, "Homes", `${homestayId}`);
-    //   getDoc(docRef).then(docSnap => {
-    //     localStorage.setItem(homestayId, JSON.stringify(docSnap.data()))
-    //     setHomeDetails(JSON.parse(localStorage.getItem(homestayId)))
-    //   });
-
-    // }
-    // else {
-    //   setHomeDetails(JSON.parse(localStorage.getItem(homestayId)))
-    //   console.log("This is running, local storage se get kiya h ")
-
-    // }
-    // console.log(homeDetails)
-    // console.log(homestayId)
-
-    // // download()
   }, []);
 
   return (

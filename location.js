@@ -210,11 +210,6 @@ const places =  [
         "District": "Agra"
     },
     {
-        "City": "Agra",
-        "State": "Uttar Pradesh",
-        "District": "Agra"
-    },
-    {
         "City": "Ahiwara",
         "State": "Chhattisgarh",
         "District": "Durg"

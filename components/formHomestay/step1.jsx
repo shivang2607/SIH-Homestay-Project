@@ -6,7 +6,6 @@ import styles from '../../styles/homestayform.module.css'
 
  function Step1(params) {
      const {register,control,formState: { errors }} = useFormContext();
-   //  console.log(errors);
 
     return(
         
@@ -65,29 +64,22 @@ import styles from '../../styles/homestayform.module.css'
 
         <div className="row  mb-3">
 
-        <div className="form-group col">
+        <div className="form-group col-md-6">
           <label htmlFor="email" className="mb-1">E-mail Address</label>
           <input
           id="email"
           name ="email"
           type='text'
-          className={classNames(` ${styles.textfield} form-control`, {"is-invalid": errors.email})}
+          readOnly
+          className={` ${styles.textfield} form-control`}
           placeholder="email"
-          {...register("email", {
-            required: "This is required",
-            pattern:{
-              value:  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-              message:"Enter a valid email"
-            }
-          })}
+          {...register("email")}
               />  
-          {errors.email &&(
-            <div className="invalid-feedback">{errors.email.message}</div>
-          ) }
+          
        
        </div>
 
-       <div className="form-group col">
+       {/* <div className="form-group col">
        <label htmlFor="adhar" className="mb-1">Adhar No.</label>
           <input
           id="adhar"
@@ -106,7 +98,7 @@ import styles from '../../styles/homestayform.module.css'
           {errors.adhar &&(
             <div className="invalid-feedback">{errors.adhar.message}</div>
           ) }
-       </div>
+       </div> */}
 
     </div>
    

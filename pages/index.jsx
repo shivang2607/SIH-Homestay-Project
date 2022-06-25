@@ -10,14 +10,9 @@ import UtilityButtons from "../components/utilityButtons";
 import Rough from "../components/rough";
 export default function Home() {
   const { getHomeHistory } = useFirebase();
-  console.log(getHomeHistory);
+  
 
-  React.useEffect(() => {
-    // const update = async()=>{
-    //   await UpdateStateHomestay();
-    // }
-    // update()
-  }, []);
+  
 
   return (
     <Container className={styles.container}>

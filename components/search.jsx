@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import styles from "../styles/search.module.css";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Dropdown from "react-bootstrap/Dropdown";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Image from "next/image";
-import searchimage from "../public/search-button.png";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import newPlaces from "../components/items";
+import newPlaces from "../location";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import classNames from "classnames";
 import Spinner from 'react-bootstrap/Spinner';
 import Modal from "react-bootstrap/Modal";
+import { v4 } from "uuid";
 
 const Search = () => {
   const tomorrow = new Date(); // The Date object returns today's timestamp
@@ -36,26 +33,17 @@ const Search = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    console.log(string, results);
+    
   };
 
   const handleOnHover = (result) => {
-    // the item hovered
-    console.log(result);
   };
 
-  const handleOnSelect = (item) => {
-    // the item selected
-    console.log(item);
+  const handleOnSelect = (item) => { 
     setCityName(item.City);
     setStateName(item.State);
     setDisName(item.District);
 
-    console.log(cityname);
-    console.log(statename);
-    console.log(disname);
   };
 
   const handleOnFocus = () => {
@@ -73,14 +61,11 @@ const Search = () => {
   };
 
   const handlechange = (e) => {
-    /*  console.log(e.target.value);  */
     setPeople(e.target.value);
-    /*  console.log(people)  */
   };
 
   const handlesubmit = () => {
     if (!cityname || !startDate || !stopDate || !people) {
-      console.log("empty is");
       setShow(true);
     } else {
       setLoading(true);
@@ -166,16 +151,8 @@ const Search = () => {
                       { "is-invalid": errors.guests }
                     )}
                     type="number"
-                   /*  {...register("guests", {
-                      required: "This is required",
-                    })} */
                     min="1"
                   />
-                 {/*  {errors.guests && (
-                    <div className="invalid-feedback">
-                      {errors.guests.message}
-                    </div>
-                  )} */}
                 </div>
               </Col>
                 <Col xs={8} md={4} lg={3}>
@@ -188,7 +165,6 @@ const Search = () => {
                       dateFormat="dd/MM/yyyy"
                       minDate={new Date()}
                     />
-                    {/* {console.log(startDate.getTime())} */}
                   </div>
                 </Col>
                 <Col xs={8} md={4} lg={3}>
@@ -205,8 +181,6 @@ const Search = () => {
                 </Col>
             </Row>
             <Row>
-              {/* background-color: #abe9cd;
-background-image: linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%); */}
 
               <Col style={{ textAlign: "center" }}>
                 <Button

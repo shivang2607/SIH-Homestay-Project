@@ -13,7 +13,8 @@ const NavBar = () => {
   let btn = null;
   let opts = null;
   const history = checkHomeInDb();
-  console.log("history: ", history);
+  
+  
   if (history.length > 0) {
     opts = (
       <>

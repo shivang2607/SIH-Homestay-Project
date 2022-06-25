@@ -219,11 +219,21 @@ justify-content: space-between;
     display: flex;
     padding-left: 0.2rem;
   }
+  .rating_tab {
+    margin-right: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    
+    
+  }
+  
   .rating_icons {
+    margin: auto;
+    padding: 0.5rem;
     margin-top: 0.4rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
     font-size: 1.5rem;
+    width: 9rem;
   }
 }
 
@@ -246,12 +256,22 @@ justify-content: space-between;
   /* .rating_tab{
   margin-left: 5rem;
 }  */
-  .rating_icons {
-    margin-top: 0.4rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: 1.5rem;
-  }
+.rating_tab {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  
+  
+}
+
+.rating_icons {
+  margin: auto;
+  padding: 1rem;
+  margin-top: 0.4rem;
+  font-size: 1.5rem;
+  width: 9rem;
+}
   .card_post_rating_price {
     display: flexbox;
     justify-content: space-between;
@@ -305,13 +325,18 @@ justify-content: space-between;
   }
   .rating_tab {
     margin-right: 0.5rem;
-  }
-
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    
+    
+  } 
   .rating_icons {
+    margin: auto;
+    padding: 1rem;
     margin-top: 0.4rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
     font-size: 1.5rem;
+    width: 9rem;
   }
   .card_post_rating_price {
     display: flexbox;
@@ -386,10 +411,7 @@ justify-content: space-between;
     
     
   }
-  .card_post_title {
-    font-size: 1.5rem;
-  }
- 
+  
   .rating_icons {
     margin: auto;
     padding: 1rem;
@@ -397,6 +419,11 @@ justify-content: space-between;
     font-size: 1.5rem;
     width: 9rem;
   }
+
+  .card_post_title {
+    font-size: 1.5rem;
+  }
+ 
   
 
 }
