@@ -16,7 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import { Badge } from "@chakra-ui/react";
-import newPlaces from "../components/items";
+import newPlaces from "../location";
 import { Button } from "@chakra-ui/react";
 import { v4 } from "uuid";
 import Image from "next/image";
@@ -169,15 +169,15 @@ function HomeStay({ details, homestayId }) {
     e.preventDefault();
     setLoading(true);
     details.booked_guests = details.booked_guests + guest;
-    console.log("this is the booked guests", details.booked_guests);
-    console.log("the owner eamil", details.host.email);
-    console.log("the details.docid", details.docid);
-    console.log("the user", user);
-    console.log("oxer phone", details.host.phone);
-    console.log("neame homestaya", details.homestayName);
-    console.log("the ostart date", startDate);
-    console.log("the stop date", stopDate);
-    console.log("the diffrence date", diffrecnedate);
+    // console.log("this is the booked guests", details.booked_guests);
+    // console.log("the owner eamil", details.host.email);
+    // console.log("the details.docid", details.docid);
+    // console.log("the user", user);
+    // console.log("oxer phone", details.host.phone);
+    // console.log("neame homestaya", details.homestayName);
+    // console.log("the ostart date", startDate);
+    // console.log("the stop date", stopDate);
+    // console.log("the diffrence date", diffrecnedate);
 
     const bookingID = v4();
     await bookHomestay(
@@ -469,7 +469,9 @@ function HomeStay({ details, homestayId }) {
                     {" "}
                     ₹{details.pricePerNight * guest}{" "}
                     <span className={`${styles.perday}`}>/Day</span>
+                    
                   </h4>
+                  <span style={{fontSize:"smaller"}}> (For {guest} people)</span>
                 </p>
               </div>
 
@@ -924,12 +926,12 @@ function HomeStay({ details, homestayId }) {
               </div>
             </div>
           </div>
-        </div>
+         </div>
       ) : (
         <Reviewstars />
       )}
     </>
-  );
+  )
 }
 
 export default HomeStay;

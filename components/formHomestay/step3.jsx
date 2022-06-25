@@ -13,7 +13,7 @@ function Step3(props) {
     formState: { errors },
   } = useFormContext();
 
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+  const { fields, append,  remove } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
       name: "popularDestinations", // unique name for your Field Array
@@ -27,14 +27,11 @@ function Step3(props) {
   
 
   const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    // console.log(string, results)
+   
   };
 
   const handleOnHover = (result) => {
-    // the item hovered
-    //console.log(result)
+   
   };
 
   const handleOnSelect = (item) => {
@@ -47,9 +44,10 @@ function Step3(props) {
   const handleOnFocus = () => {
     console.log("Focused");
   };
-  // {console.log("hey",city)}
+
+
+
   const formatResult = (item) => {
-    //console.log("hey", item)
     return (
       <>
         <span style={{ display: "block", textAlign: "left", fontSize: "20px" }}>
@@ -328,7 +326,7 @@ function Step3(props) {
 
                 }
                 {
-                  // console.log(value.length,"fjfkj")
+                  
                   let validimage =true
                   if(value.length<3){
                     return `Please Upload Minimum 3 Photos of your house`

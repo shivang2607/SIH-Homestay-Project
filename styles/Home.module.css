@@ -138,6 +138,8 @@
 .footer {
   display: flex;
   font-size: large;
+  position: relative;
+  bottom: 0;
   width: 100%;
   flex: 1;
   padding: 1.5rem 0;

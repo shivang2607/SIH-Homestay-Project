@@ -20,15 +20,10 @@ const Tourist = () => {
   const [cancelling, setCancelling] = React.useState(false);
   const [cancelbookid, setCancelbookid] = React.useState(null);
 
-  //console.log("useremail",cookies.details)
   React.useEffect(() => {
     const email = details.email;
 
-    // if (JSON.parse(sessionStorage.getItem(`tourist ${email}`))) {
-    //   setUserHistory(JSON.parse(sessionStorage.getItem(`tourist ${email}`)));
-    //   //console.log("from local session storage", userHistory);
-    // }else {
-
+  
     const docRef = doc(db, "historyUser", email);
     const unsub = onSnapshot(docRef, (docSnap) => {
       console.log("attached");
@@ -46,19 +41,6 @@ const Tourist = () => {
       }
     });
 
-    // getDoc(docRef).then((docSnap) => {
-    //   if (docSnap.exists()) {
-    //     setUserHistory(docSnap.data());
-    //     sessionStorage.setItem(
-    //       `tourist ${email}`,
-    //       JSON.stringify(docSnap.data())
-    //     );
-    //   } else {
-    //     //window.alert("No Bookings Yet tourist");
-    //   }
-    // });
-    //  console.log("from firebase",userHistory);
-    //  }
 
     return () => {
       console.log("detached \n hello");
@@ -86,9 +68,6 @@ const Tourist = () => {
     } = currentbook;
 
     setCancelbookid(bookingId);
-
-    //  console.log("checkate",miliToDate(checkInTime).toDateString())
-    // console.log("bookingId", bookingId);
 
     await cancelBooking(
       bookingId,
@@ -150,14 +129,13 @@ const Tourist = () => {
       time.seconds * 1000 + time.nanoseconds / 1000000
     );
     const date = fireBaseTime.toDateString();
-    //console.log(fireBaseTime)
     return fireBaseTime;
   }
 
   return (
     <>{
     !loading?   <div >
-        {userHistory && console.log("user", userHistory)}
+        
         <Tabs
           className={styles.book}
           orientation="vertical"

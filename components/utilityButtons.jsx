@@ -15,14 +15,6 @@ const UtilityButtons = () => {
           <h3>Register Home</h3>
         </div>
       </Link>
-      {/* <div className={styles.button}>
-        <img
-          src="/static/exotic.png"
-          alt=""
-          className={classNames(`${styles.image} ${styles.adjust}`)}
-        />
-        <h3>Genres</h3>
-      </div> */}
     </div>
   );
 };

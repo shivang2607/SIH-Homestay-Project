@@ -160,7 +160,6 @@ const HomeOwner = () => {
     <>{
       !loading? 
       <div>
-        {dataHome && console.log("data", OwnerHistory)}
         <Tabs
           className={styles.book}
           orientation="vertical"

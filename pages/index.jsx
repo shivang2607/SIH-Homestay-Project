@@ -9,14 +9,9 @@ import { Container } from "react-bootstrap";
 import UtilityButtons from "../components/utilityButtons";
 export default function Home() {
   const { getHomeHistory } = useFirebase();
-  console.log(getHomeHistory);
+  
 
-  React.useEffect(() => {
-    // const update = async()=>{
-    //   await UpdateStateHomestay();
-    // }
-    // update()
-  }, []);
+  
 
   return (
     <Container className={styles.container}>

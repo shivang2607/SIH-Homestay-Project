@@ -56,7 +56,6 @@ export const HomestayForm = () => {
   }
 
   const onSubmit = async (data) => {
-    // console.log(data.images)
 
     if (activeStep === steps.length - 1) {
       console.log(state, Object.assign(data, { city: city }));
@@ -102,7 +101,7 @@ export const HomestayForm = () => {
       males: "",
       females: "",
       children: "",
-      email: "",
+      email: details.email,
       homestayName: "",
       descript: "",
       maxAccomodation: "",
