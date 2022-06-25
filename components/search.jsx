@@ -12,7 +12,7 @@ import newPlaces from "../components/items";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import classNames from "classnames";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 import Modal from "react-bootstrap/Modal";
 
 const Search = () => {
@@ -84,24 +84,30 @@ const Search = () => {
       setShow(true);
     } else {
       setLoading(true);
-     
-      
-      loading || router.push({
-        
-        pathname: "/Location/[location]",
-        query: {
-          location: cityname,
-          checkIn: startDate.getTime() / 1000,
-          checkOut: stopDate.getTime() / 1000,
-          guests: people,
-        },
-      });
+
+      loading ||
+        router.push({
+          pathname: "/Location/[location]",
+          query: {
+            location: cityname,
+            checkIn: startDate.getTime() / 1000,
+            checkOut: stopDate.getTime() / 1000,
+            guests: people,
+          },
+        });
     }
     setLoading(false);
   };
   return (
     <>
-      <div style ={{display:'flex', width:'100vw', justifyContent:'center', justifySelf:'center'}}>
+      <div
+        style={{
+          display: "flex",
+          width: "100vw",
+          justifyContent: "center",
+          justifySelf: "center",
+        }}
+      >
         <Modal show={show} onHide={() => setShow(false)} animation={false}>
           <Modal.Header closeButton>
             <Modal.Title>Please, fill all the field </Modal.Title>
@@ -125,7 +131,10 @@ const Search = () => {
           </Modal.Footer>
         </Modal>
         {/* <div style={{display:"flex",width:"100%"}} className={styles.maindiv}> */}
-        <div className={styles.maindiv} style={{display:'flex', width:'99vw', overflowX:'hidden'}}>
+        <div
+          className={styles.maindiv}
+          style={{ display: "flex", width: "99vw", overflowX: "hidden" }}
+        >
           <form onSubmit={handleSubmit(handlesubmit)}>
             <Row>
               <Col xs={12} md={12} lg={3}>
@@ -166,46 +175,45 @@ const Search = () => {
                       { "is-invalid": errors.guests }
                     )}
                     type="number"
-                   /*  {...register("guests", {
+                    /*  {...register("guests", {
                       required: "This is required",
                     })} */
                     min="1"
                   />
-                 {/*  {errors.guests && (
+                  {/*  {errors.guests && (
                     <div className="invalid-feedback">
                       {errors.guests.message}
                     </div>
                   )} */}
                 </div>
               </Col>
-                <Col xs={8} md={4} lg={3}>
-                  <div className={styles.dates}>
-                    <DatePicker
-                      placeholderText="Enter Check in Date"
-                      className={`${styles.datecss}`}
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      minDate={new Date()}
-                    />
-                    {/* {console.log(startDate.getTime())} */}
-                  </div>
-                </Col>
-                <Col xs={8} md={4} lg={3}>
-                  <div className={styles.dates}>
-                    <DatePicker
-                      placeholderText="Enter Check Out Date"
-                      className={`${styles.datecss} ${styles.innerdiv}`}
-                      selected={stopDate}
-                      onChange={(date) => setStopDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      minDate={tomorrow}
-                    />
-                  </div>
-                </Col>
+              <Col xs={8} md={4} lg={3}>
+                <div className={styles.dates}>
+                  <DatePicker
+                    placeholderText="Enter Check in Date"
+                    className={`${styles.datecss}`}
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    minDate={new Date()}
+                  />
+                  {/* {console.log(startDate.getTime())} */}
+                </div>
+              </Col>
+              <Col xs={8} md={4} lg={3}>
+                <div className={styles.dates}>
+                  <DatePicker
+                    placeholderText="Enter Check Out Date"
+                    className={`${styles.datecss} ${styles.innerdiv}`}
+                    selected={stopDate}
+                    onChange={(date) => setStopDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    minDate={tomorrow}
+                  />
+                </div>
+              </Col>
             </Row>
             <Row>
-
               <Col style={{ textAlign: "center" }}>
                 <Button
                   type="submit"
@@ -221,27 +229,26 @@ const Search = () => {
                       "linear-gradient(315deg, #abe9cd 0%, #3eadcf 74%)",
                   }}
                 >
-                 {loading ? (
-                          <>
-                            {" "}
-                            <Spinner
-                              as="span"
-                              animation="grow"
-                              size="sm"
-                              role="status"
-                              aria-hidden="true"
-                            />
-                            Searching...
-                          </>
-                        ) : (
-                          "Search"
-                        )}
+                  {loading ? (
+                    <>
+                      {" "}
+                      <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                      Searching...
+                    </>
+                  ) : (
+                    "Search"
+                  )}
                 </Button>
               </Col>
             </Row>
           </form>
         </div>
-        
       </div>
     </>
   );

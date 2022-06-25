@@ -4,31 +4,30 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
   padding: 0;
   width: 100vw;
-  background-position: center;
-  background-repeat: repeat-y;
 }
 .navbar {
-   color: white;
+  color: white;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   margin-bottom: 1.5rem;
   height: 4rem;
-  /* background-color: whitesmoke; */
-  /* background-color: #15749a; */
-  /* background: rgba(0, 128, 128, 0.75); */
   background-color: rgba(44, 35, 174, 0.7);
-  background-image: linear-gradient(315deg, rgba(20, 167, 187, 0.4) 0%,  rgba(66, 3, 95, 0.471) 74%);
+  background-image: linear-gradient(
+    315deg,
+    rgba(20, 167, 187, 0.4) 0%,
+    rgba(66, 3, 95, 0.471) 74%
+  );
 }
 
-.search{
+.search {
   display: flex;
-  width:100%;
-  /* flex-direction: column; */
+  width: 100%;
+  flex: 1;
   justify-content: center;
   z-index: 1000;
   padding: 0;
+  /* max-height: 10vh; */
 }
 
 .nav {
@@ -39,7 +38,7 @@
   margin-right: auto;
 }
 
-.link:hover{
+.link:hover {
   color: rgb(0, 255, 247);
 }
 .login {
@@ -130,7 +129,7 @@
   line-height: 1.5;
 }
 
-.vdo{
+.vdo {
   width: 600px;
   height: 340px;
   margin-bottom: 3rem;
@@ -186,13 +185,11 @@
   margin-bottom: 1rem;
 }
 
-
-
 @media screen and (max-width: 990px) {
   .nav {
     flex-direction: column;
   }
-  .navbar{
+  .navbar {
     z-index: 1;
     width: 100%;
     overflow: hidden;
@@ -204,7 +201,7 @@
 }
 
 @media screen and (max-width: 550px) {
-  .vdo{
+  .vdo {
     width: 100%;
   }
   .grid {
@@ -213,7 +210,6 @@
   }
   .container {
     padding: 0;
-    
   }
   .herocontainer {
     display: flex;
@@ -223,7 +219,7 @@
     width: 100%;
   }
   .hero {
-    z-index: 100;
+    z-index: 1;
     margin-top: 0;
     padding: 0;
     width: 100vw;
@@ -236,7 +232,7 @@
   .hero h2 {
     font-size: 1.5rem;
   }
- 
+
   .datecss {
     margin-top: 1em;
   }

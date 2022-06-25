@@ -8,7 +8,7 @@ const HomeCarousel = () => {
     <Container >
       <Carousel fade interval={2500}>
         <Carousel.Item className="heroimg">
-          <img className={"d-flex w-100 "} src={"/static/homestay1.jpg"} alt="" />
+          <img className={"d-block w-100 "} src={"/static/homestay1.jpg"} alt="" />
           <Carousel.Caption>
             <h2>Wanna run from hustle and bustle of city life?</h2>
           </Carousel.Caption>

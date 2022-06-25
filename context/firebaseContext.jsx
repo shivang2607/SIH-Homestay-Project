@@ -46,9 +46,10 @@ export function FirebaseProvider({ children }) {
     const historyHomestayRef = collection(db, "historyHomestay");
     const unsub1 = onSnapshot(historyHomestayRef, (snapshot) => {
       console.log("listener1 attached");
-      
-        snapshot.docs.map(async (document) => {
-          document.data().current && document.data().current.forEach(async (element) => {
+
+      snapshot.docs.map(async (document) => {
+        document.data().current &&
+          document.data().current.forEach(async (element) => {
             console.log(element);
             if (element.checkOutTime <= Timestamp.now().seconds) {
               await setDoc(
@@ -63,18 +64,15 @@ export function FirebaseProvider({ children }) {
               // console.log("I dont know whats happening");
             }
           });
-        });
-      
-     
-      
+      });
     });
 
     const unsub2 = onSnapshot(historyUserRef, (snapshot) => {
       console.log("listener2 attached");
-     
-        snapshot.docs.map((document) => {
-        
-          document.data().current && document.data().current.forEach(async (element) => {
+
+      snapshot.docs.map((document) => {
+        document.data().current &&
+          document.data().current.forEach(async (element) => {
             console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
             if (element.checkOutTime < Timestamp.now().seconds) {
               await setDoc(
@@ -89,9 +87,7 @@ export function FirebaseProvider({ children }) {
               console.log("I dont know whats happening");
             }
           });
-        });
-     
-      
+      });
     });
 
     return () => {
@@ -141,7 +137,12 @@ export function FirebaseProvider({ children }) {
       const url = await getDownloadURL(imageRef);
       imageUrls[i] = url;
     }
-
+    const { details } = getUserCookies();
+    await setDoc(doc(db, "historyHomestay", details.email), {
+      current: [],
+      past: [],
+      cancelled: [],
+    });
     await addDoc(collection(db, "Homes"), {
       // homestayName: "maatoshri",
       // desc: "",
@@ -453,19 +454,7 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function checkHomeInDb() {
-    const user = getUserCookies();
-    if (user) {
-      const history = await getDoc(
-        doc(db, "historyHomestay", user.details.email)
-      );
-      if (history) {
-        return history.data();
-      }
-      return false;
-    }
-    return false;
-  }
+
   async function getHomeHistory(homes, checkIn, checkOut) {
     const final = await homes.map(async (val) => {
       console.log(val.host.email);
@@ -621,7 +610,6 @@ export function FirebaseProvider({ children }) {
     sendMail,
     checkUserCookies,
     getUserCookies,
-    checkHomeInDb,
     signOut,
   };
 
