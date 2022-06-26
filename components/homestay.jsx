@@ -197,30 +197,69 @@ function HomeStay({ details, homestayId }) {
     );
 
     //to the user
-
-    sendMail(
-      details.homestayName,
-      cookies.details.email,
-      cookies.details.name,
-      `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
+    let userData = {
+      fromName: details.homestayName,
+      fromEmail: details.host.email,
+      toEmail: cookies.details.email,
+      subject: "Booking Confirmation",
+      html: `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
       <br/>OTHER DETAILS:
       <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
       <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
       <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
-      <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
-      "HOMESTAY BOOKED",
-      "Congratulations"
-    );
+      <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`
+    }
+    // sendMail(
+    //   details.homestayName,
+    //   cookies.details.email,
+    //   cookies.details.name,
+    //   `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
+    //   <br/>OTHER DETAILS:
+    //   <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
+    //   <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
+    //   <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
+    //   <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
+    //   "HOMESTAY BOOKED",
+    //   "Congratulations"
+    // );
+    fetch('/api/contact', {
+      method:'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    }).then((res) => {
+      console.log("mail: ", res.status)
+    })
 
     // to the host
-    sendMail(
-      details.homestayName,
-      details.host.email,
-      details.host.name,
-      `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`,
-      "HOMESTAY BOOKED",
-      "Congratulations"
-    );
+    let homeData = {
+      fromName: cookies.details.name,
+      fromEmail: cookies.details.email,
+      toEmail: details.host.email,
+      subject: "Booking Confirmation",
+      html:`<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`
+    }
+    // sendMail(
+    //   details.homestayName,
+    //   details.host.email,
+    //   details.host.name,
+    //   `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`,
+    //   "HOMESTAY BOOKED",
+    //   "Congratulations"
+    // );
+    fetch('/api/contact', {
+      method:'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(homeData)
+    }).then((res) => {
+      console.log("mail: ", res.status)
+    })
+
     router.replace(`/users/${cookies.details.token.slice(5, 25)}`);
     setLoading(false);
   }
