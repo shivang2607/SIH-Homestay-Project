@@ -3,6 +3,7 @@ import { db } from "../../firebase/initFirebase";
 import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import classNames from "classnames";
 import { useFirebase } from "../../context/firebaseContext";
+import { v4 } from "uuid";
 import {
   Switch,
   FormControl,
@@ -361,7 +362,7 @@ const HomeOwner = () => {
                       <legend>Rules</legend>
 
                       {fields.map((field, index) => (
-                        <div key={index} className="form-group row my-2 mx-1">
+                        <div key={v4()} className="form-group row my-2 mx-1">
                           <div className="col-md-11">
                             <input
                               id={`rules.${index}`}
@@ -435,7 +436,7 @@ const HomeOwner = () => {
                       return (
                         <Card
                           className={`${styles.card}`}
-                          key={currentBook.bookingId}
+                          key={v4()}
                         >
                           <Card.Body>
                             <Card.Title>
@@ -517,7 +518,7 @@ const HomeOwner = () => {
                       return (
                         <Card
                           className={`${styles.card}`}
-                          key={pastBook.bookingId}
+                          key={v4()}
                         >
                           <Card.Body>
                             <Card.Title>
@@ -596,7 +597,7 @@ const HomeOwner = () => {
                       return (
                         <Card
                           className={`${styles.card}`}
-                          key={cancelledBook.bookingId}
+                          key={v4()}
                         >
                           <Card.Body>
                             <Card.Title>

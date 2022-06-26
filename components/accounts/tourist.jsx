@@ -6,6 +6,8 @@ import { Card, Button } from "react-bootstrap";
 import { TiCancel } from "react-icons/ti";
 import { useFirebase } from "../../context/firebaseContext";
 import Spinner from "react-bootstrap/Spinner";
+import { v4 } from "uuid";
+
 
 //email send
 import Image from "next/image";
@@ -159,7 +161,7 @@ const Tourist = () => {
                         <>
                           <Card
                             className={`${styles.card}`}
-                            key={currentBook.bookingId}
+                            key={v4()}
                           >
                             <Card.Body>
                               <Card.Title>
@@ -268,7 +270,7 @@ const Tourist = () => {
                       return (
                         <Card
                           className={`${styles.card}`}
-                          key={pastBook.bookingId}
+                          key={v4()}
                         >
                           <Card.Body>
                             <Card.Title>
@@ -345,7 +347,7 @@ const Tourist = () => {
                       return (
                         <Card
                           className={`${styles.card}`}
-                          key={cancelledBook.bookingId}
+                          key={v4()}
                         >
                           <Card.Body>
                             <Card.Title>

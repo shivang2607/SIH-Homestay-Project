@@ -602,7 +602,7 @@ function HomeStay({ details, homestayId }) {
             </div>
             <hr className={styles.line} />
 
-            {details.comments?.length != 0 && (
+            {details.popularDestinationsNearby?.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
