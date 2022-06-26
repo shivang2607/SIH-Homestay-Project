@@ -6,7 +6,7 @@ import {
   MdGroups,
 } from "react-icons/md";
 import { FaChild } from "react-icons/fa";
-import Spinner from "react-bootstrap/Spinner";
+import Spinner from 'react-bootstrap/Spinner';
 import { MdLocationCity } from "react-icons/md";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { BiBus, BiMale, BiFemale } from "react-icons/bi";
@@ -24,7 +24,7 @@ import Reviewstars from "./star";
 // import styles from "../styles/stars.module.css"
 import ReactTimeAgo from "react-time-ago";
 import { useRouter } from "next/router";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar } from 'react-icons/ai'
 
 import { FaStar } from "react-icons/fa";
 import {
@@ -54,6 +54,8 @@ function HomeStay({ details, homestayId }) {
   const [body, setBody] = useState("");
   const [head, setHead] = useState("");
   const [guest, setGuest] = useState(router.query.guests);
+ 
+ 
 
   var checkin_date = new Date(checkIn * 1000);
 
@@ -89,17 +91,24 @@ function HomeStay({ details, homestayId }) {
   const [disname, setDisName] = useState("");
   const [statename, setStateName] = useState("");
 
-  const handleOnSearch = (string, results) => {};
+  const handleOnSearch = (string, results) => {
+    
+  };
 
-  const handleOnHover = (result) => {};
+  const handleOnHover = (result) => {
+    
+  };
 
   const handleOnSelect = (item) => {
     setCityName(item.City);
     setStateName(item.State);
     setDisName(item.District);
+
+   
   };
 
-  const handleOnFocus = () => {};
+  const handleOnFocus = () => {
+  };
 
   const stars = Array(5).fill(0);
 
@@ -160,24 +169,24 @@ function HomeStay({ details, homestayId }) {
     "/" +
     checkout_date.getFullYear();
 
-  var diffrecnedate =
-    new Date(old_checkout_Date - old_checkin_Date).getDate() - 1;
+  var diffrecnedate =new Date(old_checkout_Date - old_checkin_Date).getDate() - 1;
 
-  var price = diffrecnedate * details.pricePerNight * guest;
+  var price = diffrecnedate * details.pricePerNight * guest ;
+  
 
   async function booknow(e) {
     e.preventDefault();
     setLoading(true);
     details.booked_guests = details.booked_guests + guest;
-    // console.log("this is the booked guests", details.booked_guests);
-    // console.log("the owner eamil", details.host.email);
-    // console.log("the details.docid", details.docid);
-    // console.log("the user", user);
-    // console.log("oxer phone", details.host.phone);
-    // console.log("neame homestaya", details.homestayName);
-    // console.log("the ostart date", startDate);
-    // console.log("the stop date", stopDate);
-    // console.log("the diffrence date", diffrecnedate);
+    console.log("this is the booked guests", details.booked_guests);
+    console.log("the owner eamil", details.host.email);
+    console.log("the details.docid", details.docid);
+    console.log("the user", user);
+    console.log("oxer phone", details.host.phone);
+    console.log("neame homestaya", details.homestayName);
+    console.log("the ostart date", startDate);
+    console.log("the stop date", stopDate);
+    console.log("the diffrence date", diffrecnedate);
 
     const bookingID = v4();
     await bookHomestay(
@@ -268,8 +277,11 @@ function HomeStay({ details, homestayId }) {
   return (
     <>
       {details.host ? (
+        
         <div>
+
           <div>
+          
             <div className={styles.header_div}>
               <div>
                 <div className={styles.rescearch_div}>
@@ -382,8 +394,7 @@ function HomeStay({ details, homestayId }) {
                 <div className={styles.rating_icons}>
                   {" "}
                   <h4 className={styles.average_Rating}>
-                    {(sum_star / details.ratings.length).toFixed(1)}/5{" "}
-                    <AiFillStar color="yellow" />
+                    {(sum_star / details.ratings.length).toFixed(1)}/5 <AiFillStar color="yellow"/>
                   </h4>
                 </div>
               )}
@@ -506,17 +517,13 @@ function HomeStay({ details, homestayId }) {
                 <p className={styles.price_div}>
                   <h4 className={styles.text_price}>
                     {" "}
-                    ₹{details.pricePerNight * guest}{" "}
+                    ₹{details.pricePerNight*guest}{" "}
                     <span className={`${styles.perday}`}>/Day</span>
                   </h4>
-                  <span style={{ fontSize: "smaller" }}>
-                    {" "}
-                    (For {guest} people)
-                  </span>
                 </p>
               </div>
 
-              {details.Capacity - details.booked_guests - guest >= 0 && (
+              {details.Capacity - details.booked_guests-guest >=0 && (
                 <div className={styles.maindiv}>
                   <div className={styles.selection_div}>
                     <div className={styles.totalprice_div}>
@@ -531,7 +538,7 @@ function HomeStay({ details, homestayId }) {
                         <p className={styles.total_price1}> ₹ {price}</p>
                         <p className={styles.number_guests}>
                           {" "}
-                          (for {diffrecnedate} days)
+                         (for {diffrecnedate} days)
                         </p>
                       </div>
                     </div>
@@ -573,6 +580,7 @@ function HomeStay({ details, homestayId }) {
                         ) : (
                           "BOOK NOW"
                         )}
+                        
                       </Button>
                     </div>
                   ) : (
@@ -764,8 +772,7 @@ function HomeStay({ details, homestayId }) {
                               </div>
                               <div className={styles.name_user}>
                                 <strong>
-                                  {comment.user}
-                                  <br />
+                                 { comment.user}<br/>
                                   {/* {name} */}
                                   <ReactTimeAgo
                                     date={
@@ -967,12 +974,12 @@ function HomeStay({ details, homestayId }) {
               </div>
             </div>
           </div>
-        </div>
+         </div>
       ) : (
         <Reviewstars />
       )}
     </>
-  );
+  )
 }
 
 export default HomeStay;

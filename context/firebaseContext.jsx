@@ -137,8 +137,7 @@ export function FirebaseProvider({ children }) {
       cancelled: [],
     });
     await addDoc(collection(db, "Homes"), {
-      // homestayName: "maatoshri",
-      // desc: "",
+      
       homestayName,
       URLS: imageUrls,
       desc,
@@ -146,12 +145,7 @@ export function FirebaseProvider({ children }) {
       active: true,
       ratings: [],
       host: {
-        // name: "shivang",
-        // email: "hostname@gmail.com",
-        // phone: "9079377724",
-        // male: 2,
-        // female: 1,
-        // children: 1,
+        
         name,
         email,
         phone,
@@ -160,13 +154,7 @@ export function FirebaseProvider({ children }) {
         children,
       },
       Rules: {
-        // petAllowance: true,
-        // alcoholTolerant: false,
-        // coupleFriendly: true,
-        // nonVegTolerant:false,
-        // nonVeg:false,
-        // Rules: ["abcd", "efgh"],
-        // openTime: "6:00 AM to 11:00 PM"
+        
         petAllowance,
         alcoholTolerant,
         coupleFriendly,
@@ -215,6 +203,9 @@ export function FirebaseProvider({ children }) {
 
   async function addComment(id = "wdFQ8rBHcAYaPzelHNb3", head, user, body) {
     const commentRef = doc(db, "Homes", id);
+    if(head.trim().length === 0 || body.trim().length === 0 || !user){
+      return console.log("please enter valid values of user, head and body");
+    }
 
     await updateDoc(commentRef, {
       comments: arrayUnion({
@@ -228,7 +219,12 @@ export function FirebaseProvider({ children }) {
 
   async function addRating(id = "wdFQ8rBHcAYaPzelHNb3", stars, user) {
     
+
+    if(stars === 0){
+      return console.log("please enter valid values of star");
+    }
     const ratingRef = doc(db, "Homes", id);
+
     await updateDoc(ratingRef, {
       ratings: arrayUnion({
         user,
