@@ -56,7 +56,6 @@ export const HomestayForm = () => {
   }
 
   const onSubmit = async (data) => {
-
     if (activeStep === steps.length - 1) {
       console.log(state, Object.assign(data, { city: city }));
       setLoading(true);
@@ -149,8 +148,11 @@ export const HomestayForm = () => {
                 Woohoo! All steps completed!
               </Heading>
               <Button
-              // variant={"info"}
-                colorScheme={"telegram"}
+                // variant={"info"}
+                colorScheme={"purple"}
+                w={"max-content"}
+                mx={"auto"}
+                mt={"2rem"}
                 onClick={() => {
                   {
                     router.replace(`/users/${details.token.slice(5, 25)}`);

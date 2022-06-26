@@ -9,7 +9,7 @@ import { db } from "../firebase/initFirebase";
 
 const HomeStayForm = () => {
   const router = useRouter()
-  let body = null;
+  let body = <FullForm />;
   const { checkUserCookies, getUserCookies } = useFirebase();
   const [isRegistered, setIsRegistered] = useState(false);
   useEffect(() => {
@@ -23,7 +23,7 @@ const HomeStayForm = () => {
   }, [getUserCookies]);
   if (checkUserCookies()) {
     if (isRegistered) {
-      router.replace("/")
+      // router.replace("/")
     } else {
       body = <FullForm />;
     }

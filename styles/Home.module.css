@@ -33,11 +33,13 @@
 .nav {
   display: flex;
   width: 22rem;
-  justify-content: space-around;
+  justify-content: space-center;
   font-size: large;
   margin-right: auto;
 }
-
+.link{
+  margin-right: 1rem;
+}
 .link:hover {
   color: rgb(0, 255, 247);
 }

@@ -469,9 +469,11 @@ function HomeStay({ details, homestayId }) {
                     {" "}
                     ₹{details.pricePerNight * guest}{" "}
                     <span className={`${styles.perday}`}>/Day</span>
-                    
                   </h4>
-                  <span style={{fontSize:"smaller"}}> (For {guest} people)</span>
+                  <span style={{ fontSize: "smaller" }}>
+                    {" "}
+                    (For {guest} people)
+                  </span>
                 </p>
               </div>
 
@@ -590,7 +592,7 @@ function HomeStay({ details, homestayId }) {
             </div>
             <hr className={styles.line} />
 
-            {details.comments?.length != 0 && (
+            {details.popularDestinationsNearby?.length != 0 && (
               <>
                 {" "}
                 <hr className={styles.line} />{" "}
@@ -926,12 +928,12 @@ function HomeStay({ details, homestayId }) {
               </div>
             </div>
           </div>
-         </div>
+        </div>
       ) : (
         <Reviewstars />
       )}
     </>
-  )
+  );
 }
 
 export default HomeStay;
