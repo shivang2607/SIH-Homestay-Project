@@ -50,7 +50,9 @@ export function FirebaseProvider({ children }) {
         snapshot.docs.map(async (document) => {
           document.data().current && document.data().current.forEach(async (element) => {
             console.log(element);
-            if (element.checkOutTime <= Timestamp.now().seconds) {
+            console.log("Comparing", element.checkOutTime, Timestamp.now().seconds)
+            if (element.checkOutTime.seconds <= Timestamp.now().seconds) {
+              console.log("working")
               await setDoc(
                 doc(db, "historyHomestay", document.id),
                 {
@@ -76,7 +78,7 @@ export function FirebaseProvider({ children }) {
         
           document.data().current && document.data().current.forEach(async (element) => {
             console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
-            if (element.checkOutTime < Timestamp.now().seconds) {
+            if (element.checkOutTime.seconds < Timestamp.now().seconds) {
               await setDoc(
                 doc(db, "historyUser", document.id),
                 {
