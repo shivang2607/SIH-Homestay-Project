@@ -23,10 +23,10 @@ const Location = ({ homes }) => {
     res();
   }, []);
 
-  console.log("this is the lenght", homeList);
+  
 
   const fetchMoreData = () => {
-    console.log("Home list page", homeListPage);
+   
 
     if (homeListPage.length >= homeList.length) {
       setMore(false);
@@ -125,7 +125,6 @@ const Location = ({ homes }) => {
             >
                 {homeListPage.map((home) => {
                   const { booked_guests } = home;
-                  console.log("avcbd",home.ratings.length);
                   let sum_star = 0;
                   home.ratings.map((rating) => {
                     sum_star = sum_star + rating.stars;
@@ -149,6 +148,7 @@ const Location = ({ homes }) => {
                       rating={sum_star}
                       length_ratings={home.ratings.length}
                       key={home.docid}
+                      registeredAt = {home.registerTime}
                     />
                   );
                 })}

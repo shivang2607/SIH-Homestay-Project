@@ -81,6 +81,7 @@
     margin-left: 0.3rem;
     width: 10rem;
 
+    flex-direction: column;
     display: flex;
     font-size: large;
     background: rgb(41, 189, 192);

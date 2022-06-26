@@ -49,10 +49,7 @@ export function FirebaseProvider({ children }) {
       
         snapshot.docs.map(async (document) => {
           document.data().current && document.data().current.forEach(async (element) => {
-            console.log(element);
-            console.log("Comparing", element.checkOutTime, Timestamp.now().seconds)
             if (element.checkOutTime.seconds <= Timestamp.now().seconds) {
-              console.log("working")
               await setDoc(
                 doc(db, "historyHomestay", document.id),
                 {
@@ -61,14 +58,9 @@ export function FirebaseProvider({ children }) {
                 },
                 { merge: true }
               );
-            } else {
-              // console.log("I dont know whats happening");
             }
           });
-        });
-      
-     
-      
+      });
     });
 
     const unsub2 = onSnapshot(historyUserRef, (snapshot) => {
@@ -77,7 +69,6 @@ export function FirebaseProvider({ children }) {
         snapshot.docs.map((document) => {
         
           document.data().current && document.data().current.forEach(async (element) => {
-            console.table(element.checkOutTime, Timestamp.now().seconds * 1000);
             if (element.checkOutTime.seconds < Timestamp.now().seconds) {
               await setDoc(
                 doc(db, "historyUser", document.id),
@@ -87,13 +78,9 @@ export function FirebaseProvider({ children }) {
                 },
                 { merge: true }
               );
-            } else {
-              console.log("I dont know whats happening");
-            }
+            } 
           });
-        });
-     
-      
+      });
     });
 
     return () => {
@@ -143,10 +130,14 @@ export function FirebaseProvider({ children }) {
       const url = await getDownloadURL(imageRef);
       imageUrls[i] = url;
     }
-
+    const { details } = getUserCookies();
+    await setDoc(doc(db, "historyHomestay", details.email), {
+      current: [],
+      past: [],
+      cancelled: [],
+    });
     await addDoc(collection(db, "Homes"), {
-      // homestayName: "maatoshri",
-      // desc: "",
+      
       homestayName,
       URLS: imageUrls,
       desc,
@@ -154,12 +145,7 @@ export function FirebaseProvider({ children }) {
       active: true,
       ratings: [],
       host: {
-        // name: "shivang",
-        // email: "hostname@gmail.com",
-        // phone: "9079377724",
-        // male: 2,
-        // female: 1,
-        // children: 1,
+        
         name,
         email,
         phone,
@@ -168,13 +154,7 @@ export function FirebaseProvider({ children }) {
         children,
       },
       Rules: {
-        // petAllowance: true,
-        // alcoholTolerant: false,
-        // coupleFriendly: true,
-        // nonVegTolerant:false,
-        // nonVeg:false,
-        // Rules: ["abcd", "efgh"],
-        // openTime: "6:00 AM to 11:00 PM"
+        
         petAllowance,
         alcoholTolerant,
         coupleFriendly,
@@ -223,6 +203,9 @@ export function FirebaseProvider({ children }) {
 
   async function addComment(id = "wdFQ8rBHcAYaPzelHNb3", head, user, body) {
     const commentRef = doc(db, "Homes", id);
+    if(head.trim().length === 0 || body.trim().length === 0 || !user){
+      return console.log("please enter valid values of user, head and body");
+    }
 
     await updateDoc(commentRef, {
       comments: arrayUnion({
@@ -235,8 +218,13 @@ export function FirebaseProvider({ children }) {
   }
 
   async function addRating(id = "wdFQ8rBHcAYaPzelHNb3", stars, user) {
-    // console.log((Timestamp.now()).toMillis())
+    
+
+    if(stars === 0){
+      return console.log("please enter valid values of star");
+    }
     const ratingRef = doc(db, "Homes", id);
+
     await updateDoc(ratingRef, {
       ratings: arrayUnion({
         user,
@@ -264,14 +252,10 @@ export function FirebaseProvider({ children }) {
     const historyUserRef = doc(db, "historyUser", emailUser);
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     const bookedAt = Timestamp.now();
-    // homeStayId = "wdFQ8rBHcAYaPzelHNb3";
-    // userName = "Shivang";
-    // userPhone = "9259905738";
-    // HomestayName = "maatoshri"
+    
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
-        // console.log(homedoc.data().accomodation.currentAvailable)
-
+        
         transaction.set(
           historyHomestayRef,
           {
@@ -366,22 +350,7 @@ export function FirebaseProvider({ children }) {
   ) {
     const historyHomestayRef = doc(db, "historyHomestay", emailOwner);
     const historyUserRef = doc(db, "historyUser", emailUser);
-    console.table(
-      bookingId,
-      emailUser,
-      emailOwner,
-      homeStayId,
-      userName,
-      HomestayName,
-      checkInTime,
-      checkOutTime,
-      peopleCount,
-      TotalRent,
-      Location,
-      Address,
-      ownerPhone,
-      bookedAt
-    );
+   
     try {
       const bookHome = await runTransaction(db, async (transaction) => {
         transaction.set(
@@ -455,22 +424,9 @@ export function FirebaseProvider({ children }) {
     }
   }
 
-  async function checkHomeInDb() {
-    const user = getUserCookies();
-    if (user) {
-      const history = await getDoc(
-        doc(db, "historyHomestay", user.details.email)
-      );
-      if (history) {
-        return history.data();
-      }
-      return false;
-    }
-    return false;
-  }
+
   async function getHomeHistory(homes, checkIn, checkOut) {
     const final = await homes.map(async (val) => {
-      console.log(val.host.email);
       const history = await getDoc(doc(db, "historyHomestay", val.host.email));
       const his = history.data();
       let booked_guests = 0;
@@ -536,7 +492,6 @@ export function FirebaseProvider({ children }) {
       const result = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
-      console.log("result: ", result);
       Cookies.set(
         "user",
         JSON.stringify({
@@ -550,7 +505,7 @@ export function FirebaseProvider({ children }) {
       );
       window.location.reload();
     } catch (error) {
-      console.log(error.code, error.message);
+     
     }
   }
 
@@ -623,7 +578,6 @@ export function FirebaseProvider({ children }) {
     sendMail,
     checkUserCookies,
     getUserCookies,
-    checkHomeInDb,
     signOut,
   };
 
