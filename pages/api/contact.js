@@ -13,7 +13,7 @@ export default async function sendMail(req, res) {
       },
       auth: {
         user: "grahashram@outlook.com",
-        pass: "weAreTeamDjsa@SIH",
+        pass: process.env.NEXT_PUBLIC_OUTLOOK_PASSWORD,
       },
     };
   } else {
