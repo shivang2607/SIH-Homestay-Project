@@ -125,7 +125,10 @@ function HomeStay({ details, homestayId }) {
   };
 
   function getDataBody(val) {
-    setBody(val.target.value);
+    if(val.target.value == ""){
+      setBody(null)
+    }else{
+    setBody(val.target.value);}
   }
 
   function getGuests(val) {
@@ -139,7 +142,11 @@ function HomeStay({ details, homestayId }) {
   }
 
   function getDataHead(val) {
-    setHead(val.target.value);
+    if(val.target.value == ""){
+      setHead(null)
+    }else{
+    setHead(val.target.value);}
+
   }
 
   function handleRating(e) {
