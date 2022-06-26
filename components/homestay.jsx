@@ -16,7 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import { Badge } from "@chakra-ui/react";
-import newPlaces from "../components/items";
+import newPlaces from "../location";
 import { Button } from "@chakra-ui/react";
 import { v4 } from "uuid";
 import Image from "next/image";
