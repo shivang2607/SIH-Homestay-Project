@@ -51,6 +51,7 @@ function Card({
                   height={40}
                   width={60}
                   layout="intrinsic"
+                  alt=""
                 />
               )}
               <h1 className={styles.card_post_title}>{title}</h1>
@@ -59,7 +60,12 @@ function Card({
                   {location} {city} |{state}
                 </span>
               </div>
-              <p className={styles.card_post_text}>{description}</p>
+              <p className={styles.card_post_text}>
+                {navigator.userAgent.match(/Android/i) ||
+                navigator.userAgent.match(/iPhone/i)
+                  ? description.slice(0, 140) + "....."
+                  : description}
+              </p>
 
               {Rules && (
                 <div className={styles.badges_div}>

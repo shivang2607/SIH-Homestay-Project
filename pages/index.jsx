@@ -7,7 +7,6 @@ import { useFirebase } from "../context/firebaseContext";
 import HomeCarousel from "../components/homeCarousel";
 import { Container } from "react-bootstrap";
 import UtilityButtons from "../components/utilityButtons";
-import Rough from "../components/rough";
 export default function Home() {
   const { getHomeHistory } = useFirebase();
   

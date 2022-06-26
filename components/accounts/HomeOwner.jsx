@@ -43,10 +43,8 @@ const HomeOwner = () => {
   const { details } = getUserCookies();
   const [docId, setDocId] = useState();
 
-  //  const [rules,setRules]=React.useState();
 
   React.useEffect(() => {
-    // console.log("HHare Kris");
     const email = details.email;
     const homeRef = collection(db, "Homes");
     const q = query(homeRef, where("host.email", "==", email));
@@ -60,13 +58,8 @@ const HomeOwner = () => {
           setdataHome(doc.data());
           setDocId(doc.id);
           rules = doc.data().Rules.Rules;
-          // dataHome && console.log("heyiughjd ", dataHome);
         });
 
-        // if (JSON.parse(sessionStorage.getItem(`Owner ${email}`))) {
-        //   setOwnerHistory(JSON.parse(sessionStorage.getItem(`Owner ${email}`)));
-        //   //  console.log("from local session storage", OwnerHistory);
-        // } else {
         const docRef = doc(db, "historyHomestay", email);
         getDoc(docRef).then((docSnap) => {
           if (docSnap.exists()) {
@@ -76,11 +69,9 @@ const HomeOwner = () => {
               JSON.stringify(docSnap.data())
             );
           } else {
-            // window.alert("No Bookings Yet owener");
           }
         });
-        // console.log("from firebase", OwnerHistory);
-        //}
+       
       }
     });
   }, []);
@@ -132,11 +123,9 @@ const HomeOwner = () => {
       time.seconds * 1000 + time.nanoseconds / 1000000
     );
     const date = fireBaseTime.toDateString();
-    //console.log(fireBaseTime)
     return fireBaseTime;
   }
   function Submit(data) {
-    //console.log(data, rules);
     updateHomestay(
       docId,
       data.description,
@@ -152,11 +141,7 @@ const HomeOwner = () => {
     );
   }
 
-  // {dataHome.Rules?.Rules.map(value=>(
-
-  //   append(value)
-  // ))}
-
+ 
   return (
     <>{
       !loading? 
@@ -409,13 +394,7 @@ const HomeOwner = () => {
                       </button>
                     </fieldset>
 
-                    {/* {dataHome.Rules?.Rules.map((rule)=>
-        {
-         return (
-         // append(rule) 
-         console.log(rule)
-         )
-        })} */}
+                
 
                     <button
                       type="submit"

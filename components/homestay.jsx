@@ -51,8 +51,8 @@ function HomeStay({ details, homestayId }) {
   const { checkIn, checkOut, guests, location } = router.query;
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState();
-  const [body, setBody] = useState("");
-  const [head, setHead] = useState("");
+  const [body, setBody] = useState(null);
+  const [head, setHead] = useState(null);
   const [guest, setGuest] = useState(router.query.guests);
  
  
@@ -148,11 +148,16 @@ function HomeStay({ details, homestayId }) {
     onEditClose();
   }
 
-  function handleSubmit(e) {
+ async function handleSubmit(e) {
     e.preventDefault();
+    if(head != null && body != null){
+      console.log("heyy",head," ",body)
     addComment(homestayId, head, name, body);
     addRating(homestayId, currentValue, name);
     onClose();
+    setBody(null)
+    setHead(null)
+  }
   }
   var old_checkin_Date = checkin_date;
   checkin_date =
