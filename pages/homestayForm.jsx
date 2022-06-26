@@ -23,7 +23,7 @@ const HomeStayForm = () => {
   }, [getUserCookies]);
   if (checkUserCookies()) {
     if (isRegistered) {
-      // router.replace("/")
+      router.replace("/")
     } else {
       body = <FullForm />;
     }
