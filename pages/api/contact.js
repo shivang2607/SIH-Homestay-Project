@@ -1,48 +1,29 @@
 import nodemailer from "nodemailer";
-
-export default async function sendMail(req, res) {
-  var mailConfig;
-  if (process.env.NODE_ENV !== "development") {
-    mailConfig = {
-      pool: true,
-      host: "smtp-mail.outlook.com", // hostname
-      secureConnection: false, // TLS requires secureConnection to be false
-      port: 587, // port for secure SMTP
-      tls: {
-        ciphers: "SSLv3",
-      },
-      auth: {
-        user: "grahashram@outlook.com",
-        pass: process.env.NEXT_PUBLIC_OUTLOOK_PASSWORD,
-      },
-    };
-  } else {
-    mailConfig = {
-      host: "smtp.ethereal.email",
+require("dotenv").config();
+export default async function contact(req, res) {
+  try{
+    let transporter = nodemailer.createTransport({
+      host: "smtp-relay.sendinblue.com",
       port: 587,
       auth: {
-        user: "deven.shanahan64@ethereal.email",
-        pass: "UA8WgBVZMeCzDvAyGG",
+        user: process.env.SENDINBLUE_ID,
+        pass: process.env.SENDINBLUE_PASS,
+        // user: "gaurakshat1008@gmail.com",
+        // pass: "xsmtpsib-fc574882032725c333aa955f80e53572212c153afdbc72b8149424b8f68bdbe3-yI0CNbQdXrc89BqP",
       },
-    };
+    })
+    let mailStatus = await transporter.sendMail({
+      from: `${req.body.fromName} <${req.body.fromEmail}>`,
+      to: req.body.toEmail,
+      subject: req.body.subject,
+      html: req.body.html,
+    })
+    console.log(`Message sent: ${mailStatus.messageId}`);
+    return `Message sent: ${mailStatus.messageId}`;
+  } catch(error){
+    console.error(error);
+    throw new Error(
+      `Something went wrong in the sendmail method. Error: ${error.message}`
+    );
   }
-  let transporter = nodemailer.createTransport(mailConfig);
-
-  const mailData = {
-    // from: `"${req.body.fromName} 🏡" <${req.body.fromEmail}>`,
-    from: `grahashram@outlook.com`,
-    to: req.body.toEmail,
-    subject: req.body.subject,
-    html: req.body.html,
-  };
-  transporter.sendMail(mailData, (err, info) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ error: err.message });
-    } else {
-      console.log("Message sent: %s", info.messageId);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-      res.status(200).json({ message: "Message sent" });
-    }
-  });
 }

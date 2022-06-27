@@ -136,17 +136,7 @@ const Tourist = () => {
     }).then((res) => {
       console.log("mail: ", res.status);
     });
-    sendMail(
-      Homestayname,
-      emailOwner,
-      "Hello Owner of " + HomestayName,
-      messageOwner,
-      subject,
-      greetings
-    );
-
     sessionStorage.clear();
-    // window.location.reload();
   }
 
   function miliToDate(time) {

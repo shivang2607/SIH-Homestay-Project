@@ -6,7 +6,7 @@ import {
   MdGroups,
 } from "react-icons/md";
 import { FaChild } from "react-icons/fa";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 import { MdLocationCity } from "react-icons/md";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { BiBus, BiMale, BiFemale } from "react-icons/bi";
@@ -24,7 +24,7 @@ import Reviewstars from "./star";
 // import styles from "../styles/stars.module.css"
 import ReactTimeAgo from "react-time-ago";
 import { useRouter } from "next/router";
-import { AiFillStar } from 'react-icons/ai'
+import { AiFillStar } from "react-icons/ai";
 
 import { FaStar } from "react-icons/fa";
 import {
@@ -54,8 +54,6 @@ function HomeStay({ details, homestayId }) {
   const [body, setBody] = useState(null);
   const [head, setHead] = useState(null);
   const [guest, setGuest] = useState(router.query.guests);
- 
- 
 
   var checkin_date = new Date(checkIn * 1000);
 
@@ -91,24 +89,17 @@ function HomeStay({ details, homestayId }) {
   const [disname, setDisName] = useState("");
   const [statename, setStateName] = useState("");
 
-  const handleOnSearch = (string, results) => {
-    
-  };
+  const handleOnSearch = (string, results) => {};
 
-  const handleOnHover = (result) => {
-    
-  };
+  const handleOnHover = (result) => {};
 
   const handleOnSelect = (item) => {
     setCityName(item.City);
     setStateName(item.State);
     setDisName(item.District);
-
-   
   };
 
-  const handleOnFocus = () => {
-  };
+  const handleOnFocus = () => {};
 
   const stars = Array(5).fill(0);
 
@@ -125,10 +116,11 @@ function HomeStay({ details, homestayId }) {
   };
 
   function getDataBody(val) {
-    if(val.target.value == ""){
-      setBody(null)
-    }else{
-    setBody(val.target.value);}
+    if (val.target.value == "") {
+      setBody(null);
+    } else {
+      setBody(val.target.value);
+    }
   }
 
   function getGuests(val) {
@@ -142,11 +134,11 @@ function HomeStay({ details, homestayId }) {
   }
 
   function getDataHead(val) {
-    if(val.target.value == ""){
-      setHead(null)
-    }else{
-    setHead(val.target.value);}
-
+    if (val.target.value == "") {
+      setHead(null);
+    } else {
+      setHead(val.target.value);
+    }
   }
 
   function handleRating(e) {
@@ -155,16 +147,16 @@ function HomeStay({ details, homestayId }) {
     onEditClose();
   }
 
- async function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if(head != null && body != null){
-      console.log("heyy",head," ",body)
-    addComment(homestayId, head, name, body);
-    addRating(homestayId, currentValue, name);
-    onClose();
-    setBody(null)
-    setHead(null)
-  }
+    if (head != null && body != null) {
+      console.log("heyy", head, " ", body);
+      addComment(homestayId, head, name, body);
+      addRating(homestayId, currentValue, name);
+      onClose();
+      setBody(null);
+      setHead(null);
+    }
   }
   var old_checkin_Date = checkin_date;
   checkin_date =
@@ -181,10 +173,10 @@ function HomeStay({ details, homestayId }) {
     "/" +
     checkout_date.getFullYear();
 
-  var diffrecnedate =new Date(old_checkout_Date - old_checkin_Date).getDate() - 1;
+  var diffrecnedate =
+    new Date(old_checkout_Date - old_checkin_Date).getDate() - 1;
 
-  var price = diffrecnedate * details.pricePerNight * guest ;
-  
+  var price = diffrecnedate * details.pricePerNight * guest;
 
   async function booknow(e) {
     e.preventDefault();
@@ -218,30 +210,67 @@ function HomeStay({ details, homestayId }) {
     );
 
     //to the user
-
-    sendMail(
-      details.homestayName,
-      cookies.details.email,
-      cookies.details.name,
-      `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
-      <br/>OTHER DETAILS:
-      <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
-      <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
-      <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
-      <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
-      "HOMESTAY BOOKED",
-      "Congratulations"
-    );
+    const userData = {
+      fromName: details.homestayName,
+      fromEmail: details.host.email,
+      toEmail: cookies.details.email,
+      subject: "Booking Confirmation",
+      html: `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
+        <br/>OTHER DETAILS:
+        <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
+        <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
+        <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
+        <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
+    };
+    fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    }).then((res) => {
+      console.log(res);
+    });
+    // sendMail(
+    //   details.homestayName,
+    //   cookies.details.email,
+    //   cookies.details.name,
+    // `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
+    // <br/>OTHER DETAILS:
+    // <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
+    // <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
+    // <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
+    // <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
+    //   "HOMESTAY BOOKED",
+    //   "Congratulations"
+    // );
 
     // to the host
-    sendMail(
-      details.homestayName,
-      details.host.email,
-      details.host.name,
-      `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`,
-      "HOMESTAY BOOKED",
-      "Congratulations"
-    );
+    const hostData = {
+      fromName: cookies.details.name,
+      fromEmail: cookies.details.email,
+      toEmail: details.host.email,
+      subject: "Booking Confirmation",
+      html: `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p> `,
+    };
+    fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(hostData),
+    }).then((res) => {
+      console.log(res);
+    });
+
+    // sendMail(
+    //   details.homestayName,
+    //   details.host.email,
+    //   details.host.name,
+    //   `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`,
+    //   "HOMESTAY BOOKED",
+    //   "Congratulations"
+    // );
     router.replace(`/users/${cookies.details.token.slice(5, 25)}`);
     setLoading(false);
   }
@@ -250,11 +279,8 @@ function HomeStay({ details, homestayId }) {
   return (
     <>
       {details.host ? (
-        
         <div>
-
           <div>
-          
             <div className={styles.header_div}>
               <div>
                 <div className={styles.rescearch_div}>
@@ -367,7 +393,8 @@ function HomeStay({ details, homestayId }) {
                 <div className={styles.rating_icons}>
                   {" "}
                   <h4 className={styles.average_Rating}>
-                    {(sum_star / details.ratings.length).toFixed(1)}/5 <AiFillStar color="yellow"/>
+                    {(sum_star / details.ratings.length).toFixed(1)}/5{" "}
+                    <AiFillStar color="yellow" />
                   </h4>
                 </div>
               )}
@@ -490,15 +517,17 @@ function HomeStay({ details, homestayId }) {
                 <p className={styles.price_div}>
                   <h4 className={styles.text_price}>
                     {" "}
-                    ₹{details.pricePerNight*guest}{" "}
+                    ₹{details.pricePerNight * guest}{" "}
                     <span className={`${styles.perday}`}>/Day</span>
-                    
                   </h4>
-                  <span style={{fontSize:"smaller"}}> (For {guest} people)</span>
+                  <span style={{ fontSize: "smaller" }}>
+                    {" "}
+                    (For {guest} people)
+                  </span>
                 </p>
               </div>
 
-              {details.Capacity - details.booked_guests-guest >=0 && (
+              {details.Capacity - details.booked_guests - guest >= 0 && (
                 <div className={styles.maindiv}>
                   <div className={styles.selection_div}>
                     <div className={styles.totalprice_div}>
@@ -513,7 +542,7 @@ function HomeStay({ details, homestayId }) {
                         <p className={styles.total_price1}> ₹ {price}</p>
                         <p className={styles.number_guests}>
                           {" "}
-                         (for {diffrecnedate} days)
+                          (for {diffrecnedate} days)
                         </p>
                       </div>
                     </div>
@@ -555,7 +584,6 @@ function HomeStay({ details, homestayId }) {
                         ) : (
                           "BOOK NOW"
                         )}
-                        
                       </Button>
                     </div>
                   ) : (
@@ -747,7 +775,8 @@ function HomeStay({ details, homestayId }) {
                               </div>
                               <div className={styles.name_user}>
                                 <strong>
-                                 { comment.user}<br/>
+                                  {comment.user}
+                                  <br />
                                   {/* {name} */}
                                   <ReactTimeAgo
                                     date={
@@ -949,12 +978,12 @@ function HomeStay({ details, homestayId }) {
               </div>
             </div>
           </div>
-         </div>
+        </div>
       ) : (
         <Reviewstars />
       )}
     </>
-  )
+  );
 }
 
 export default HomeStay;
