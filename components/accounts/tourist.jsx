@@ -111,7 +111,7 @@ const Tourist = () => {
       },
       body: JSON.stringify(userData),
     }).then((res) => {
-      console.log("mail: ", res.status);
+      // console.log("mail: ", res.status);
     });
 
     const messageOwner = `<p>Booking at your Home (With Booking ID : ${bookingId} ) between the dates  ${miliToDate(
@@ -134,7 +134,7 @@ const Tourist = () => {
       },
       body: JSON.stringify(ownerData),
     }).then((res) => {
-      console.log("mail: ", res.status);
+      // console.log("mail: ", res.status);
     });
     sessionStorage.clear();
   }

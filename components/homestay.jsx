@@ -229,7 +229,7 @@ function HomeStay({ details, homestayId }) {
       },
       body: JSON.stringify(userData),
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
     // sendMail(
     //   details.homestayName,
@@ -260,7 +260,7 @@ function HomeStay({ details, homestayId }) {
       },
       body: JSON.stringify(hostData),
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
 
     // sendMail(
