@@ -25,7 +25,7 @@
   width: 100%;
   flex: 1;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10;
   padding: 0;
   /* max-height: 10vh; */
 }
@@ -196,9 +196,11 @@
   .navbar {
     z-index: 1;
     width: 100%;
-    overflow: hidden;
+  z-index: 100;
+
+    /* overflow: hidden; */
     position: relative;
-    height: min-content;
+    height: max-content;
     top: -100px;
     margin-bottom: -4rem;
   }
