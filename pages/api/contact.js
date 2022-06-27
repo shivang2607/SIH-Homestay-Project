@@ -8,8 +8,6 @@ export default async function contact(req, res) {
       auth: {
         user: process.env.SENDINBLUE_ID,
         pass: process.env.SENDINBLUE_PASS,
-        // user: "gaurakshat1008@gmail.com",
-        // pass: "xsmtpsib-fc574882032725c333aa955f80e53572212c153afdbc72b8149424b8f68bdbe3-yI0CNbQdXrc89BqP",
       },
     })
     let mailStatus = await transporter.sendMail({
