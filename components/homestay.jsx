@@ -51,8 +51,8 @@ function HomeStay({ details, homestayId }) {
   const { checkIn, checkOut, guests, location } = router.query;
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState();
-  const [body, setBody] = useState("");
-  const [head, setHead] = useState("");
+  const [body, setBody] = useState(null);
+  const [head, setHead] = useState(null);
   const [guest, setGuest] = useState(router.query.guests);
  
  
@@ -125,7 +125,10 @@ function HomeStay({ details, homestayId }) {
   };
 
   function getDataBody(val) {
-    setBody(val.target.value);
+    if(val.target.value == ""){
+      setBody(null)
+    }else{
+    setBody(val.target.value);}
   }
 
   function getGuests(val) {
@@ -139,7 +142,11 @@ function HomeStay({ details, homestayId }) {
   }
 
   function getDataHead(val) {
-    setHead(val.target.value);
+    if(val.target.value == ""){
+      setHead(null)
+    }else{
+    setHead(val.target.value);}
+
   }
 
   function handleRating(e) {
@@ -148,11 +155,16 @@ function HomeStay({ details, homestayId }) {
     onEditClose();
   }
 
-  function handleSubmit(e) {
+ async function handleSubmit(e) {
     e.preventDefault();
+    if(head != null && body != null){
+      console.log("heyy",head," ",body)
     addComment(homestayId, head, name, body);
     addRating(homestayId, currentValue, name);
     onClose();
+    setBody(null)
+    setHead(null)
+  }
   }
   var old_checkin_Date = checkin_date;
   checkin_date =
@@ -178,15 +190,15 @@ function HomeStay({ details, homestayId }) {
     e.preventDefault();
     setLoading(true);
     details.booked_guests = details.booked_guests + guest;
-    console.log("this is the booked guests", details.booked_guests);
-    console.log("the owner eamil", details.host.email);
-    console.log("the details.docid", details.docid);
-    console.log("the user", user);
-    console.log("oxer phone", details.host.phone);
-    console.log("neame homestaya", details.homestayName);
-    console.log("the ostart date", startDate);
-    console.log("the stop date", stopDate);
-    console.log("the diffrence date", diffrecnedate);
+    // console.log("this is the booked guests", details.booked_guests);
+    // console.log("the owner eamil", details.host.email);
+    // console.log("the details.docid", details.docid);
+    // console.log("the user", user);
+    // console.log("oxer phone", details.host.phone);
+    // console.log("neame homestaya", details.homestayName);
+    // console.log("the ostart date", startDate);
+    // console.log("the stop date", stopDate);
+    // console.log("the diffrence date", diffrecnedate);
 
     const bookingID = v4();
     await bookHomestay(
@@ -206,69 +218,30 @@ function HomeStay({ details, homestayId }) {
     );
 
     //to the user
-    let userData = {
-      fromName: details.homestayName,
-      fromEmail: details.host.email,
-      toEmail: cookies.details.email,
-      subject: "Booking Confirmation",
-      html: `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
+
+    sendMail(
+      details.homestayName,
+      cookies.details.email,
+      cookies.details.name,
+      `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
       <br/>OTHER DETAILS:
       <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
       <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
       <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
-      <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`
-    }
-    // sendMail(
-    //   details.homestayName,
-    //   cookies.details.email,
-    //   cookies.details.name,
-    //   `<p>Your booking of <b> ${details.homestayName} </b>  from <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> has been confirmed</p>
-    //   <br/>OTHER DETAILS:
-    //   <ul><li>BOOKING ID:&nbsp;<b>${bookingID}</b></li>
-    //   <li>ADDRESS:  &nbsp;<b>${details.address}</b></li>
-    //   <li>TOTAL RENT:  &nbsp;<b>₹ ${price}</b></li>
-    //   <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
-    //   "HOMESTAY BOOKED",
-    //   "Congratulations"
-    // );
-    fetch('/api/contact', {
-      method:'POST',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userData)
-    }).then((res) => {
-      console.log("mail: ", res.status)
-    })
+      <li> GUESTS: &nbsp; <b>${guest}</b></li></ul>`,
+      "HOMESTAY BOOKED",
+      "Congratulations"
+    );
 
     // to the host
-    let homeData = {
-      fromName: cookies.details.name,
-      fromEmail: cookies.details.email,
-      toEmail: details.host.email,
-      subject: "Booking Confirmation",
-      html:`<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`
-    }
-    // sendMail(
-    //   details.homestayName,
-    //   details.host.email,
-    //   details.host.name,
-    //   `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`,
-    //   "HOMESTAY BOOKED",
-    //   "Congratulations"
-    // );
-    fetch('/api/contact', {
-      method:'POST',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(homeData)
-    }).then((res) => {
-      console.log("mail: ", res.status)
-    })
-
+    sendMail(
+      details.homestayName,
+      details.host.email,
+      details.host.name,
+      `<p>Your homestay   ${details.homestayName}   has been booked from  <strong>${checkin_date}</strong> to <strong> ${checkout_date}</strong> by detials of the person who has booked it </p>`,
+      "HOMESTAY BOOKED",
+      "Congratulations"
+    );
     router.replace(`/users/${cookies.details.token.slice(5, 25)}`);
     setLoading(false);
   }
@@ -519,7 +492,9 @@ function HomeStay({ details, homestayId }) {
                     {" "}
                     ₹{details.pricePerNight*guest}{" "}
                     <span className={`${styles.perday}`}>/Day</span>
+                    
                   </h4>
+                  <span style={{fontSize:"smaller"}}> (For {guest} people)</span>
                 </p>
               </div>
 
