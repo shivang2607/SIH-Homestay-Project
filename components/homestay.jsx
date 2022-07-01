@@ -76,6 +76,7 @@ function HomeStay({ details, homestayId }) {
   }
   const { user } = useAuth();
   const [stopDate, setStopDate] = useState(checkout_date);
+  const [nextdate, setNextDate] = useState(new Date(checkin_date.getTime() + (24 * 60 * 60 * 1000)));
   const [startDate, setStartDate] = useState(checkin_date);
   const [show, setShow] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -323,7 +324,7 @@ function HomeStay({ details, homestayId }) {
                     placeholderText="Enter Check in Date"
                     className={styles.datecss}
                     selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={(date) => {setStartDate(date) ; setNextDate(new Date(date.getTime() + (24 * 60 * 60 * 1000))) }}
                     dateFormat="dd/MM/yyyy"
                     minDate={new Date()}
                   />
@@ -336,7 +337,7 @@ function HomeStay({ details, homestayId }) {
                     selected={stopDate}
                     onChange={(date) => setStopDate(date)}
                     dateFormat="dd/MM/yyyy"
-                    minDate={startDate}
+                    minDate={nextdate}
                   />
                 </div>
 

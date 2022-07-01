@@ -23,6 +23,7 @@ const Search = () => {
   const router = useRouter();
   const [startDate, setStartDate] = useState("");
   const [stopDate, setStopDate] = useState("");
+  const [nextdate, setNextDate] = useState("");
   const [cityname, setCityName] = useState("");
   const [disname, setDisName] = useState("");
   const [statename, setStateName] = useState("");
@@ -63,6 +64,8 @@ const Search = () => {
   const handlechange = (e) => {
     setPeople(e.target.value);
   };
+ 
+  {console.log(nextdate)}
 
   const handlesubmit = () => {
     if (!cityname || !startDate || !stopDate || !people) {
@@ -167,10 +170,11 @@ const Search = () => {
                       placeholderText="Enter Check in Date"
                       className={`${styles.datecss}  `}
                       selected={startDate}
-                      onChange={(date) => setStartDate(date)}
+                      onChange={(date) => {setStartDate(date) ; setNextDate(new Date(date.getTime() + (24 * 60 * 60 * 1000))) }}
                       dateFormat="dd/MM/yyyy"
                       minDate={new Date()}
                     />
+
                   </div>
                 </Col>
                 <Col xs={8} md={4} lg={3}>
@@ -181,7 +185,7 @@ const Search = () => {
                       selected={stopDate}
                       onChange={(date) => setStopDate(date)}
                       dateFormat="dd/MM/yyyy"
-                      minDate={tomorrow}
+                      minDate={nextdate}
                     />
                   </div>
                 </Col>
