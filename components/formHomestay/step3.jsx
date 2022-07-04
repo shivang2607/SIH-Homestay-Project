@@ -316,12 +316,12 @@ function Step3(props) {
                   let validimage =true
                 Array.prototype.forEach.call(value, (el) => {
                    
-                    if (el.size>8000000) {
+                    if (el.size>2000000) {
                      validimage=false
                     }
                   });
                   if(!validimage){
-                    return `Size of image is greater than 8mb`
+                    return `Size of image is greater than 2mb`
                   }
 
                 }
