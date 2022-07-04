@@ -84,7 +84,7 @@ const Search = () => {
           },
         });
     }
-    setLoading(false);
+    
   };
   return (
     <>
